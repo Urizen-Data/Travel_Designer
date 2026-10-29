@@ -2,6 +2,8 @@
 
 > Техническая «библия» проекта: архитектура данных, пайплайн, источники, витрины, методика и структура BI-дашборда.
 > Единый источник правды по проекту — документация для аналитиков, разработчиков и дашборда.
+>
+> Подробный контекст (источники, каскады сбора, инкрементальность, отличия от ТЗ) — в **[docs/PROJECT_CONTEXT.md](docs/PROJECT_CONTEXT.md)**.
 
 ---
 
@@ -67,97 +69,91 @@
 
 ```mermaid
 flowchart TD
-    %% 1. Сырые данные
-    subgraph L1 ["1. RAW (Сырые данные)"]
+    subgraph SRC["ВНЕШНИЕ ИСТОЧНИКИ (открытые API и сайты)"]
         direction LR
-        SEED["resort_seed.csv"]
-        RESORTS_MAN["resorts_manual.json"]
-        ROSSTAT["Росстат"]
-        PRICES_RAW["prices_monthly.json"]
-        PRICES_MAN["prices_manual.json"]
+        OSK["OpenSkiMap<br/>(координаты, трассы)"]
+        WIKI["Wikidata<br/>(Q-id, P625, ссылки)"]
+        OVP["Overpass / OSM<br/>(объекты 6 км, теги piste)"]
+        SKIMAP["Skimap.org<br/>(схемы, ссылки)"]
+        WP["Wikipedia RU"]
+        OME_A["Open-Meteo Archive<br/>(климат ERA5)"]
+        OME_F["Open-Meteo Forecast<br/>(прогноз 10 дней)"]
+        OAP["OurAirports"]
+        ROS["Росстат / ЕМИСС"]
+        WEB["Сайты курортов<br/>(цены)"]
+        NOM["Nominatim"]
     end
 
-    %% 2. Подготовка
-    subgraph L2 ["2. Prepared (Объединение)"]
+    subgraph COLLECT["СБОР"]
         direction LR
-        COORDS["Координаты"]
-        RESORTS["resorts.json<br/>(OSM + Климат)"]
-        REGIONS["region_metrics.json"]
-        PRICES["prices.json"]
+        GEO["geocode_resorts<br/>каскад координат"]
+        RECO["recompute_resort_data<br/>OSM+климат+аэропорт"]
+        SK["fetch_skimap_ids<br/>каскад ссылок"]
+        RD["regional_demand"]
+        PR["prices/run_parsers"]
+        WF["fetch_weather_forecast"]
     end
 
-    %% Кэши
-    subgraph CACHE ["Cache"]
+    subgraph LAYERS["СЛОИ ДАННЫХ"]
         direction LR
-        CLIMC["climate_daily.json"]
-        AIR["airports.csv"]
+        RAW["RAW<br/>resort_seed.csv · resorts.json ·<br/>prices_*.json · rosstat_*.csv"]
+        COL["Collected<br/>coordinates_*.json · weather_forecast.json"]
+        PREP["Prepared<br/>resorts.json · region_metrics.json · prices.json"]
+        CACHE["Cache<br/>climate_daily.json · airports.csv"]
+        MART["Mart<br/>13 витрин CSV"]
     end
 
-    %% 3. Факты
-    subgraph L3 ["3. Mart (Факты)"]
+    subgraph ANALYTICS["СКОРИНГ И АНАЛИТИКА"]
         direction LR
-        RF["resort_features.csv"]
-        CLIM["climate_monthly.csv"]
-        FORECAST["weather_forecast.json"]
+        SCORE["score_resorts<br/>13 → 5 → индекс"]
+        PRESET["preset_engine<br/>6 пресетов"]
+        RANK["ranking_insights<br/>Monte Carlo + local"]
+        CAT["catalog_builder<br/>сценарии каталога"]
+        ATLAS["build_atlas_catalog<br/>витрина стр. 1"]
     end
 
-    %% 4. Аналитика
-    subgraph L4 ["4. Mart (Аналитика)"]
-        direction LR
-        RS["resort_scores.csv"]
-        PRESPRE["presets.csv<br/>resort_preset_components.csv"]
-        INSIGHTS["ranking_stability (192),<br/>components, reasons"]
-        CATALOG["catalog_scenarios,<br/>members"]
-        ATLAS["atlas_catalog.csv<br/>(732 × 86)"]
-        WFD["weather_forecast_daily.csv"]
-    end
+    DB[(Supabase PostgreSQL)]
+    BI[(Preset Cloud)]
 
-    %% 5. Загрузка
-    DB[(Supabase)]
+    OSK --> GEO
+    WIKI --> GEO
+    OVP --> GEO
+    NOM --> GEO
+    OSK --> RECO
+    OVP --> RECO
+    OME_A --> RECO
+    OAP --> RECO
+    SKIMAP --> SK
+    WP --> SK
+    WIKI --> SK
+    ROS --> RD
+    WEB --> PR
+    OME_F --> WF
 
-    %% Связи (Слой 1 -> Слой 2)
-    SEED -->|geocode| COORDS
-    SEED -->|apply| RESORTS
-    COORDS -->|apply| RESORTS
-    
-    ROSSTAT -->|regional_demand| REGIONS
-    PRICES_RAW -->|run_parsers| PRICES
-    RESORTS_MAN -->|merge_resorts| SEED
-    PRICES_MAN -->|run_parsers| PRICES
+    RAW --> GEO
+    RAW --> RD
+    RAW --> PR
+    GEO --> COL
+    RECO --> PREP
+    RECO --> CACHE
+    SK --> PREP
+    RD --> PREP
+    PR --> PREP
+    WF --> COL
 
-    %% Кэши
-    RESORTS <-->|recompute| CLIMC
-    AIR -->|справочник| RESORTS
+    PREP --> SCORE
+    SCORE --> PRESET
+    SCORE --> RANK
+    PRESET --> RANK
+    PRESET --> CAT
+    RANK --> CAT
+    CAT --> ATLAS
+    PREP --> ATLAS
+    ATLAS --> MART
 
-    %% Слой 2 -> Слой 3
-    RESORTS -->|build| RF
-    REGIONS -->|build| RF
-    PRICES -->|build| RF
-    
-    RESORTS -->|climate| CLIM
-    RESORTS -->|forecast| FORECAST
-
-    %% Слой 3 -> Слой 4
-    RF -->|score| RS
-    RS -->|preset_engine| PRESPRE
-    RF -->|insights| INSIGHTS
-    RS -->|catalog| CATALOG
-    FORECAST -->|trip_conditions| WFD
-    PRESPRE -->|build_atlas| ATLAS
-    INSIGHTS -->|build_atlas| ATLAS
-    CATALOG -->|build_atlas| ATLAS
-
-    %% Загрузка в БД
-    RF -->|load| DB
-    RS -->|load| DB
-    CLIM -->|load| DB
-    WFD -->|load| DB
-    INSIGHTS -->|load| DB
-    CATALOG -->|load| DB
-    PRESPRE -->|load| DB
-    ATLAS -->|load| DB
+    MART --> DB
+    DB --> BI
 ```
-
 ---
 
 ## 3. Пайплайн и режимы (`run_pipeline.py`)
@@ -181,21 +177,18 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    %% Точки входа (Режимы)
-    M_FULL([--mode full])
-    M_STATIC([--mode static])
-    M_CLIMATE([--mode climate])
-    M_ADD([--mode add])
-    M_REMOVE([--mode remove])
-    M_WEATHER([--mode weather])
-    M_RESCORE([--mode rescore])
+    FULL["--mode full"] -->|всё + погода| MG
+    ADD["--mode add"] -->|новый курорт| MG
+    STATIC["--mode static"] -->|без геокодинга| A
+    REMOVE["--mode remove"] -->|удаление| A
+    CLIMATE["--mode climate"] -.->|только климат| R
+    RESCORE["--mode rescore"] -.->|локально, без сети| B
+    WEATHER["--mode weather"] -->|прогноз| F
 
-    %% Ветка рейтинга
-    subgraph Rating ["Цепочка рейтинга (RATING)"]
+    subgraph RATING["Ветка «рейтинг»"]
         direction TB
-        MG[merge_resorts]
-        G[geocode_resorts] --> A[apply_coordinates]
-        MG --> G
+        MG[merge_resorts] --> G[geocode_resorts]
+        G --> A[apply_coordinates]
         MG --> A
         A --> R[recompute_resort_data]
         R --> D[regional_demand]
@@ -208,38 +201,15 @@ flowchart TD
         PE --> RI
         RI --> CB[catalog_builder]
         CB --> AC[build_atlas_catalog]
+        AC --> DB[(load_supabase)]
     end
 
-    %% Ветка погоды
-    subgraph Weather ["Цепочка погоды (WEATHER)"]
+    subgraph WEATHER["Ветка «погода»"]
         direction TB
         F[fetch_weather_forecast] --> TC[trip_conditions]
+        TC --> DB
     end
-
-    %% Загрузка
-    DB[(load_supabase)]
-
-    %% Подключение режимов к началу цепочек
-    M_FULL --> MG
-    M_FULL --> F
-
-    M_STATIC --> MG
-
-    M_CLIMATE -.->|"только климат"| R
-
-    M_ADD -.->|"новый курорт"| MG
-    M_REMOVE -.->|"удаление"| MG
-
-    M_WEATHER --> F
-    M_RESCORE -.->|"локально, без сети"| B
-
-    %% Завершение цепочек загрузкой
-    CB --> DB
-    AC --> DB
-    PE --> DB
-    TC --> DB
 ```
-
 ### Флаги `run_pipeline.py`
 
 | Флаг | Для чего |
