@@ -1,0 +1,33 @@
+{
+  "_comment": "Ручные цены ски-пассов (проверены вручную). Приоритет над prices_monthly.json и парсерами.",
+  "prices": [
+    {"resort_name": "Шерегеш", "adult_price_min_rub": 4250, "adult_price_max_rub": 4250, "month": null, "tariff_product": "Ски-пасс на 1 день", "source_quality": "manual", "source_url": "https://kaskad-gesh.ru"},
+    {"resort_name": "Домбай", "adult_price_min_rub": 2900, "adult_price_max_rub": 2900, "month": null, "tariff_product": "Ски-пасс на 1 день", "source_quality": "manual", "source_url": "https://dombai-kd.ru"},
+    {"resort_name": "Манжерок", "adult_price_min_rub": 2800, "adult_price_max_rub": 2800, "month": null, "tariff_product": "Ски-пасс на 1 день", "source_quality": "manual", "source_url": "https://xn--80akcrghjp.xn--p1ai"},
+    {"resort_name": "Телецкий", "adult_price_min_rub": 2500, "adult_price_max_rub": 2500, "month": null, "tariff_product": "Ски-пасс на 1 день", "source_quality": "manual", "source_url": "https://ok.ru"},
+    {"resort_name": "Кукисвумчорр", "adult_price_min_rub": 2000, "adult_price_max_rub": 2000, "month": null, "tariff_product": "Ски-пасс на 1 день", "source_quality": "manual", "source_url": "https://kukisvumchorr.ru"},
+    {"resort_name": "КолаСпортЛэнд", "adult_price_min_rub": 950, "adult_price_max_rub": 950, "month": null, "tariff_product": "Ски-пасс на 1 день", "source_quality": "manual", "source_url": "https://www.skiresort.com"},
+    {"resort_name": "Горный воздух", "adult_price_min_rub": 2800, "adult_price_max_rub": 2800, "month": null, "tariff_product": "Ски-пасс на 1 день", "source_quality": "manual", "source_url": "https://sutochno.ru"},
+    {"resort_name": "Холдоми", "adult_price_min_rub": 3650, "adult_price_max_rub": 3650, "month": null, "tariff_product": "Ски-пасс на 1 день", "source_quality": "manual", "source_url": "https://holdomi.ru"},
+    {"resort_name": "Морозная гора", "adult_price_min_rub": 2000, "adult_price_max_rub": 2000, "month": null, "tariff_product": "Ски-пасс на 1 день", "source_quality": "manual", "source_url": "https://www.ski.ru"},
+    {"resort_name": "Бобровый лог", "adult_price_min_rub": 2400, "adult_price_max_rub": 2400, "month": null, "tariff_product": "Ски-пасс на 1 день", "source_quality": "manual", "source_url": "https://ngs24.ru"},
+    {"resort_name": "Соболиная гора", "adult_price_min_rub": 3400, "adult_price_max_rub": 3400, "month": null, "tariff_product": "Ски-пасс на 1 день", "source_quality": "manual", "source_url": "https://ulan.mk.ru"},
+    {"resort_name": "Гора Белая", "adult_price_min_rub": 2400, "adult_price_max_rub": 2400, "month": null, "tariff_product": "Ски-пасс на 1 день", "source_quality": "manual", "source_url": "https://v-tagile.ru"},
+    {"resort_name": "Евразия", "adult_price_min_rub": 1000, "adult_price_max_rub": 1000, "month": null, "tariff_product": "Ски-пасс на 1 день", "source_quality": "manual", "source_url": "https://mt.ru"},
+    {"resort_name": "Аджигардак", "adult_price_min_rub": 2500, "adult_price_max_rub": 2500, "month": null, "tariff_product": "Ски-пасс на 1 день", "source_quality": "manual", "source_url": "https://tonkosti.ru"},
+    {"resort_name": "Солнечная долина", "adult_price_min_rub": 4500, "adult_price_max_rub": 4500, "month": null, "tariff_product": "Ски-пасс на 1 день", "source_quality": "manual", "source_url": "https://ura.news"},
+    {"resort_name": "Завьялиха", "adult_price_min_rub": 4000, "adult_price_max_rub": 4000, "month": null, "tariff_product": "Ски-пасс на 1 день", "source_quality": "manual", "source_url": "https://news.mail.ru"},
+    {"resort_name": "Абзаково", "adult_price_min_rub": 3800, "adult_price_max_rub": 3800, "month": null, "tariff_product": "Ски-пасс на 1 день", "source_quality": "manual", "source_url": "https://profilerussia.com"},
+    {"resort_name": "Мраткино", "adult_price_min_rub": 2100, "adult_price_max_rub": 2100, "month": null, "tariff_product": "Ски-пасс на 1 день", "source_quality": "manual", "source_url": "https://www.skiresort.ch"},
+    {"resort_name": "Губаха", "adult_price_min_rub": 2500, "adult_price_max_rub": 2500, "month": null, "tariff_product": "Ски-пасс на 1 день", "source_quality": "manual", "source_url": "https://travel.rambler.ru"},
+    {"resort_name": "Красная Глинка", "adult_price_min_rub": 1300, "adult_price_max_rub": 1300, "month": null, "tariff_product": "Ски-пасс на 1 день", "source_quality": "manual", "source_url": "https://glksok.ru"},
+    {"resort_name": "Гладенькая", "adult_price_min_rub": 1500, "adult_price_max_rub": 1500, "month": null, "tariff_product": "Ски-пасс на 1 день", "source_quality": "manual", "source_url": "https://shansonline.ru"},
+    {"resort_name": "Большой Вудъявр", "adult_price_min_rub": 2610, "adult_price_max_rub": 2610, "month": null, "tariff_product": "Ски-пасс на 1 день", "source_quality": "manual", "source_url": "https://murmansk.rbc.ru"},
+    {"resort_name": "Эльбрус", "adult_price_min_rub": 3240, "adult_price_max_rub": 3240, "month": null, "tariff_product": "Ски-пасс на 1 день", "source_quality": "manual", "source_url": "https://www.rg.ru"},
+    {"resort_name": "Чегет", "adult_price_min_rub": 2500, "adult_price_max_rub": 2500, "month": null, "tariff_product": "Ски-пасс на 1 день", "source_quality": "manual", "source_url": "https://www.snow-online.de"},
+    {"resort_name": "Мамисон", "adult_price_min_rub": 2970, "adult_price_max_rub": 2970, "month": null, "tariff_product": "Ски-пасс на 1 день", "source_quality": "manual", "source_url": "https://profilerussia.com"},
+    {"resort_name": "Цей", "adult_price_min_rub": 1350, "adult_price_max_rub": 1350, "month": null, "tariff_product": "Ски-пасс на 1 день", "source_quality": "manual", "source_url": "https://www.ski.ru"},
+    {"resort_name": "Архыз", "adult_price_min_rub": 2910, "adult_price_max_rub": 2910, "month": null, "tariff_product": "Ски-пасс на 1 день", "source_quality": "manual", "source_url": "https://allslopes.ru"}
+  ]
+}
+

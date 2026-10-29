@@ -1,0 +1,631 @@
+﻿scenario_id,preset_id,resort_id,name_ru,region,scenario_score,scenario_rank,rank_within_scenario,coordinate_validation_status,has_observed_price
+base_top_n5,base,R003,Газпром Поляна,Краснодарский край,74.42863236427793,1,1,confirmed,True
+base_top_n5,base,R002,Красная Поляна,Краснодарский край,72.34043006701508,2,2,confirmed,True
+base_top_n5,base,R001,Роза Хутор,Краснодарский край,71.213043872303,3,3,confirmed,True
+base_top_n5,base,R030,Сорочаны,Московская область,68.76740935050132,4,4,confirmed,False
+base_top_n5,base,R005,Архыз,Карачаево-Черкесская Республика,61.19931358080292,5,5,confirmed,True
+base_diversity_n5,base,R003,Газпром Поляна,Краснодарский край,74.42863236427793,1,1,confirmed,True
+base_diversity_n5,base,R030,Сорочаны,Московская область,68.76740935050132,4,2,confirmed,False
+base_diversity_n5,base,R005,Архыз,Карачаево-Черкесская Республика,61.19931358080292,5,3,confirmed,True
+base_diversity_n5,base,R004,Шерегеш,Кемеровская область,54.68477311776128,7,4,confirmed,True
+base_diversity_n5,base,R029,Игора,Ленинградская область,54.4742435862446,8,5,confirmed,False
+base_diversity_verified_n5,base,R003,Газпром Поляна,Краснодарский край,74.42863236427793,1,1,confirmed,True
+base_diversity_verified_n5,base,R030,Сорочаны,Московская область,68.76740935050132,4,2,confirmed,False
+base_diversity_verified_n5,base,R005,Архыз,Карачаево-Черкесская Республика,61.19931358080292,5,3,confirmed,True
+base_diversity_verified_n5,base,R004,Шерегеш,Кемеровская область,54.68477311776128,7,4,confirmed,True
+base_diversity_verified_n5,base,R029,Игора,Ленинградская область,54.4742435862446,8,5,confirmed,False
+base_top_n8,base,R003,Газпром Поляна,Краснодарский край,74.42863236427793,1,1,confirmed,True
+base_top_n8,base,R002,Красная Поляна,Краснодарский край,72.34043006701508,2,2,confirmed,True
+base_top_n8,base,R001,Роза Хутор,Краснодарский край,71.213043872303,3,3,confirmed,True
+base_top_n8,base,R030,Сорочаны,Московская область,68.76740935050132,4,4,confirmed,False
+base_top_n8,base,R005,Архыз,Карачаево-Черкесская Республика,61.19931358080292,5,5,confirmed,True
+base_top_n8,base,R006,Домбай,Карачаево-Черкесская Республика,57.79280569751282,6,6,confirmed,True
+base_top_n8,base,R004,Шерегеш,Кемеровская область,54.68477311776128,7,7,confirmed,True
+base_top_n8,base,R029,Игора,Ленинградская область,54.4742435862446,8,8,confirmed,False
+base_diversity_n8,base,R003,Газпром Поляна,Краснодарский край,74.42863236427793,1,1,confirmed,True
+base_diversity_n8,base,R030,Сорочаны,Московская область,68.76740935050132,4,2,confirmed,False
+base_diversity_n8,base,R005,Архыз,Карачаево-Черкесская Республика,61.19931358080292,5,3,confirmed,True
+base_diversity_n8,base,R004,Шерегеш,Кемеровская область,54.68477311776128,7,4,confirmed,True
+base_diversity_n8,base,R029,Игора,Ленинградская область,54.4742435862446,8,5,confirmed,False
+base_diversity_n8,base,R016,Горный воздух,Сахалинская область,53.08750924765397,9,6,confirmed,True
+base_diversity_n8,base,R018,Морозная гора,Камчатский край,52.3862368138195,10,7,confirmed,True
+base_diversity_n8,base,R019,Бобровый лог,Красноярский край,50.72563649795921,11,8,confirmed,True
+base_diversity_verified_n8,base,R003,Газпром Поляна,Краснодарский край,74.42863236427793,1,1,confirmed,True
+base_diversity_verified_n8,base,R030,Сорочаны,Московская область,68.76740935050132,4,2,confirmed,False
+base_diversity_verified_n8,base,R005,Архыз,Карачаево-Черкесская Республика,61.19931358080292,5,3,confirmed,True
+base_diversity_verified_n8,base,R004,Шерегеш,Кемеровская область,54.68477311776128,7,4,confirmed,True
+base_diversity_verified_n8,base,R029,Игора,Ленинградская область,54.4742435862446,8,5,confirmed,False
+base_diversity_verified_n8,base,R016,Горный воздух,Сахалинская область,53.08750924765397,9,6,confirmed,True
+base_diversity_verified_n8,base,R018,Морозная гора,Камчатский край,52.3862368138195,10,7,confirmed,True
+base_diversity_verified_n8,base,R019,Бобровый лог,Красноярский край,50.72563649795921,11,8,confirmed,True
+base_top_n10,base,R003,Газпром Поляна,Краснодарский край,74.42863236427793,1,1,confirmed,True
+base_top_n10,base,R002,Красная Поляна,Краснодарский край,72.34043006701508,2,2,confirmed,True
+base_top_n10,base,R001,Роза Хутор,Краснодарский край,71.213043872303,3,3,confirmed,True
+base_top_n10,base,R030,Сорочаны,Московская область,68.76740935050132,4,4,confirmed,False
+base_top_n10,base,R005,Архыз,Карачаево-Черкесская Республика,61.19931358080292,5,5,confirmed,True
+base_top_n10,base,R006,Домбай,Карачаево-Черкесская Республика,57.79280569751282,6,6,confirmed,True
+base_top_n10,base,R004,Шерегеш,Кемеровская область,54.68477311776128,7,7,confirmed,True
+base_top_n10,base,R029,Игора,Ленинградская область,54.4742435862446,8,8,confirmed,False
+base_top_n10,base,R016,Горный воздух,Сахалинская область,53.08750924765397,9,9,confirmed,True
+base_top_n10,base,R018,Морозная гора,Камчатский край,52.3862368138195,10,10,confirmed,True
+base_diversity_n10,base,R003,Газпром Поляна,Краснодарский край,74.42863236427793,1,1,confirmed,True
+base_diversity_n10,base,R030,Сорочаны,Московская область,68.76740935050132,4,2,confirmed,False
+base_diversity_n10,base,R005,Архыз,Карачаево-Черкесская Республика,61.19931358080292,5,3,confirmed,True
+base_diversity_n10,base,R004,Шерегеш,Кемеровская область,54.68477311776128,7,4,confirmed,True
+base_diversity_n10,base,R029,Игора,Ленинградская область,54.4742435862446,8,5,confirmed,False
+base_diversity_n10,base,R016,Горный воздух,Сахалинская область,53.08750924765397,9,6,confirmed,True
+base_diversity_n10,base,R018,Морозная гора,Камчатский край,52.3862368138195,10,7,confirmed,True
+base_diversity_n10,base,R019,Бобровый лог,Красноярский край,50.72563649795921,11,8,confirmed,True
+base_diversity_n10,base,R008,Чегет,Кабардино-Балкарская Республика,50.09134801459489,12,9,confirmed,True
+base_diversity_n10,base,R028,Губаха,Пермский край,50.06345664661995,13,10,confirmed,True
+base_diversity_verified_n10,base,R003,Газпром Поляна,Краснодарский край,74.42863236427793,1,1,confirmed,True
+base_diversity_verified_n10,base,R030,Сорочаны,Московская область,68.76740935050132,4,2,confirmed,False
+base_diversity_verified_n10,base,R005,Архыз,Карачаево-Черкесская Республика,61.19931358080292,5,3,confirmed,True
+base_diversity_verified_n10,base,R004,Шерегеш,Кемеровская область,54.68477311776128,7,4,confirmed,True
+base_diversity_verified_n10,base,R029,Игора,Ленинградская область,54.4742435862446,8,5,confirmed,False
+base_diversity_verified_n10,base,R016,Горный воздух,Сахалинская область,53.08750924765397,9,6,confirmed,True
+base_diversity_verified_n10,base,R018,Морозная гора,Камчатский край,52.3862368138195,10,7,confirmed,True
+base_diversity_verified_n10,base,R019,Бобровый лог,Красноярский край,50.72563649795921,11,8,confirmed,True
+base_diversity_verified_n10,base,R008,Чегет,Кабардино-Балкарская Республика,50.09134801459489,12,9,confirmed,True
+base_diversity_verified_n10,base,R028,Губаха,Пермский край,50.06345664661995,13,10,confirmed,True
+base_top_n12,base,R003,Газпром Поляна,Краснодарский край,74.42863236427793,1,1,confirmed,True
+base_top_n12,base,R002,Красная Поляна,Краснодарский край,72.34043006701508,2,2,confirmed,True
+base_top_n12,base,R001,Роза Хутор,Краснодарский край,71.213043872303,3,3,confirmed,True
+base_top_n12,base,R030,Сорочаны,Московская область,68.76740935050132,4,4,confirmed,False
+base_top_n12,base,R005,Архыз,Карачаево-Черкесская Республика,61.19931358080292,5,5,confirmed,True
+base_top_n12,base,R006,Домбай,Карачаево-Черкесская Республика,57.79280569751282,6,6,confirmed,True
+base_top_n12,base,R004,Шерегеш,Кемеровская область,54.68477311776128,7,7,confirmed,True
+base_top_n12,base,R029,Игора,Ленинградская область,54.4742435862446,8,8,confirmed,False
+base_top_n12,base,R016,Горный воздух,Сахалинская область,53.08750924765397,9,9,confirmed,True
+base_top_n12,base,R018,Морозная гора,Камчатский край,52.3862368138195,10,10,confirmed,True
+base_top_n12,base,R019,Бобровый лог,Красноярский край,50.72563649795921,11,11,confirmed,True
+base_top_n12,base,R008,Чегет,Кабардино-Балкарская Республика,50.09134801459489,12,12,confirmed,True
+base_diversity_n12,base,R003,Газпром Поляна,Краснодарский край,74.42863236427793,1,1,confirmed,True
+base_diversity_n12,base,R030,Сорочаны,Московская область,68.76740935050132,4,2,confirmed,False
+base_diversity_n12,base,R005,Архыз,Карачаево-Черкесская Республика,61.19931358080292,5,3,confirmed,True
+base_diversity_n12,base,R004,Шерегеш,Кемеровская область,54.68477311776128,7,4,confirmed,True
+base_diversity_n12,base,R029,Игора,Ленинградская область,54.4742435862446,8,5,confirmed,False
+base_diversity_n12,base,R016,Горный воздух,Сахалинская область,53.08750924765397,9,6,confirmed,True
+base_diversity_n12,base,R018,Морозная гора,Камчатский край,52.3862368138195,10,7,confirmed,True
+base_diversity_n12,base,R019,Бобровый лог,Красноярский край,50.72563649795921,11,8,confirmed,True
+base_diversity_n12,base,R008,Чегет,Кабардино-Балкарская Республика,50.09134801459489,12,9,confirmed,True
+base_diversity_n12,base,R028,Губаха,Пермский край,50.06345664661995,13,10,confirmed,True
+base_diversity_n12,base,R023,Аджигардак,Челябинская область,47.80213688815821,15,11,confirmed,True
+base_diversity_n12,base,R015,КолаСпортЛэнд,Мурманская область,47.717967249899964,16,12,confirmed,True
+base_diversity_verified_n12,base,R003,Газпром Поляна,Краснодарский край,74.42863236427793,1,1,confirmed,True
+base_diversity_verified_n12,base,R030,Сорочаны,Московская область,68.76740935050132,4,2,confirmed,False
+base_diversity_verified_n12,base,R005,Архыз,Карачаево-Черкесская Республика,61.19931358080292,5,3,confirmed,True
+base_diversity_verified_n12,base,R004,Шерегеш,Кемеровская область,54.68477311776128,7,4,confirmed,True
+base_diversity_verified_n12,base,R029,Игора,Ленинградская область,54.4742435862446,8,5,confirmed,False
+base_diversity_verified_n12,base,R016,Горный воздух,Сахалинская область,53.08750924765397,9,6,confirmed,True
+base_diversity_verified_n12,base,R018,Морозная гора,Камчатский край,52.3862368138195,10,7,confirmed,True
+base_diversity_verified_n12,base,R019,Бобровый лог,Красноярский край,50.72563649795921,11,8,confirmed,True
+base_diversity_verified_n12,base,R008,Чегет,Кабардино-Балкарская Республика,50.09134801459489,12,9,confirmed,True
+base_diversity_verified_n12,base,R028,Губаха,Пермский край,50.06345664661995,13,10,confirmed,True
+base_diversity_verified_n12,base,R023,Аджигардак,Челябинская область,47.80213688815821,15,11,confirmed,True
+base_diversity_verified_n12,base,R015,КолаСпортЛэнд,Мурманская область,47.717967249899964,16,12,confirmed,True
+balance_top_n5,balance,R003,Газпром Поляна,Краснодарский край,69.85210132030873,1,1,confirmed,True
+balance_top_n5,balance,R005,Архыз,Карачаево-Черкесская Республика,66.62944208108831,2,2,confirmed,True
+balance_top_n5,balance,R002,Красная Поляна,Краснодарский край,66.37577697133415,3,3,confirmed,True
+balance_top_n5,balance,R001,Роза Хутор,Краснодарский край,65.3115529780073,4,4,confirmed,True
+balance_top_n5,balance,R008,Чегет,Кабардино-Балкарская Республика,65.17845769358478,5,5,confirmed,True
+balance_diversity_n5,balance,R003,Газпром Поляна,Краснодарский край,69.85210132030873,1,1,confirmed,True
+balance_diversity_n5,balance,R005,Архыз,Карачаево-Черкесская Республика,66.62944208108831,2,2,confirmed,True
+balance_diversity_n5,balance,R008,Чегет,Кабардино-Балкарская Республика,65.17845769358478,5,3,confirmed,True
+balance_diversity_n5,balance,R016,Горный воздух,Сахалинская область,64.95674816785912,7,4,confirmed,True
+balance_diversity_n5,balance,R004,Шерегеш,Кемеровская область,63.25426711608628,8,5,confirmed,True
+balance_diversity_verified_n5,balance,R003,Газпром Поляна,Краснодарский край,69.85210132030873,1,1,confirmed,True
+balance_diversity_verified_n5,balance,R005,Архыз,Карачаево-Черкесская Республика,66.62944208108831,2,2,confirmed,True
+balance_diversity_verified_n5,balance,R008,Чегет,Кабардино-Балкарская Республика,65.17845769358478,5,3,confirmed,True
+balance_diversity_verified_n5,balance,R016,Горный воздух,Сахалинская область,64.95674816785912,7,4,confirmed,True
+balance_diversity_verified_n5,balance,R004,Шерегеш,Кемеровская область,63.25426711608628,8,5,confirmed,True
+balance_top_n8,balance,R003,Газпром Поляна,Краснодарский край,69.85210132030873,1,1,confirmed,True
+balance_top_n8,balance,R005,Архыз,Карачаево-Черкесская Республика,66.62944208108831,2,2,confirmed,True
+balance_top_n8,balance,R002,Красная Поляна,Краснодарский край,66.37577697133415,3,3,confirmed,True
+balance_top_n8,balance,R001,Роза Хутор,Краснодарский край,65.3115529780073,4,4,confirmed,True
+balance_top_n8,balance,R008,Чегет,Кабардино-Балкарская Республика,65.17845769358478,5,5,confirmed,True
+balance_top_n8,balance,R007,Эльбрус,Кабардино-Балкарская Республика,65.09366537994319,6,6,confirmed,True
+balance_top_n8,balance,R016,Горный воздух,Сахалинская область,64.95674816785912,7,7,confirmed,True
+balance_top_n8,balance,R004,Шерегеш,Кемеровская область,63.25426711608628,8,8,confirmed,True
+balance_diversity_n8,balance,R003,Газпром Поляна,Краснодарский край,69.85210132030873,1,1,confirmed,True
+balance_diversity_n8,balance,R005,Архыз,Карачаево-Черкесская Республика,66.62944208108831,2,2,confirmed,True
+balance_diversity_n8,balance,R008,Чегет,Кабардино-Балкарская Республика,65.17845769358478,5,3,confirmed,True
+balance_diversity_n8,balance,R016,Горный воздух,Сахалинская область,64.95674816785912,7,4,confirmed,True
+balance_diversity_n8,balance,R004,Шерегеш,Кемеровская область,63.25426711608628,8,5,confirmed,True
+balance_diversity_n8,balance,R018,Морозная гора,Камчатский край,62.727729756335215,9,6,confirmed,True
+balance_diversity_n8,balance,R015,КолаСпортЛэнд,Мурманская область,58.511691502390555,11,7,confirmed,True
+balance_diversity_n8,balance,R028,Губаха,Пермский край,53.77889509990902,13,8,confirmed,True
+balance_diversity_verified_n8,balance,R003,Газпром Поляна,Краснодарский край,69.85210132030873,1,1,confirmed,True
+balance_diversity_verified_n8,balance,R005,Архыз,Карачаево-Черкесская Республика,66.62944208108831,2,2,confirmed,True
+balance_diversity_verified_n8,balance,R008,Чегет,Кабардино-Балкарская Республика,65.17845769358478,5,3,confirmed,True
+balance_diversity_verified_n8,balance,R016,Горный воздух,Сахалинская область,64.95674816785912,7,4,confirmed,True
+balance_diversity_verified_n8,balance,R004,Шерегеш,Кемеровская область,63.25426711608628,8,5,confirmed,True
+balance_diversity_verified_n8,balance,R018,Морозная гора,Камчатский край,62.727729756335215,9,6,confirmed,True
+balance_diversity_verified_n8,balance,R015,КолаСпортЛэнд,Мурманская область,58.511691502390555,11,7,confirmed,True
+balance_diversity_verified_n8,balance,R028,Губаха,Пермский край,53.77889509990902,13,8,confirmed,True
+balance_top_n10,balance,R003,Газпром Поляна,Краснодарский край,69.85210132030873,1,1,confirmed,True
+balance_top_n10,balance,R005,Архыз,Карачаево-Черкесская Республика,66.62944208108831,2,2,confirmed,True
+balance_top_n10,balance,R002,Красная Поляна,Краснодарский край,66.37577697133415,3,3,confirmed,True
+balance_top_n10,balance,R001,Роза Хутор,Краснодарский край,65.3115529780073,4,4,confirmed,True
+balance_top_n10,balance,R008,Чегет,Кабардино-Балкарская Республика,65.17845769358478,5,5,confirmed,True
+balance_top_n10,balance,R007,Эльбрус,Кабардино-Балкарская Республика,65.09366537994319,6,6,confirmed,True
+balance_top_n10,balance,R016,Горный воздух,Сахалинская область,64.95674816785912,7,7,confirmed,True
+balance_top_n10,balance,R004,Шерегеш,Кемеровская область,63.25426711608628,8,8,confirmed,True
+balance_top_n10,balance,R018,Морозная гора,Камчатский край,62.727729756335215,9,9,confirmed,True
+balance_top_n10,balance,R006,Домбай,Карачаево-Черкесская Республика,60.86412982170648,10,10,confirmed,True
+balance_diversity_n10,balance,R003,Газпром Поляна,Краснодарский край,69.85210132030873,1,1,confirmed,True
+balance_diversity_n10,balance,R005,Архыз,Карачаево-Черкесская Республика,66.62944208108831,2,2,confirmed,True
+balance_diversity_n10,balance,R008,Чегет,Кабардино-Балкарская Республика,65.17845769358478,5,3,confirmed,True
+balance_diversity_n10,balance,R016,Горный воздух,Сахалинская область,64.95674816785912,7,4,confirmed,True
+balance_diversity_n10,balance,R004,Шерегеш,Кемеровская область,63.25426711608628,8,5,confirmed,True
+balance_diversity_n10,balance,R018,Морозная гора,Камчатский край,62.727729756335215,9,6,confirmed,True
+balance_diversity_n10,balance,R015,КолаСпортЛэнд,Мурманская область,58.511691502390555,11,7,confirmed,True
+balance_diversity_n10,balance,R028,Губаха,Пермский край,53.77889509990902,13,8,confirmed,True
+balance_diversity_n10,balance,R019,Бобровый лог,Красноярский край,53.22804175043306,15,9,confirmed,True
+balance_diversity_n10,balance,R030,Сорочаны,Московская область,53.10605407950907,16,10,confirmed,False
+balance_diversity_verified_n10,balance,R003,Газпром Поляна,Краснодарский край,69.85210132030873,1,1,confirmed,True
+balance_diversity_verified_n10,balance,R005,Архыз,Карачаево-Черкесская Республика,66.62944208108831,2,2,confirmed,True
+balance_diversity_verified_n10,balance,R008,Чегет,Кабардино-Балкарская Республика,65.17845769358478,5,3,confirmed,True
+balance_diversity_verified_n10,balance,R016,Горный воздух,Сахалинская область,64.95674816785912,7,4,confirmed,True
+balance_diversity_verified_n10,balance,R004,Шерегеш,Кемеровская область,63.25426711608628,8,5,confirmed,True
+balance_diversity_verified_n10,balance,R018,Морозная гора,Камчатский край,62.727729756335215,9,6,confirmed,True
+balance_diversity_verified_n10,balance,R015,КолаСпортЛэнд,Мурманская область,58.511691502390555,11,7,confirmed,True
+balance_diversity_verified_n10,balance,R028,Губаха,Пермский край,53.77889509990902,13,8,confirmed,True
+balance_diversity_verified_n10,balance,R019,Бобровый лог,Красноярский край,53.22804175043306,15,9,confirmed,True
+balance_diversity_verified_n10,balance,R030,Сорочаны,Московская область,53.10605407950907,16,10,confirmed,False
+balance_top_n12,balance,R003,Газпром Поляна,Краснодарский край,69.85210132030873,1,1,confirmed,True
+balance_top_n12,balance,R005,Архыз,Карачаево-Черкесская Республика,66.62944208108831,2,2,confirmed,True
+balance_top_n12,balance,R002,Красная Поляна,Краснодарский край,66.37577697133415,3,3,confirmed,True
+balance_top_n12,balance,R001,Роза Хутор,Краснодарский край,65.3115529780073,4,4,confirmed,True
+balance_top_n12,balance,R008,Чегет,Кабардино-Балкарская Республика,65.17845769358478,5,5,confirmed,True
+balance_top_n12,balance,R007,Эльбрус,Кабардино-Балкарская Республика,65.09366537994319,6,6,confirmed,True
+balance_top_n12,balance,R016,Горный воздух,Сахалинская область,64.95674816785912,7,7,confirmed,True
+balance_top_n12,balance,R004,Шерегеш,Кемеровская область,63.25426711608628,8,8,confirmed,True
+balance_top_n12,balance,R018,Морозная гора,Камчатский край,62.727729756335215,9,9,confirmed,True
+balance_top_n12,balance,R006,Домбай,Карачаево-Черкесская Республика,60.86412982170648,10,10,confirmed,True
+balance_top_n12,balance,R015,КолаСпортЛэнд,Мурманская область,58.511691502390555,11,11,confirmed,True
+balance_top_n12,balance,R013,Большой Вудъявр,Мурманская область,57.99207763441942,12,12,confirmed,True
+balance_diversity_n12,balance,R003,Газпром Поляна,Краснодарский край,69.85210132030873,1,1,confirmed,True
+balance_diversity_n12,balance,R005,Архыз,Карачаево-Черкесская Республика,66.62944208108831,2,2,confirmed,True
+balance_diversity_n12,balance,R008,Чегет,Кабардино-Балкарская Республика,65.17845769358478,5,3,confirmed,True
+balance_diversity_n12,balance,R016,Горный воздух,Сахалинская область,64.95674816785912,7,4,confirmed,True
+balance_diversity_n12,balance,R004,Шерегеш,Кемеровская область,63.25426711608628,8,5,confirmed,True
+balance_diversity_n12,balance,R018,Морозная гора,Камчатский край,62.727729756335215,9,6,confirmed,True
+balance_diversity_n12,balance,R015,КолаСпортЛэнд,Мурманская область,58.511691502390555,11,7,confirmed,True
+balance_diversity_n12,balance,R028,Губаха,Пермский край,53.77889509990902,13,8,confirmed,True
+balance_diversity_n12,balance,R019,Бобровый лог,Красноярский край,53.22804175043306,15,9,confirmed,True
+balance_diversity_n12,balance,R030,Сорочаны,Московская область,53.10605407950907,16,10,confirmed,False
+balance_diversity_n12,balance,R031,Красная Глинка,Самарская область,48.78057641234176,17,11,confirmed,True
+balance_diversity_n12,balance,R023,Аджигардак,Челябинская область,46.565235071692086,18,12,confirmed,True
+balance_diversity_verified_n12,balance,R003,Газпром Поляна,Краснодарский край,69.85210132030873,1,1,confirmed,True
+balance_diversity_verified_n12,balance,R005,Архыз,Карачаево-Черкесская Республика,66.62944208108831,2,2,confirmed,True
+balance_diversity_verified_n12,balance,R008,Чегет,Кабардино-Балкарская Республика,65.17845769358478,5,3,confirmed,True
+balance_diversity_verified_n12,balance,R016,Горный воздух,Сахалинская область,64.95674816785912,7,4,confirmed,True
+balance_diversity_verified_n12,balance,R004,Шерегеш,Кемеровская область,63.25426711608628,8,5,confirmed,True
+balance_diversity_verified_n12,balance,R018,Морозная гора,Камчатский край,62.727729756335215,9,6,confirmed,True
+balance_diversity_verified_n12,balance,R015,КолаСпортЛэнд,Мурманская область,58.511691502390555,11,7,confirmed,True
+balance_diversity_verified_n12,balance,R028,Губаха,Пермский край,53.77889509990902,13,8,confirmed,True
+balance_diversity_verified_n12,balance,R019,Бобровый лог,Красноярский край,53.22804175043306,15,9,confirmed,True
+balance_diversity_verified_n12,balance,R030,Сорочаны,Московская область,53.10605407950907,16,10,confirmed,False
+balance_diversity_verified_n12,balance,R031,Красная Глинка,Самарская область,48.78057641234176,17,11,confirmed,True
+balance_diversity_verified_n12,balance,R023,Аджигардак,Челябинская область,46.565235071692086,18,12,confirmed,True
+infra_top_n5,infra,R003,Газпром Поляна,Краснодарский край,80.02657415082031,1,1,confirmed,True
+infra_top_n5,infra,R002,Красная Поляна,Краснодарский край,78.46172780942166,2,2,confirmed,True
+infra_top_n5,infra,R001,Роза Хутор,Краснодарский край,75.75833609746375,3,3,confirmed,True
+infra_top_n5,infra,R004,Шерегеш,Кемеровская область,70.62385928162556,4,4,confirmed,True
+infra_top_n5,infra,R005,Архыз,Карачаево-Черкесская Республика,68.42003221980161,5,5,confirmed,True
+infra_diversity_n5,infra,R003,Газпром Поляна,Краснодарский край,80.02657415082031,1,1,confirmed,True
+infra_diversity_n5,infra,R004,Шерегеш,Кемеровская область,70.62385928162556,4,2,confirmed,True
+infra_diversity_n5,infra,R005,Архыз,Карачаево-Черкесская Республика,68.42003221980161,5,3,confirmed,True
+infra_diversity_n5,infra,R008,Чегет,Кабардино-Балкарская Республика,65.98237630634388,6,4,confirmed,True
+infra_diversity_n5,infra,R016,Горный воздух,Сахалинская область,64.19730618231374,8,5,confirmed,True
+infra_diversity_verified_n5,infra,R003,Газпром Поляна,Краснодарский край,80.02657415082031,1,1,confirmed,True
+infra_diversity_verified_n5,infra,R004,Шерегеш,Кемеровская область,70.62385928162556,4,2,confirmed,True
+infra_diversity_verified_n5,infra,R005,Архыз,Карачаево-Черкесская Республика,68.42003221980161,5,3,confirmed,True
+infra_diversity_verified_n5,infra,R008,Чегет,Кабардино-Балкарская Республика,65.98237630634388,6,4,confirmed,True
+infra_diversity_verified_n5,infra,R016,Горный воздух,Сахалинская область,64.19730618231374,8,5,confirmed,True
+infra_top_n8,infra,R003,Газпром Поляна,Краснодарский край,80.02657415082031,1,1,confirmed,True
+infra_top_n8,infra,R002,Красная Поляна,Краснодарский край,78.46172780942166,2,2,confirmed,True
+infra_top_n8,infra,R001,Роза Хутор,Краснодарский край,75.75833609746375,3,3,confirmed,True
+infra_top_n8,infra,R004,Шерегеш,Кемеровская область,70.62385928162556,4,4,confirmed,True
+infra_top_n8,infra,R005,Архыз,Карачаево-Черкесская Республика,68.42003221980161,5,5,confirmed,True
+infra_top_n8,infra,R008,Чегет,Кабардино-Балкарская Республика,65.98237630634388,6,6,confirmed,True
+infra_top_n8,infra,R007,Эльбрус,Кабардино-Балкарская Республика,65.88833982632556,7,7,confirmed,True
+infra_top_n8,infra,R016,Горный воздух,Сахалинская область,64.19730618231374,8,8,confirmed,True
+infra_diversity_n8,infra,R003,Газпром Поляна,Краснодарский край,80.02657415082031,1,1,confirmed,True
+infra_diversity_n8,infra,R004,Шерегеш,Кемеровская область,70.62385928162556,4,2,confirmed,True
+infra_diversity_n8,infra,R005,Архыз,Карачаево-Черкесская Республика,68.42003221980161,5,3,confirmed,True
+infra_diversity_n8,infra,R008,Чегет,Кабардино-Балкарская Республика,65.98237630634388,6,4,confirmed,True
+infra_diversity_n8,infra,R016,Горный воздух,Сахалинская область,64.19730618231374,8,5,confirmed,True
+infra_diversity_n8,infra,R015,КолаСпортЛэнд,Мурманская область,59.357957511162134,10,6,confirmed,True
+infra_diversity_n8,infra,R030,Сорочаны,Московская область,58.8218446349492,11,7,confirmed,False
+infra_diversity_n8,infra,R019,Бобровый лог,Красноярский край,54.95564032836494,13,8,confirmed,True
+infra_diversity_verified_n8,infra,R003,Газпром Поляна,Краснодарский край,80.02657415082031,1,1,confirmed,True
+infra_diversity_verified_n8,infra,R004,Шерегеш,Кемеровская область,70.62385928162556,4,2,confirmed,True
+infra_diversity_verified_n8,infra,R005,Архыз,Карачаево-Черкесская Республика,68.42003221980161,5,3,confirmed,True
+infra_diversity_verified_n8,infra,R008,Чегет,Кабардино-Балкарская Республика,65.98237630634388,6,4,confirmed,True
+infra_diversity_verified_n8,infra,R016,Горный воздух,Сахалинская область,64.19730618231374,8,5,confirmed,True
+infra_diversity_verified_n8,infra,R015,КолаСпортЛэнд,Мурманская область,59.357957511162134,10,6,confirmed,True
+infra_diversity_verified_n8,infra,R030,Сорочаны,Московская область,58.8218446349492,11,7,confirmed,False
+infra_diversity_verified_n8,infra,R019,Бобровый лог,Красноярский край,54.95564032836494,13,8,confirmed,True
+infra_top_n10,infra,R003,Газпром Поляна,Краснодарский край,80.02657415082031,1,1,confirmed,True
+infra_top_n10,infra,R002,Красная Поляна,Краснодарский край,78.46172780942166,2,2,confirmed,True
+infra_top_n10,infra,R001,Роза Хутор,Краснодарский край,75.75833609746375,3,3,confirmed,True
+infra_top_n10,infra,R004,Шерегеш,Кемеровская область,70.62385928162556,4,4,confirmed,True
+infra_top_n10,infra,R005,Архыз,Карачаево-Черкесская Республика,68.42003221980161,5,5,confirmed,True
+infra_top_n10,infra,R008,Чегет,Кабардино-Балкарская Республика,65.98237630634388,6,6,confirmed,True
+infra_top_n10,infra,R007,Эльбрус,Кабардино-Балкарская Республика,65.88833982632556,7,7,confirmed,True
+infra_top_n10,infra,R016,Горный воздух,Сахалинская область,64.19730618231374,8,8,confirmed,True
+infra_top_n10,infra,R006,Домбай,Карачаево-Черкесская Республика,62.98041762081232,9,9,confirmed,True
+infra_top_n10,infra,R015,КолаСпортЛэнд,Мурманская область,59.357957511162134,10,10,confirmed,True
+infra_diversity_n10,infra,R003,Газпром Поляна,Краснодарский край,80.02657415082031,1,1,confirmed,True
+infra_diversity_n10,infra,R004,Шерегеш,Кемеровская область,70.62385928162556,4,2,confirmed,True
+infra_diversity_n10,infra,R005,Архыз,Карачаево-Черкесская Республика,68.42003221980161,5,3,confirmed,True
+infra_diversity_n10,infra,R008,Чегет,Кабардино-Балкарская Республика,65.98237630634388,6,4,confirmed,True
+infra_diversity_n10,infra,R016,Горный воздух,Сахалинская область,64.19730618231374,8,5,confirmed,True
+infra_diversity_n10,infra,R015,КолаСпортЛэнд,Мурманская область,59.357957511162134,10,6,confirmed,True
+infra_diversity_n10,infra,R030,Сорочаны,Московская область,58.8218446349492,11,7,confirmed,False
+infra_diversity_n10,infra,R019,Бобровый лог,Красноярский край,54.95564032836494,13,8,confirmed,True
+infra_diversity_n10,infra,R028,Губаха,Пермский край,53.86382885357347,14,9,confirmed,True
+infra_diversity_n10,infra,R011,Манжерок,Республика Алтай,51.812157618340784,15,10,confirmed,True
+infra_diversity_verified_n10,infra,R003,Газпром Поляна,Краснодарский край,80.02657415082031,1,1,confirmed,True
+infra_diversity_verified_n10,infra,R004,Шерегеш,Кемеровская область,70.62385928162556,4,2,confirmed,True
+infra_diversity_verified_n10,infra,R005,Архыз,Карачаево-Черкесская Республика,68.42003221980161,5,3,confirmed,True
+infra_diversity_verified_n10,infra,R008,Чегет,Кабардино-Балкарская Республика,65.98237630634388,6,4,confirmed,True
+infra_diversity_verified_n10,infra,R016,Горный воздух,Сахалинская область,64.19730618231374,8,5,confirmed,True
+infra_diversity_verified_n10,infra,R015,КолаСпортЛэнд,Мурманская область,59.357957511162134,10,6,confirmed,True
+infra_diversity_verified_n10,infra,R030,Сорочаны,Московская область,58.8218446349492,11,7,confirmed,False
+infra_diversity_verified_n10,infra,R019,Бобровый лог,Красноярский край,54.95564032836494,13,8,confirmed,True
+infra_diversity_verified_n10,infra,R028,Губаха,Пермский край,53.86382885357347,14,9,confirmed,True
+infra_diversity_verified_n10,infra,R011,Манжерок,Республика Алтай,51.812157618340784,15,10,confirmed,True
+infra_top_n12,infra,R003,Газпром Поляна,Краснодарский край,80.02657415082031,1,1,confirmed,True
+infra_top_n12,infra,R002,Красная Поляна,Краснодарский край,78.46172780942166,2,2,confirmed,True
+infra_top_n12,infra,R001,Роза Хутор,Краснодарский край,75.75833609746375,3,3,confirmed,True
+infra_top_n12,infra,R004,Шерегеш,Кемеровская область,70.62385928162556,4,4,confirmed,True
+infra_top_n12,infra,R005,Архыз,Карачаево-Черкесская Республика,68.42003221980161,5,5,confirmed,True
+infra_top_n12,infra,R008,Чегет,Кабардино-Балкарская Республика,65.98237630634388,6,6,confirmed,True
+infra_top_n12,infra,R007,Эльбрус,Кабардино-Балкарская Республика,65.88833982632556,7,7,confirmed,True
+infra_top_n12,infra,R016,Горный воздух,Сахалинская область,64.19730618231374,8,8,confirmed,True
+infra_top_n12,infra,R006,Домбай,Карачаево-Черкесская Республика,62.98041762081232,9,9,confirmed,True
+infra_top_n12,infra,R015,КолаСпортЛэнд,Мурманская область,59.357957511162134,10,10,confirmed,True
+infra_top_n12,infra,R030,Сорочаны,Московская область,58.8218446349492,11,11,confirmed,False
+infra_top_n12,infra,R013,Большой Вудъявр,Мурманская область,57.87334535780284,12,12,confirmed,True
+infra_diversity_n12,infra,R003,Газпром Поляна,Краснодарский край,80.02657415082031,1,1,confirmed,True
+infra_diversity_n12,infra,R004,Шерегеш,Кемеровская область,70.62385928162556,4,2,confirmed,True
+infra_diversity_n12,infra,R005,Архыз,Карачаево-Черкесская Республика,68.42003221980161,5,3,confirmed,True
+infra_diversity_n12,infra,R008,Чегет,Кабардино-Балкарская Республика,65.98237630634388,6,4,confirmed,True
+infra_diversity_n12,infra,R016,Горный воздух,Сахалинская область,64.19730618231374,8,5,confirmed,True
+infra_diversity_n12,infra,R015,КолаСпортЛэнд,Мурманская область,59.357957511162134,10,6,confirmed,True
+infra_diversity_n12,infra,R030,Сорочаны,Московская область,58.8218446349492,11,7,confirmed,False
+infra_diversity_n12,infra,R019,Бобровый лог,Красноярский край,54.95564032836494,13,8,confirmed,True
+infra_diversity_n12,infra,R028,Губаха,Пермский край,53.86382885357347,14,9,confirmed,True
+infra_diversity_n12,infra,R011,Манжерок,Республика Алтай,51.812157618340784,15,10,confirmed,True
+infra_diversity_n12,infra,R018,Морозная гора,Камчатский край,50.915476659614605,16,11,confirmed,True
+infra_diversity_n12,infra,R029,Игора,Ленинградская область,50.82785545412849,17,12,confirmed,False
+infra_diversity_verified_n12,infra,R003,Газпром Поляна,Краснодарский край,80.02657415082031,1,1,confirmed,True
+infra_diversity_verified_n12,infra,R004,Шерегеш,Кемеровская область,70.62385928162556,4,2,confirmed,True
+infra_diversity_verified_n12,infra,R005,Архыз,Карачаево-Черкесская Республика,68.42003221980161,5,3,confirmed,True
+infra_diversity_verified_n12,infra,R008,Чегет,Кабардино-Балкарская Республика,65.98237630634388,6,4,confirmed,True
+infra_diversity_verified_n12,infra,R016,Горный воздух,Сахалинская область,64.19730618231374,8,5,confirmed,True
+infra_diversity_verified_n12,infra,R015,КолаСпортЛэнд,Мурманская область,59.357957511162134,10,6,confirmed,True
+infra_diversity_verified_n12,infra,R030,Сорочаны,Московская область,58.8218446349492,11,7,confirmed,False
+infra_diversity_verified_n12,infra,R019,Бобровый лог,Красноярский край,54.95564032836494,13,8,confirmed,True
+infra_diversity_verified_n12,infra,R028,Губаха,Пермский край,53.86382885357347,14,9,confirmed,True
+infra_diversity_verified_n12,infra,R011,Манжерок,Республика Алтай,51.812157618340784,15,10,confirmed,True
+infra_diversity_verified_n12,infra,R018,Морозная гора,Камчатский край,50.915476659614605,16,11,confirmed,True
+infra_diversity_verified_n12,infra,R029,Игора,Ленинградская область,50.82785545412849,17,12,confirmed,False
+snow_top_n5,snow,R005,Архыз,Карачаево-Черкесская Республика,74.56983818594594,1,1,confirmed,True
+snow_top_n5,snow,R007,Эльбрус,Кабардино-Балкарская Республика,73.90590956825227,2,2,confirmed,True
+snow_top_n5,snow,R008,Чегет,Кабардино-Балкарская Республика,73.6848092468755,3,3,confirmed,True
+snow_top_n5,snow,R006,Домбай,Карачаево-Черкесская Республика,69.96827120877342,4,4,confirmed,True
+snow_top_n5,snow,R018,Морозная гора,Камчатский край,69.54053652566925,5,5,confirmed,True
+snow_diversity_n5,snow,R005,Архыз,Карачаево-Черкесская Республика,74.56983818594594,1,1,confirmed,True
+snow_diversity_n5,snow,R007,Эльбрус,Кабардино-Балкарская Республика,73.90590956825227,2,2,confirmed,True
+snow_diversity_n5,snow,R018,Морозная гора,Камчатский край,69.54053652566925,5,3,confirmed,True
+snow_diversity_n5,snow,R013,Большой Вудъявр,Мурманская область,66.26173214857191,6,4,confirmed,True
+snow_diversity_n5,snow,R004,Шерегеш,Кемеровская область,65.35081383890063,7,5,confirmed,True
+snow_diversity_verified_n5,snow,R005,Архыз,Карачаево-Черкесская Республика,74.56983818594594,1,1,confirmed,True
+snow_diversity_verified_n5,snow,R007,Эльбрус,Кабардино-Балкарская Республика,73.90590956825227,2,2,confirmed,True
+snow_diversity_verified_n5,snow,R018,Морозная гора,Камчатский край,69.54053652566925,5,3,confirmed,True
+snow_diversity_verified_n5,snow,R013,Большой Вудъявр,Мурманская область,66.26173214857191,6,4,confirmed,True
+snow_diversity_verified_n5,snow,R004,Шерегеш,Кемеровская область,65.35081383890063,7,5,confirmed,True
+snow_top_n8,snow,R005,Архыз,Карачаево-Черкесская Республика,74.56983818594594,1,1,confirmed,True
+snow_top_n8,snow,R007,Эльбрус,Кабардино-Балкарская Республика,73.90590956825227,2,2,confirmed,True
+snow_top_n8,snow,R008,Чегет,Кабардино-Балкарская Республика,73.6848092468755,3,3,confirmed,True
+snow_top_n8,snow,R006,Домбай,Карачаево-Черкесская Республика,69.96827120877342,4,4,confirmed,True
+snow_top_n8,snow,R018,Морозная гора,Камчатский край,69.54053652566925,5,5,confirmed,True
+snow_top_n8,snow,R013,Большой Вудъявр,Мурманская область,66.26173214857191,6,6,confirmed,True
+snow_top_n8,snow,R004,Шерегеш,Кемеровская область,65.35081383890063,7,7,confirmed,True
+snow_top_n8,snow,R015,КолаСпортЛэнд,Мурманская область,65.1798453756904,8,8,confirmed,True
+snow_diversity_n8,snow,R005,Архыз,Карачаево-Черкесская Республика,74.56983818594594,1,1,confirmed,True
+snow_diversity_n8,snow,R007,Эльбрус,Кабардино-Балкарская Республика,73.90590956825227,2,2,confirmed,True
+snow_diversity_n8,snow,R018,Морозная гора,Камчатский край,69.54053652566925,5,3,confirmed,True
+snow_diversity_n8,snow,R013,Большой Вудъявр,Мурманская область,66.26173214857191,6,4,confirmed,True
+snow_diversity_n8,snow,R004,Шерегеш,Кемеровская область,65.35081383890063,7,5,confirmed,True
+snow_diversity_n8,snow,R003,Газпром Поляна,Краснодарский край,63.19910950507321,10,6,confirmed,True
+snow_diversity_n8,snow,R028,Губаха,Пермский край,60.97801848855199,11,7,confirmed,True
+snow_diversity_n8,snow,R016,Горный воздух,Сахалинская область,57.84742705830298,12,8,confirmed,True
+snow_diversity_verified_n8,snow,R005,Архыз,Карачаево-Черкесская Республика,74.56983818594594,1,1,confirmed,True
+snow_diversity_verified_n8,snow,R007,Эльбрус,Кабардино-Балкарская Республика,73.90590956825227,2,2,confirmed,True
+snow_diversity_verified_n8,snow,R018,Морозная гора,Камчатский край,69.54053652566925,5,3,confirmed,True
+snow_diversity_verified_n8,snow,R013,Большой Вудъявр,Мурманская область,66.26173214857191,6,4,confirmed,True
+snow_diversity_verified_n8,snow,R004,Шерегеш,Кемеровская область,65.35081383890063,7,5,confirmed,True
+snow_diversity_verified_n8,snow,R003,Газпром Поляна,Краснодарский край,63.19910950507321,10,6,confirmed,True
+snow_diversity_verified_n8,snow,R028,Губаха,Пермский край,60.97801848855199,11,7,confirmed,True
+snow_diversity_verified_n8,snow,R016,Горный воздух,Сахалинская область,57.84742705830298,12,8,confirmed,True
+snow_top_n10,snow,R005,Архыз,Карачаево-Черкесская Республика,74.56983818594594,1,1,confirmed,True
+snow_top_n10,snow,R007,Эльбрус,Кабардино-Балкарская Республика,73.90590956825227,2,2,confirmed,True
+snow_top_n10,snow,R008,Чегет,Кабардино-Балкарская Республика,73.6848092468755,3,3,confirmed,True
+snow_top_n10,snow,R006,Домбай,Карачаево-Черкесская Республика,69.96827120877342,4,4,confirmed,True
+snow_top_n10,snow,R018,Морозная гора,Камчатский край,69.54053652566925,5,5,confirmed,True
+snow_top_n10,snow,R013,Большой Вудъявр,Мурманская область,66.26173214857191,6,6,confirmed,True
+snow_top_n10,snow,R004,Шерегеш,Кемеровская область,65.35081383890063,7,7,confirmed,True
+snow_top_n10,snow,R015,КолаСпортЛэнд,Мурманская область,65.1798453756904,8,8,confirmed,True
+snow_top_n10,snow,R014,Кукисвумчорр,Мурманская область,63.82083297511026,9,9,confirmed,True
+snow_top_n10,snow,R003,Газпром Поляна,Краснодарский край,63.19910950507321,10,10,confirmed,True
+snow_diversity_n10,snow,R005,Архыз,Карачаево-Черкесская Республика,74.56983818594594,1,1,confirmed,True
+snow_diversity_n10,snow,R007,Эльбрус,Кабардино-Балкарская Республика,73.90590956825227,2,2,confirmed,True
+snow_diversity_n10,snow,R018,Морозная гора,Камчатский край,69.54053652566925,5,3,confirmed,True
+snow_diversity_n10,snow,R013,Большой Вудъявр,Мурманская область,66.26173214857191,6,4,confirmed,True
+snow_diversity_n10,snow,R004,Шерегеш,Кемеровская область,65.35081383890063,7,5,confirmed,True
+snow_diversity_n10,snow,R003,Газпром Поляна,Краснодарский край,63.19910950507321,10,6,confirmed,True
+snow_diversity_n10,snow,R028,Губаха,Пермский край,60.97801848855199,11,7,confirmed,True
+snow_diversity_n10,snow,R016,Горный воздух,Сахалинская область,57.84742705830298,12,8,confirmed,True
+snow_diversity_n10,snow,R009,Мамисон,Республика Северная Осетия — Алания,52.90056232934517,15,9,confirmed,True
+snow_diversity_n10,snow,R023,Аджигардак,Челябинская область,51.64605746948991,16,10,confirmed,True
+snow_diversity_verified_n10,snow,R005,Архыз,Карачаево-Черкесская Республика,74.56983818594594,1,1,confirmed,True
+snow_diversity_verified_n10,snow,R007,Эльбрус,Кабардино-Балкарская Республика,73.90590956825227,2,2,confirmed,True
+snow_diversity_verified_n10,snow,R018,Морозная гора,Камчатский край,69.54053652566925,5,3,confirmed,True
+snow_diversity_verified_n10,snow,R013,Большой Вудъявр,Мурманская область,66.26173214857191,6,4,confirmed,True
+snow_diversity_verified_n10,snow,R004,Шерегеш,Кемеровская область,65.35081383890063,7,5,confirmed,True
+snow_diversity_verified_n10,snow,R003,Газпром Поляна,Краснодарский край,63.19910950507321,10,6,confirmed,True
+snow_diversity_verified_n10,snow,R028,Губаха,Пермский край,60.97801848855199,11,7,confirmed,True
+snow_diversity_verified_n10,snow,R016,Горный воздух,Сахалинская область,57.84742705830298,12,8,confirmed,True
+snow_diversity_verified_n10,snow,R009,Мамисон,Республика Северная Осетия — Алания,52.90056232934517,15,9,confirmed,True
+snow_diversity_verified_n10,snow,R023,Аджигардак,Челябинская область,51.64605746948991,16,10,confirmed,True
+snow_top_n12,snow,R005,Архыз,Карачаево-Черкесская Республика,74.56983818594594,1,1,confirmed,True
+snow_top_n12,snow,R007,Эльбрус,Кабардино-Балкарская Республика,73.90590956825227,2,2,confirmed,True
+snow_top_n12,snow,R008,Чегет,Кабардино-Балкарская Республика,73.6848092468755,3,3,confirmed,True
+snow_top_n12,snow,R006,Домбай,Карачаево-Черкесская Республика,69.96827120877342,4,4,confirmed,True
+snow_top_n12,snow,R018,Морозная гора,Камчатский край,69.54053652566925,5,5,confirmed,True
+snow_top_n12,snow,R013,Большой Вудъявр,Мурманская область,66.26173214857191,6,6,confirmed,True
+snow_top_n12,snow,R004,Шерегеш,Кемеровская область,65.35081383890063,7,7,confirmed,True
+snow_top_n12,snow,R015,КолаСпортЛэнд,Мурманская область,65.1798453756904,8,8,confirmed,True
+snow_top_n12,snow,R014,Кукисвумчорр,Мурманская область,63.82083297511026,9,9,confirmed,True
+snow_top_n12,snow,R003,Газпром Поляна,Краснодарский край,63.19910950507321,10,10,confirmed,True
+snow_top_n12,snow,R028,Губаха,Пермский край,60.97801848855199,11,11,confirmed,True
+snow_top_n12,snow,R016,Горный воздух,Сахалинская область,57.84742705830298,12,12,confirmed,True
+snow_diversity_n12,snow,R005,Архыз,Карачаево-Черкесская Республика,74.56983818594594,1,1,confirmed,True
+snow_diversity_n12,snow,R007,Эльбрус,Кабардино-Балкарская Республика,73.90590956825227,2,2,confirmed,True
+snow_diversity_n12,snow,R018,Морозная гора,Камчатский край,69.54053652566925,5,3,confirmed,True
+snow_diversity_n12,snow,R013,Большой Вудъявр,Мурманская область,66.26173214857191,6,4,confirmed,True
+snow_diversity_n12,snow,R004,Шерегеш,Кемеровская область,65.35081383890063,7,5,confirmed,True
+snow_diversity_n12,snow,R003,Газпром Поляна,Краснодарский край,63.19910950507321,10,6,confirmed,True
+snow_diversity_n12,snow,R028,Губаха,Пермский край,60.97801848855199,11,7,confirmed,True
+snow_diversity_n12,snow,R016,Горный воздух,Сахалинская область,57.84742705830298,12,8,confirmed,True
+snow_diversity_n12,snow,R009,Мамисон,Республика Северная Осетия — Алания,52.90056232934517,15,9,confirmed,True
+snow_diversity_n12,snow,R023,Аджигардак,Челябинская область,51.64605746948991,16,10,confirmed,True
+snow_diversity_n12,snow,R019,Бобровый лог,Красноярский край,46.63757193716223,17,11,confirmed,True
+snow_diversity_n12,snow,R030,Сорочаны,Московская область,44.17404276722872,19,12,confirmed,False
+snow_diversity_verified_n12,snow,R005,Архыз,Карачаево-Черкесская Республика,74.56983818594594,1,1,confirmed,True
+snow_diversity_verified_n12,snow,R007,Эльбрус,Кабардино-Балкарская Республика,73.90590956825227,2,2,confirmed,True
+snow_diversity_verified_n12,snow,R018,Морозная гора,Камчатский край,69.54053652566925,5,3,confirmed,True
+snow_diversity_verified_n12,snow,R013,Большой Вудъявр,Мурманская область,66.26173214857191,6,4,confirmed,True
+snow_diversity_verified_n12,snow,R004,Шерегеш,Кемеровская область,65.35081383890063,7,5,confirmed,True
+snow_diversity_verified_n12,snow,R003,Газпром Поляна,Краснодарский край,63.19910950507321,10,6,confirmed,True
+snow_diversity_verified_n12,snow,R028,Губаха,Пермский край,60.97801848855199,11,7,confirmed,True
+snow_diversity_verified_n12,snow,R016,Горный воздух,Сахалинская область,57.84742705830298,12,8,confirmed,True
+snow_diversity_verified_n12,snow,R009,Мамисон,Республика Северная Осетия — Алания,52.90056232934517,15,9,confirmed,True
+snow_diversity_verified_n12,snow,R023,Аджигардак,Челябинская область,51.64605746948991,16,10,confirmed,True
+snow_diversity_verified_n12,snow,R019,Бобровый лог,Красноярский край,46.63757193716223,17,11,confirmed,True
+snow_diversity_verified_n12,snow,R030,Сорочаны,Московская область,44.17404276722872,19,12,confirmed,False
+access_top_n5,access,R016,Горный воздух,Сахалинская область,75.18956948198671,1,1,confirmed,True
+access_top_n5,access,R018,Морозная гора,Камчатский край,67.81297142394001,2,2,confirmed,True
+access_top_n5,access,R003,Газпром Поляна,Краснодарский край,66.50196659157287,3,3,confirmed,True
+access_top_n5,access,R002,Красная Поляна,Краснодарский край,66.19787008383341,4,4,confirmed,True
+access_top_n5,access,R001,Роза Хутор,Краснодарский край,63.85911511515052,5,5,confirmed,True
+access_diversity_n5,access,R016,Горный воздух,Сахалинская область,75.18956948198671,1,1,confirmed,True
+access_diversity_n5,access,R018,Морозная гора,Камчатский край,67.81297142394001,2,2,confirmed,True
+access_diversity_n5,access,R003,Газпром Поляна,Краснодарский край,66.50196659157287,3,3,confirmed,True
+access_diversity_n5,access,R031,Красная Глинка,Самарская область,62.12746687469333,6,4,confirmed,True
+access_diversity_n5,access,R019,Бобровый лог,Красноярский край,59.82651006905688,7,5,confirmed,True
+access_diversity_verified_n5,access,R016,Горный воздух,Сахалинская область,75.18956948198671,1,1,confirmed,True
+access_diversity_verified_n5,access,R018,Морозная гора,Камчатский край,67.81297142394001,2,2,confirmed,True
+access_diversity_verified_n5,access,R003,Газпром Поляна,Краснодарский край,66.50196659157287,3,3,confirmed,True
+access_diversity_verified_n5,access,R031,Красная Глинка,Самарская область,62.12746687469333,6,4,confirmed,True
+access_diversity_verified_n5,access,R019,Бобровый лог,Красноярский край,59.82651006905688,7,5,confirmed,True
+access_top_n8,access,R016,Горный воздух,Сахалинская область,75.18956948198671,1,1,confirmed,True
+access_top_n8,access,R018,Морозная гора,Камчатский край,67.81297142394001,2,2,confirmed,True
+access_top_n8,access,R003,Газпром Поляна,Краснодарский край,66.50196659157287,3,3,confirmed,True
+access_top_n8,access,R002,Красная Поляна,Краснодарский край,66.19787008383341,4,4,confirmed,True
+access_top_n8,access,R001,Роза Хутор,Краснодарский край,63.85911511515052,5,5,confirmed,True
+access_top_n8,access,R031,Красная Глинка,Самарская область,62.12746687469333,6,6,confirmed,True
+access_top_n8,access,R019,Бобровый лог,Красноярский край,59.82651006905688,7,7,confirmed,True
+access_top_n8,access,R030,Сорочаны,Московская область,58.0418176422919,8,8,confirmed,False
+access_diversity_n8,access,R016,Горный воздух,Сахалинская область,75.18956948198671,1,1,confirmed,True
+access_diversity_n8,access,R018,Морозная гора,Камчатский край,67.81297142394001,2,2,confirmed,True
+access_diversity_n8,access,R003,Газпром Поляна,Краснодарский край,66.50196659157287,3,3,confirmed,True
+access_diversity_n8,access,R031,Красная Глинка,Самарская область,62.12746687469333,6,4,confirmed,True
+access_diversity_n8,access,R019,Бобровый лог,Красноярский край,59.82651006905688,7,5,confirmed,True
+access_diversity_n8,access,R030,Сорочаны,Московская область,58.0418176422919,8,6,confirmed,False
+access_diversity_n8,access,R005,Архыз,Карачаево-Черкесская Республика,54.08134640374064,9,7,confirmed,True
+access_diversity_n8,access,R008,Чегет,Кабардино-Балкарская Республика,53.05921792723929,10,8,confirmed,True
+access_diversity_verified_n8,access,R016,Горный воздух,Сахалинская область,75.18956948198671,1,1,confirmed,True
+access_diversity_verified_n8,access,R018,Морозная гора,Камчатский край,67.81297142394001,2,2,confirmed,True
+access_diversity_verified_n8,access,R003,Газпром Поляна,Краснодарский край,66.50196659157287,3,3,confirmed,True
+access_diversity_verified_n8,access,R031,Красная Глинка,Самарская область,62.12746687469333,6,4,confirmed,True
+access_diversity_verified_n8,access,R019,Бобровый лог,Красноярский край,59.82651006905688,7,5,confirmed,True
+access_diversity_verified_n8,access,R030,Сорочаны,Московская область,58.0418176422919,8,6,confirmed,False
+access_diversity_verified_n8,access,R005,Архыз,Карачаево-Черкесская Республика,54.08134640374064,9,7,confirmed,True
+access_diversity_verified_n8,access,R008,Чегет,Кабардино-Балкарская Республика,53.05921792723929,10,8,confirmed,True
+access_top_n10,access,R016,Горный воздух,Сахалинская область,75.18956948198671,1,1,confirmed,True
+access_top_n10,access,R018,Морозная гора,Камчатский край,67.81297142394001,2,2,confirmed,True
+access_top_n10,access,R003,Газпром Поляна,Краснодарский край,66.50196659157287,3,3,confirmed,True
+access_top_n10,access,R002,Красная Поляна,Краснодарский край,66.19787008383341,4,4,confirmed,True
+access_top_n10,access,R001,Роза Хутор,Краснодарский край,63.85911511515052,5,5,confirmed,True
+access_top_n10,access,R031,Красная Глинка,Самарская область,62.12746687469333,6,6,confirmed,True
+access_top_n10,access,R019,Бобровый лог,Красноярский край,59.82651006905688,7,7,confirmed,True
+access_top_n10,access,R030,Сорочаны,Московская область,58.0418176422919,8,8,confirmed,False
+access_top_n10,access,R005,Архыз,Карачаево-Черкесская Республика,54.08134640374064,9,9,confirmed,True
+access_top_n10,access,R008,Чегет,Кабардино-Балкарская Республика,53.05921792723929,10,10,confirmed,True
+access_diversity_n10,access,R016,Горный воздух,Сахалинская область,75.18956948198671,1,1,confirmed,True
+access_diversity_n10,access,R018,Морозная гора,Камчатский край,67.81297142394001,2,2,confirmed,True
+access_diversity_n10,access,R003,Газпром Поляна,Краснодарский край,66.50196659157287,3,3,confirmed,True
+access_diversity_n10,access,R031,Красная Глинка,Самарская область,62.12746687469333,6,4,confirmed,True
+access_diversity_n10,access,R019,Бобровый лог,Красноярский край,59.82651006905688,7,5,confirmed,True
+access_diversity_n10,access,R030,Сорочаны,Московская область,58.0418176422919,8,6,confirmed,False
+access_diversity_n10,access,R005,Архыз,Карачаево-Черкесская Республика,54.08134640374064,9,7,confirmed,True
+access_diversity_n10,access,R008,Чегет,Кабардино-Балкарская Республика,53.05921792723929,10,8,confirmed,True
+access_diversity_n10,access,R004,Шерегеш,Кемеровская область,51.751158845814544,12,9,confirmed,True
+access_diversity_n10,access,R015,КолаСпортЛэнд,Мурманская область,48.75479865826824,13,10,confirmed,True
+access_diversity_verified_n10,access,R016,Горный воздух,Сахалинская область,75.18956948198671,1,1,confirmed,True
+access_diversity_verified_n10,access,R018,Морозная гора,Камчатский край,67.81297142394001,2,2,confirmed,True
+access_diversity_verified_n10,access,R003,Газпром Поляна,Краснодарский край,66.50196659157287,3,3,confirmed,True
+access_diversity_verified_n10,access,R031,Красная Глинка,Самарская область,62.12746687469333,6,4,confirmed,True
+access_diversity_verified_n10,access,R019,Бобровый лог,Красноярский край,59.82651006905688,7,5,confirmed,True
+access_diversity_verified_n10,access,R030,Сорочаны,Московская область,58.0418176422919,8,6,confirmed,False
+access_diversity_verified_n10,access,R005,Архыз,Карачаево-Черкесская Республика,54.08134640374064,9,7,confirmed,True
+access_diversity_verified_n10,access,R008,Чегет,Кабардино-Балкарская Республика,53.05921792723929,10,8,confirmed,True
+access_diversity_verified_n10,access,R004,Шерегеш,Кемеровская область,51.751158845814544,12,9,confirmed,True
+access_diversity_verified_n10,access,R015,КолаСпортЛэнд,Мурманская область,48.75479865826824,13,10,confirmed,True
+access_top_n12,access,R016,Горный воздух,Сахалинская область,75.18956948198671,1,1,confirmed,True
+access_top_n12,access,R018,Морозная гора,Камчатский край,67.81297142394001,2,2,confirmed,True
+access_top_n12,access,R003,Газпром Поляна,Краснодарский край,66.50196659157287,3,3,confirmed,True
+access_top_n12,access,R002,Красная Поляна,Краснодарский край,66.19787008383341,4,4,confirmed,True
+access_top_n12,access,R001,Роза Хутор,Краснодарский край,63.85911511515052,5,5,confirmed,True
+access_top_n12,access,R031,Красная Глинка,Самарская область,62.12746687469333,6,6,confirmed,True
+access_top_n12,access,R019,Бобровый лог,Красноярский край,59.82651006905688,7,7,confirmed,True
+access_top_n12,access,R030,Сорочаны,Московская область,58.0418176422919,8,8,confirmed,False
+access_top_n12,access,R005,Архыз,Карачаево-Черкесская Республика,54.08134640374064,9,9,confirmed,True
+access_top_n12,access,R008,Чегет,Кабардино-Балкарская Республика,53.05921792723929,10,10,confirmed,True
+access_top_n12,access,R007,Эльбрус,Кабардино-Балкарская Республика,52.58391897770845,11,11,confirmed,True
+access_top_n12,access,R004,Шерегеш,Кемеровская область,51.751158845814544,12,12,confirmed,True
+access_diversity_n12,access,R016,Горный воздух,Сахалинская область,75.18956948198671,1,1,confirmed,True
+access_diversity_n12,access,R018,Морозная гора,Камчатский край,67.81297142394001,2,2,confirmed,True
+access_diversity_n12,access,R003,Газпром Поляна,Краснодарский край,66.50196659157287,3,3,confirmed,True
+access_diversity_n12,access,R031,Красная Глинка,Самарская область,62.12746687469333,6,4,confirmed,True
+access_diversity_n12,access,R019,Бобровый лог,Красноярский край,59.82651006905688,7,5,confirmed,True
+access_diversity_n12,access,R030,Сорочаны,Московская область,58.0418176422919,8,6,confirmed,False
+access_diversity_n12,access,R005,Архыз,Карачаево-Черкесская Республика,54.08134640374064,9,7,confirmed,True
+access_diversity_n12,access,R008,Чегет,Кабардино-Балкарская Республика,53.05921792723929,10,8,confirmed,True
+access_diversity_n12,access,R004,Шерегеш,Кемеровская область,51.751158845814544,12,9,confirmed,True
+access_diversity_n12,access,R015,КолаСпортЛэнд,Мурманская область,48.75479865826824,13,10,confirmed,True
+access_diversity_n12,access,R029,Игора,Ленинградская область,45.42545430430894,16,11,confirmed,False
+access_diversity_n12,access,R026,Абзаково,Республика Башкортостан,44.37329734043534,17,12,confirmed,True
+access_diversity_verified_n12,access,R016,Горный воздух,Сахалинская область,75.18956948198671,1,1,confirmed,True
+access_diversity_verified_n12,access,R018,Морозная гора,Камчатский край,67.81297142394001,2,2,confirmed,True
+access_diversity_verified_n12,access,R003,Газпром Поляна,Краснодарский край,66.50196659157287,3,3,confirmed,True
+access_diversity_verified_n12,access,R031,Красная Глинка,Самарская область,62.12746687469333,6,4,confirmed,True
+access_diversity_verified_n12,access,R019,Бобровый лог,Красноярский край,59.82651006905688,7,5,confirmed,True
+access_diversity_verified_n12,access,R030,Сорочаны,Московская область,58.0418176422919,8,6,confirmed,False
+access_diversity_verified_n12,access,R005,Архыз,Карачаево-Черкесская Республика,54.08134640374064,9,7,confirmed,True
+access_diversity_verified_n12,access,R008,Чегет,Кабардино-Балкарская Республика,53.05921792723929,10,8,confirmed,True
+access_diversity_verified_n12,access,R004,Шерегеш,Кемеровская область,51.751158845814544,12,9,confirmed,True
+access_diversity_verified_n12,access,R015,КолаСпортЛэнд,Мурманская область,48.75479865826824,13,10,confirmed,True
+access_diversity_verified_n12,access,R029,Игора,Ленинградская область,45.42545430430894,16,11,confirmed,False
+access_diversity_verified_n12,access,R026,Абзаково,Республика Башкортостан,44.37329734043534,17,12,confirmed,True
+price_top_n5,price,R015,КолаСпортЛэнд,Мурманская область,72.16030458379119,1,1,confirmed,True
+price_top_n5,price,R031,Красная Глинка,Самарская область,62.675487154369016,2,2,confirmed,True
+price_top_n5,price,R022,Евразия,Челябинская область,62.40485493588239,3,3,confirmed,True
+price_top_n5,price,R018,Морозная гора,Камчатский край,61.86143487850118,4,4,confirmed,True
+price_top_n5,price,R016,Горный воздух,Сахалинская область,56.813013706912095,5,5,confirmed,True
+price_diversity_n5,price,R015,КолаСпортЛэнд,Мурманская область,72.16030458379119,1,1,confirmed,True
+price_diversity_n5,price,R031,Красная Глинка,Самарская область,62.675487154369016,2,2,confirmed,True
+price_diversity_n5,price,R022,Евразия,Челябинская область,62.40485493588239,3,3,confirmed,True
+price_diversity_n5,price,R018,Морозная гора,Камчатский край,61.86143487850118,4,4,confirmed,True
+price_diversity_n5,price,R016,Горный воздух,Сахалинская область,56.813013706912095,5,5,confirmed,True
+price_diversity_verified_n5,price,R015,КолаСпортЛэнд,Мурманская область,72.16030458379119,1,1,confirmed,True
+price_diversity_verified_n5,price,R031,Красная Глинка,Самарская область,62.675487154369016,2,2,confirmed,True
+price_diversity_verified_n5,price,R022,Евразия,Челябинская область,62.40485493588239,3,3,confirmed,True
+price_diversity_verified_n5,price,R018,Морозная гора,Камчатский край,61.86143487850118,4,4,confirmed,True
+price_diversity_verified_n5,price,R016,Горный воздух,Сахалинская область,56.813013706912095,5,5,confirmed,True
+price_top_n8,price,R015,КолаСпортЛэнд,Мурманская область,72.16030458379119,1,1,confirmed,True
+price_top_n8,price,R031,Красная Глинка,Самарская область,62.675487154369016,2,2,confirmed,True
+price_top_n8,price,R022,Евразия,Челябинская область,62.40485493588239,3,3,confirmed,True
+price_top_n8,price,R018,Морозная гора,Камчатский край,61.86143487850118,4,4,confirmed,True
+price_top_n8,price,R016,Горный воздух,Сахалинская область,56.813013706912095,5,5,confirmed,True
+price_top_n8,price,R008,Чегет,Кабардино-Балкарская Республика,56.603242481571165,6,6,confirmed,True
+price_top_n8,price,R005,Архыз,Карачаево-Черкесская Республика,54.933753891641665,7,7,confirmed,True
+price_top_n8,price,R014,Кукисвумчорр,Мурманская область,54.42581747180609,8,8,confirmed,True
+price_diversity_n8,price,R015,КолаСпортЛэнд,Мурманская область,72.16030458379119,1,1,confirmed,True
+price_diversity_n8,price,R031,Красная Глинка,Самарская область,62.675487154369016,2,2,confirmed,True
+price_diversity_n8,price,R022,Евразия,Челябинская область,62.40485493588239,3,3,confirmed,True
+price_diversity_n8,price,R018,Морозная гора,Камчатский край,61.86143487850118,4,4,confirmed,True
+price_diversity_n8,price,R016,Горный воздух,Сахалинская область,56.813013706912095,5,5,confirmed,True
+price_diversity_n8,price,R008,Чегет,Кабардино-Балкарская Республика,56.603242481571165,6,6,confirmed,True
+price_diversity_n8,price,R005,Архыз,Карачаево-Черкесская Республика,54.933753891641665,7,7,confirmed,True
+price_diversity_n8,price,R030,Сорочаны,Московская область,53.2033222994568,9,8,confirmed,False
+price_diversity_verified_n8,price,R015,КолаСпортЛэнд,Мурманская область,72.16030458379119,1,1,confirmed,True
+price_diversity_verified_n8,price,R031,Красная Глинка,Самарская область,62.675487154369016,2,2,confirmed,True
+price_diversity_verified_n8,price,R022,Евразия,Челябинская область,62.40485493588239,3,3,confirmed,True
+price_diversity_verified_n8,price,R018,Морозная гора,Камчатский край,61.86143487850118,4,4,confirmed,True
+price_diversity_verified_n8,price,R016,Горный воздух,Сахалинская область,56.813013706912095,5,5,confirmed,True
+price_diversity_verified_n8,price,R008,Чегет,Кабардино-Балкарская Республика,56.603242481571165,6,6,confirmed,True
+price_diversity_verified_n8,price,R005,Архыз,Карачаево-Черкесская Республика,54.933753891641665,7,7,confirmed,True
+price_diversity_verified_n8,price,R030,Сорочаны,Московская область,53.2033222994568,9,8,confirmed,False
+price_top_n10,price,R015,КолаСпортЛэнд,Мурманская область,72.16030458379119,1,1,confirmed,True
+price_top_n10,price,R031,Красная Глинка,Самарская область,62.675487154369016,2,2,confirmed,True
+price_top_n10,price,R022,Евразия,Челябинская область,62.40485493588239,3,3,confirmed,True
+price_top_n10,price,R018,Морозная гора,Камчатский край,61.86143487850118,4,4,confirmed,True
+price_top_n10,price,R016,Горный воздух,Сахалинская область,56.813013706912095,5,5,confirmed,True
+price_top_n10,price,R008,Чегет,Кабардино-Балкарская Республика,56.603242481571165,6,6,confirmed,True
+price_top_n10,price,R005,Архыз,Карачаево-Черкесская Республика,54.933753891641665,7,7,confirmed,True
+price_top_n10,price,R014,Кукисвумчорр,Мурманская область,54.42581747180609,8,8,confirmed,True
+price_top_n10,price,R030,Сорочаны,Московская область,53.2033222994568,9,9,confirmed,False
+price_top_n10,price,R019,Бобровый лог,Красноярский край,52.53060832322499,10,10,confirmed,True
+price_diversity_n10,price,R015,КолаСпортЛэнд,Мурманская область,72.16030458379119,1,1,confirmed,True
+price_diversity_n10,price,R031,Красная Глинка,Самарская область,62.675487154369016,2,2,confirmed,True
+price_diversity_n10,price,R022,Евразия,Челябинская область,62.40485493588239,3,3,confirmed,True
+price_diversity_n10,price,R018,Морозная гора,Камчатский край,61.86143487850118,4,4,confirmed,True
+price_diversity_n10,price,R016,Горный воздух,Сахалинская область,56.813013706912095,5,5,confirmed,True
+price_diversity_n10,price,R008,Чегет,Кабардино-Балкарская Республика,56.603242481571165,6,6,confirmed,True
+price_diversity_n10,price,R005,Архыз,Карачаево-Черкесская Республика,54.933753891641665,7,7,confirmed,True
+price_diversity_n10,price,R030,Сорочаны,Московская область,53.2033222994568,9,8,confirmed,False
+price_diversity_n10,price,R019,Бобровый лог,Красноярский край,52.53060832322499,10,9,confirmed,True
+price_diversity_n10,price,R003,Газпром Поляна,Краснодарский край,51.48222989293008,12,10,confirmed,True
+price_diversity_verified_n10,price,R015,КолаСпортЛэнд,Мурманская область,72.16030458379119,1,1,confirmed,True
+price_diversity_verified_n10,price,R031,Красная Глинка,Самарская область,62.675487154369016,2,2,confirmed,True
+price_diversity_verified_n10,price,R022,Евразия,Челябинская область,62.40485493588239,3,3,confirmed,True
+price_diversity_verified_n10,price,R018,Морозная гора,Камчатский край,61.86143487850118,4,4,confirmed,True
+price_diversity_verified_n10,price,R016,Горный воздух,Сахалинская область,56.813013706912095,5,5,confirmed,True
+price_diversity_verified_n10,price,R008,Чегет,Кабардино-Балкарская Республика,56.603242481571165,6,6,confirmed,True
+price_diversity_verified_n10,price,R005,Архыз,Карачаево-Черкесская Республика,54.933753891641665,7,7,confirmed,True
+price_diversity_verified_n10,price,R030,Сорочаны,Московская область,53.2033222994568,9,8,confirmed,False
+price_diversity_verified_n10,price,R019,Бобровый лог,Красноярский край,52.53060832322499,10,9,confirmed,True
+price_diversity_verified_n10,price,R003,Газпром Поляна,Краснодарский край,51.48222989293008,12,10,confirmed,True
+price_top_n12,price,R015,КолаСпортЛэнд,Мурманская область,72.16030458379119,1,1,confirmed,True
+price_top_n12,price,R031,Красная Глинка,Самарская область,62.675487154369016,2,2,confirmed,True
+price_top_n12,price,R022,Евразия,Челябинская область,62.40485493588239,3,3,confirmed,True
+price_top_n12,price,R018,Морозная гора,Камчатский край,61.86143487850118,4,4,confirmed,True
+price_top_n12,price,R016,Горный воздух,Сахалинская область,56.813013706912095,5,5,confirmed,True
+price_top_n12,price,R008,Чегет,Кабардино-Балкарская Республика,56.603242481571165,6,6,confirmed,True
+price_top_n12,price,R005,Архыз,Карачаево-Черкесская Республика,54.933753891641665,7,7,confirmed,True
+price_top_n12,price,R014,Кукисвумчорр,Мурманская область,54.42581747180609,8,8,confirmed,True
+price_top_n12,price,R030,Сорочаны,Московская область,53.2033222994568,9,9,confirmed,False
+price_top_n12,price,R019,Бобровый лог,Красноярский край,52.53060832322499,10,10,confirmed,True
+price_top_n12,price,R013,Большой Вудъявр,Мурманская область,51.551856977749516,11,11,confirmed,True
+price_top_n12,price,R003,Газпром Поляна,Краснодарский край,51.48222989293008,12,12,confirmed,True
+price_diversity_n12,price,R015,КолаСпортЛэнд,Мурманская область,72.16030458379119,1,1,confirmed,True
+price_diversity_n12,price,R031,Красная Глинка,Самарская область,62.675487154369016,2,2,confirmed,True
+price_diversity_n12,price,R022,Евразия,Челябинская область,62.40485493588239,3,3,confirmed,True
+price_diversity_n12,price,R018,Морозная гора,Камчатский край,61.86143487850118,4,4,confirmed,True
+price_diversity_n12,price,R016,Горный воздух,Сахалинская область,56.813013706912095,5,5,confirmed,True
+price_diversity_n12,price,R008,Чегет,Кабардино-Балкарская Республика,56.603242481571165,6,6,confirmed,True
+price_diversity_n12,price,R005,Архыз,Карачаево-Черкесская Республика,54.933753891641665,7,7,confirmed,True
+price_diversity_n12,price,R030,Сорочаны,Московская область,53.2033222994568,9,8,confirmed,False
+price_diversity_n12,price,R019,Бобровый лог,Красноярский край,52.53060832322499,10,9,confirmed,True
+price_diversity_n12,price,R003,Газпром Поляна,Краснодарский край,51.48222989293008,12,10,confirmed,True
+price_diversity_n12,price,R028,Губаха,Пермский край,50.29336041369149,15,11,confirmed,True
+price_diversity_n12,price,R010,Цей,Республика Северная Осетия — Алания,50.02551376399372,16,12,confirmed,True
+price_diversity_verified_n12,price,R015,КолаСпортЛэнд,Мурманская область,72.16030458379119,1,1,confirmed,True
+price_diversity_verified_n12,price,R031,Красная Глинка,Самарская область,62.675487154369016,2,2,confirmed,True
+price_diversity_verified_n12,price,R022,Евразия,Челябинская область,62.40485493588239,3,3,confirmed,True
+price_diversity_verified_n12,price,R018,Морозная гора,Камчатский край,61.86143487850118,4,4,confirmed,True
+price_diversity_verified_n12,price,R016,Горный воздух,Сахалинская область,56.813013706912095,5,5,confirmed,True
+price_diversity_verified_n12,price,R008,Чегет,Кабардино-Балкарская Республика,56.603242481571165,6,6,confirmed,True
+price_diversity_verified_n12,price,R005,Архыз,Карачаево-Черкесская Республика,54.933753891641665,7,7,confirmed,True
+price_diversity_verified_n12,price,R030,Сорочаны,Московская область,53.2033222994568,9,8,confirmed,False
+price_diversity_verified_n12,price,R019,Бобровый лог,Красноярский край,52.53060832322499,10,9,confirmed,True
+price_diversity_verified_n12,price,R003,Газпром Поляна,Краснодарский край,51.48222989293008,12,10,confirmed,True
+price_diversity_verified_n12,price,R028,Губаха,Пермский край,50.29336041369149,15,11,confirmed,True
+price_diversity_verified_n12,price,R010,Цей,Республика Северная Осетия — Алания,50.02551376399372,16,12,confirmed,True

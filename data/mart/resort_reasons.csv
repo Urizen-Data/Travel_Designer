@@ -1,0 +1,72 @@
+﻿resort_id,name_ru,reason_type,reason_code,reason_text
+R003,Газпром Поляна,strength,strong_regional,Высокий региональный турпоток
+R003,Газпром Поляна,strength,strong_infrastructure,Развитая инфраструктура (по OSM в радиусе 6 км)
+R003,Газпром Поляна,strength,strong_accessibility,Удобная доступность (близкий аэропорт)
+R003,Газпром Поляна,caveat,quality_flags,Флаги качества: OSM radii overlap
+R003,Газпром Поляна,tradeoff,tradeoff,"Компромисс: сильная сторона — Региональный спрос, слабая — Цена"
+R002,Красная Поляна,strength,strong_regional,Высокий региональный турпоток
+R002,Красная Поляна,strength,strong_infrastructure,Развитая инфраструктура (по OSM в радиусе 6 км)
+R002,Красная Поляна,strength,strong_accessibility,Удобная доступность (близкий аэропорт)
+R002,Красная Поляна,caveat,quality_flags,Флаги качества: OSM radii overlap
+R002,Красная Поляна,tradeoff,tradeoff,"Компромисс: сильная сторона — Региональный спрос, слабая — Цена"
+R001,Роза Хутор,strength,strong_regional,Высокий региональный турпоток
+R001,Роза Хутор,strength,strong_infrastructure,Развитая инфраструктура (по OSM в радиусе 6 км)
+R001,Роза Хутор,strength,strong_accessibility,Удобная доступность (близкий аэропорт)
+R001,Роза Хутор,caveat,quality_flags,Флаги качества: OSM radii overlap
+R001,Роза Хутор,tradeoff,tradeoff,"Компромисс: сильная сторона — Региональный спрос, слабая — Цена"
+R030,Сорочаны,strength,strong_regional,Высокий региональный турпоток
+R030,Сорочаны,strength,strong_accessibility,Удобная доступность (близкий аэропорт)
+R030,Сорочаны,caveat,no_price,Цена ски-пасса не собрана
+R030,Сорочаны,tradeoff,tradeoff,"Компромисс: сильная сторона — Региональный спрос, слабая — Зимние условия"
+R005,Архыз,strength,strong_regional,Высокий региональный турпоток
+R005,Архыз,strength,strong_infrastructure,Развитая инфраструктура (по OSM в радиусе 6 км)
+R005,Архыз,strength,strong_winter,Надёжные зимние условия по климатическим данным
+R006,Домбай,strength,strong_regional,Высокий региональный турпоток
+R006,Домбай,strength,strong_winter,Надёжные зимние условия по климатическим данным
+R006,Домбай,tradeoff,tradeoff,"Компромисс: сильная сторона — Региональный спрос, слабая — Доступность"
+R004,Шерегеш,strength,strong_infrastructure,Развитая инфраструктура (по OSM в радиусе 6 км)
+R004,Шерегеш,tradeoff,tradeoff,"Компромисс: сильная сторона — Инфраструктура, слабая — Цена"
+R029,Игора,strength,strong_regional,Высокий региональный турпоток
+R029,Игора,caveat,no_price,Цена ски-пасса не собрана
+R029,Игора,tradeoff,tradeoff,"Компромисс: сильная сторона — Региональный спрос, слабая — Зимние условия"
+R016,Горный воздух,strength,strong_accessibility,Удобная доступность (близкий аэропорт)
+R018,Морозная гора,strength,strong_winter,Надёжные зимние условия по климатическим данным
+R018,Морозная гора,strength,strong_accessibility,Удобная доступность (близкий аэропорт)
+R018,Морозная гора,strength,strong_price,Доступная цена ски-пасса среди наблюдаемых
+R018,Морозная гора,tradeoff,tradeoff,"Компромисс: сильная сторона — Зимние условия, слабая — Инфраструктура"
+R019,Бобровый лог,strength,strong_accessibility,Удобная доступность (близкий аэропорт)
+R008,Чегет,strength,strong_infrastructure,Развитая инфраструктура (по OSM в радиусе 6 км)
+R008,Чегет,strength,strong_winter,Надёжные зимние условия по климатическим данным
+R008,Чегет,caveat,quality_flags,Флаги качества: OSM radii overlap
+R008,Чегет,tradeoff,tradeoff,"Компромисс: сильная сторона — Инфраструктура, слабая — Региональный спрос"
+R007,Эльбрус,strength,strong_infrastructure,Развитая инфраструктура (по OSM в радиусе 6 км)
+R007,Эльбрус,strength,strong_winter,Надёжные зимние условия по климатическим данным
+R007,Эльбрус,caveat,quality_flags,Флаги качества: OSM radii overlap
+R007,Эльбрус,tradeoff,tradeoff,"Компромисс: сильная сторона — Инфраструктура, слабая — Региональный спрос"
+R015,КолаСпортЛэнд,strength,strong_winter,Надёжные зимние условия по климатическим данным
+R015,КолаСпортЛэнд,strength,strong_price,Доступная цена ски-пасса среди наблюдаемых
+R015,КолаСпортЛэнд,caveat,quality_flags,Флаги качества: OSM radii overlap; missing_openskimap_data
+R015,КолаСпортЛэнд,tradeoff,tradeoff,"Компромисс: сильная сторона — Зимние условия, слабая — Региональный спрос"
+R022,Евразия,strength,strong_price,Доступная цена ски-пасса среди наблюдаемых
+R022,Евразия,tradeoff,tradeoff,"Компромисс: сильная сторона — Цена, слабая — Инфраструктура"
+R013,Большой Вудъявр,strength,strong_winter,Надёжные зимние условия по климатическим данным
+R013,Большой Вудъявр,caveat,quality_flags,Флаги качества: OSM radii overlap
+R013,Большой Вудъявр,tradeoff,tradeoff,"Компромисс: сильная сторона — Зимние условия, слабая — Региональный спрос"
+R031,Красная Глинка,strength,strong_accessibility,Удобная доступность (близкий аэропорт)
+R031,Красная Глинка,strength,strong_price,Доступная цена ски-пасса среди наблюдаемых
+R031,Красная Глинка,tradeoff,tradeoff,"Компромисс: сильная сторона — Доступность, слабая — Зимние условия"
+R027,Мраткино,strength,strong_price,Доступная цена ски-пасса среди наблюдаемых
+R021,Гора Белая,strength,strong_regional,Высокий региональный турпоток
+R021,Гора Белая,tradeoff,tradeoff,"Компромисс: сильная сторона — Региональный спрос, слабая — Инфраструктура"
+R014,Кукисвумчорр,strength,strong_winter,Надёжные зимние условия по климатическим данным
+R014,Кукисвумчорр,strength,strong_price,Доступная цена ски-пасса среди наблюдаемых
+R014,Кукисвумчорр,caveat,quality_flags,Флаги качества: OSM radii overlap
+R014,Кукисвумчорр,tradeoff,tradeoff,"Компромисс: сильная сторона — Зимние условия, слабая — Региональный спрос"
+R032,Гладенькая,strength,strong_price,Доступная цена ски-пасса среди наблюдаемых
+R032,Гладенькая,tradeoff,tradeoff,"Компромисс: сильная сторона — Цена, слабая — Инфраструктура"
+R011,Манжерок,strength,strong_infrastructure,Развитая инфраструктура (по OSM в радиусе 6 км)
+R011,Манжерок,tradeoff,tradeoff,"Компромисс: сильная сторона — Инфраструктура, слабая — Зимние условия"
+R012,Телецкий,caveat,quality_flags,Флаги качества: missing_openskimap_data
+R017,Холдоми,caveat,quality_flags,Флаги качества: missing_openskimap_data
+R010,Цей,strength,strong_price,Доступная цена ски-пасса среди наблюдаемых
+R010,Цей,tradeoff,tradeoff,"Компромисс: сильная сторона — Цена, слабая — Региональный спрос"

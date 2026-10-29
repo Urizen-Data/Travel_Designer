@@ -1,0 +1,14 @@
+﻿analysis_version,component,component_name_ru,component_weight,indicator,indicator_name_ru,indicator_weight
+v1,regional,Региональный спрос,40.0,region_trips,Поездки,25.0
+v1,regional,Региональный спрос,40.0,region_growth,Рост поездок,10.0
+v1,regional,Региональный спрос,40.0,avg_stay,Длительность,5.0
+v1,infrastructure,Инфраструктура,25.0,pistes,Трассы,10.0
+v1,infrastructure,Инфраструктура,25.0,lifts,Подъёмники,7.0
+v1,infrastructure,Инфраструктура,25.0,lodging,Размещение,5.0
+v1,infrastructure,Инфраструктура,25.0,amenities,Питание и досуг,3.0
+v1,winter,Зимние условия,20.0,snow_days,Снежные дни,8.0
+v1,winter,Зимние условия,20.0,freezing_days,Морозные дни,6.0
+v1,winter,Зимние условия,20.0,snowfall,Снегопад,6.0
+v1,accessibility,Доступность,10.0,airport,Аэропорт,8.0
+v1,accessibility,Доступность,10.0,transport,Транспорт,2.0
+v1,price,Цена,5.0,price,Цена,5.0

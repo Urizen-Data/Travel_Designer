@@ -1,0 +1,49 @@
+{
+  "analysis_version": "v1",
+  "components": ["regional", "infrastructure", "winter", "accessibility", "price"],
+  "component_names_ru": {
+    "regional": "Спрос",
+    "infrastructure": "Инфраструктура",
+    "winter": "Зима",
+    "accessibility": "Доступность",
+    "price": "Цена"
+  },
+  "presets": [
+    {
+      "preset_id": "base",
+      "name_ru": "Базовый каталог",
+      "description": "Исходная модель потенциала для приоритизации подключения курортов.",
+      "weights": {"regional": 40, "infrastructure": 25, "winter": 20, "accessibility": 10, "price": 5}
+    },
+    {
+      "preset_id": "balance",
+      "name_ru": "Баланс для катания",
+      "description": "Равный акцент на инфраструктуре и зимних условиях с учётом доступности.",
+      "weights": {"regional": 5, "infrastructure": 35, "winter": 35, "accessibility": 20, "price": 5}
+    },
+    {
+      "preset_id": "infra",
+      "name_ru": "Инфраструктура важнее",
+      "description": "Приоритет трасс, подъёмников, размещения и сервисов.",
+      "weights": {"regional": 5, "infrastructure": 60, "winter": 20, "accessibility": 10, "price": 5}
+    },
+    {
+      "preset_id": "snow",
+      "name_ru": "Снег важнее",
+      "description": "Приоритет исторических снежных и морозных показателей.",
+      "weights": {"regional": 5, "infrastructure": 20, "winter": 60, "accessibility": 10, "price": 5}
+    },
+    {
+      "preset_id": "access",
+      "name_ru": "Доступность важнее",
+      "description": "Приоритет транспортных прокси: аэропорт и объекты транспорта.",
+      "weights": {"regional": 5, "infrastructure": 25, "winter": 20, "accessibility": 45, "price": 5}
+    },
+    {
+      "preset_id": "price",
+      "name_ru": "Цена важнее",
+      "description": "Стоимость ски-пасса — главный критерий. Цены известны не для всех курортов.",
+      "weights": {"regional": 5, "infrastructure": 20, "winter": 20, "accessibility": 15, "price": 40}
+    }
+  ]
+}

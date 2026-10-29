@@ -1,0 +1,54 @@
+{
+  "analysis_version": "v1",
+  "component_weights": {
+    "regional": 40,
+    "infrastructure": 25,
+    "winter": 20,
+    "accessibility": 10,
+    "price": 5
+  },
+  "indicator_weights": {
+    "region_trips": 25,
+    "region_growth": 10,
+    "avg_stay": 5,
+    "pistes": 10,
+    "lifts": 7,
+    "lodging": 5,
+    "amenities": 3,
+    "snow_days": 8,
+    "freezing_days": 6,
+    "snowfall": 6,
+    "airport": 8,
+    "transport": 2,
+    "price": 5
+  },
+  "components": {
+    "regional": ["region_trips", "region_growth", "avg_stay"],
+    "infrastructure": ["pistes", "lifts", "lodging", "amenities"],
+    "winter": ["snow_days", "freezing_days", "snowfall"],
+    "accessibility": ["airport", "transport"],
+    "price": ["price"]
+  },
+  "component_names_ru": {
+    "regional": "Региональный спрос",
+    "infrastructure": "Инфраструктура",
+    "winter": "Зимние условия",
+    "accessibility": "Доступность",
+    "price": "Цена"
+  },
+  "indicator_names_ru": {
+    "region_trips": "Поездки",
+    "region_growth": "Рост поездок",
+    "avg_stay": "Длительность",
+    "pistes": "Трассы",
+    "lifts": "Подъёмники",
+    "lodging": "Размещение",
+    "amenities": "Питание и досуг",
+    "snow_days": "Снежные дни",
+    "freezing_days": "Морозные дни",
+    "snowfall": "Снегопад",
+    "airport": "Аэропорт",
+    "transport": "Транспорт",
+    "price": "Цена"
+  }
+}

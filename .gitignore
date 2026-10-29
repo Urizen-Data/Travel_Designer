@@ -1,0 +1,29 @@
+# Кэш Python и Jupyter (генерируется автоматически)
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.pytest_cache/
+*.log
+
+# Виртуальное окружение
+.venv/
+venv/
+
+# Секреты (пароли, ключи) — не коммитить
+.env
+
+# Внутренний контекст агента (публичная документация — README.md)
+readme_context.md
+
+# Генерируемые данные (пересобираются пайплайном)
+data/collected/
+data/prepared/
+data/cache/
+
+# Бэкапы seed и остатки старой архитектуры (не входные данные пайплайна)
+data/raw/resort_seed.backup*.csv
+data/raw/resort_open_data.json
+data/raw/climate_monthly.json
+
+# Исходное ТЗ и справочные материалы заказчика (не часть пайплайна)
+ТЗ/
