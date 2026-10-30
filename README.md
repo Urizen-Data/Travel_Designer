@@ -201,91 +201,134 @@ Default: Базовый каталог / Топ по индексу / Все →
 ### Диаграмма потока данных (Data Flow)
 
 ```mermaid
-flowchart TD
-    subgraph SRC["ВНЕШНИЕ ИСТОЧНИКИ (открытые API и сайты)"]
-        direction LR
-        OSK["OpenSkiMap<br/>(координаты, трассы)"]
-        WIKI["Wikidata<br/>(Q-id, P625, ссылки)"]
-        OVP["Overpass / OSM<br/>(объекты 6 км, теги piste)"]
-        SKIMAP["Skimap.org<br/>(схемы, ссылки)"]
-        WP["Wikipedia RU"]
-        OME_A["Open-Meteo Archive<br/>(климат ERA5)"]
-        OME_F["Open-Meteo Forecast<br/>(прогноз 10 дней)"]
-        OAP["OurAirports"]
-        ROS["Росстат / ЕМИСС"]
-        WEB["Сайты курортов<br/>(цены)"]
-        NOM["Nominatim"]
+flowchart LR
+    subgraph MAIN["ОСНОВНОЙ ПОТОК"]
+        direction TB
+
+        subgraph SRC["1. ИСТОЧНИКИ ДАННЫХ"]
+            direction LR
+            S1["Seed заказчика<br/>32 курорта"]
+            S2["Координаты и ссылки<br/>OpenSkiMap, Wikidata,<br/>OSM, Nominatim"]
+            S3["Трассы и инфраструктура<br/>OpenSkiMap, OSM, Overpass"]
+            S4["Исторический климат<br/>Open-Meteo Archive, ERA5"]
+            S5["Прогноз<br/>Open-Meteo Forecast"]
+            S6["Региональный спрос<br/>Росстат, ЕМИСС"]
+            S7["Цены<br/>сайты курортов, парсеры"]
+            S8["Аэропорты<br/>OurAirports"]
+        end
+
+        subgraph COLL["2. СБОР И ПРОВЕРКА"]
+            direction LR
+            C1["geocode_resorts.py<br/>координаты и валидация"]
+            C2["recompute_resort_data.py<br/>трассы, климат,<br/>amenities, аэропорты"]
+            C3["fetch_skimap_ids.py<br/>карточки и ссылки"]
+            C4["regional_demand.py<br/>региональные метрики"]
+            C5["run_parsers.py<br/>подготовка цен"]
+            C6["fetch_weather_forecast.py<br/>получение прогноза"]
+            C7["trip_conditions.py<br/>погодные предпосылки"]
+        end
+
+        subgraph AN["4. РАСЧЕТЫ И АНАЛИТИКА"]
+            direction LR
+            A1["build_resort_features.py<br/>подготовленные признаки"]
+            A2["score_resorts.py<br/>13 показателей<br/>5 компонентов<br/>итоговый индекс"]
+            A3["preset_engine.py<br/>6 сценариев приоритетов"]
+            A4["ranking_insights.py<br/>устойчивость,<br/>локальный рейтинг,<br/>объяснения"]
+            A5["catalog_builder.py<br/>сценарии каталога"]
+            A6["build_atlas_catalog.py<br/>витрина страницы 1"]
+        end
+
+        subgraph PUB["5. ПУБЛИКАЦИЯ И BI"]
+            direction LR
+            P1["load_supabase.py<br/>загрузка витрин"]
+            P2["Supabase PostgreSQL"]
+            P3["Preset Cloud<br/>Apache Superset"]
+            P4["Страница 1<br/>Атлас и рейтинги"]
+            P5["Страница 2<br/>Факты и сравнение"]
+        end
+
+        SRC --> COLL
+        COLL --> AN
+        AN --> PUB
     end
 
-    subgraph COLLECT["СБОР"]
-        direction LR
-        GEO["geocode_resorts<br/>каскад координат"]
-        RECO["recompute_resort_data<br/>OSM+климат+аэропорт"]
-        SK["fetch_skimap_ids<br/>каскад ссылок"]
-        RD["regional_demand"]
-        PR["prices/run_parsers"]
-        WF["fetch_weather_forecast"]
+    subgraph STOR["3. СЛОИ ХРАНЕНИЯ"]
+        direction TB
+        D1["RAW<br/>seed, цены,<br/>статистика"]
+        D2["Collected<br/>координаты,<br/>прогноз"]
+        D3["Prepared<br/>курорты, цены,<br/>региональные данные"]
+        D4["Cache<br/>климат,<br/>аэропорты"]
+        D5["Mart<br/>13 аналитических<br/>витрин"]
+        D1 ~~~ D2 ~~~ D3 ~~~ D4 ~~~ D5
     end
 
-    subgraph LAYERS["СЛОИ ДАННЫХ"]
-        direction LR
-        RAW["RAW<br/>resort_seed.csv · resorts.json ·<br/>prices_*.json · rosstat_*.csv"]
-        COL["Collected<br/>coordinates_*.json · weather_forecast.json"]
-        PREP["Prepared<br/>resorts.json · region_metrics.json · prices.json"]
-        CACHE["Cache<br/>climate_daily.json · airports.csv"]
-        MART["Mart<br/>13 витрин CSV"]
-    end
+    S1 --> C1
+    S2 --> C1
+    S2 --> C3
+    S3 --> C2
+    S4 --> C2
+    S5 --> C6
+    S6 --> C4
+    S7 --> C5
+    S8 --> C2
 
-    subgraph ANALYTICS["СКОРИНГ И АНАЛИТИКА"]
-        direction LR
-        SCORE["score_resorts<br/>13 → 5 → индекс"]
-        PRESET["preset_engine<br/>6 пресетов"]
-        RANK["ranking_insights<br/>Monte Carlo + local"]
-        CAT["catalog_builder<br/>сценарии каталога"]
-        ATLAS["build_atlas_catalog<br/>витрина стр. 1"]
-    end
+    D1 --> C1
+    D1 --> C4
+    D1 --> C5
 
-    DB[(Supabase PostgreSQL)]
-    BI[(Preset Cloud)]
+    C1 --> D2
+    C2 --> D3
+    C2 --> D4
+    C3 --> D3
+    C4 --> D3
+    C5 --> D3
+    C6 --> D2
+    C6 --> C7
+    C7 --> D2
 
-    OSK --> GEO
-    WIKI --> GEO
-    OVP --> GEO
-    NOM --> GEO
-    OSK --> RECO
-    OVP --> RECO
-    OME_A --> RECO
-    OAP --> RECO
-    SKIMAP --> SK
-    WP --> SK
-    WIKI --> SK
-    ROS --> RD
-    WEB --> PR
-    OME_F --> WF
+    D2 --> A1
+    D3 --> A1
+    D4 --> A1
 
-    RAW --> GEO
-    RAW --> RD
-    RAW --> PR
-    GEO --> COL
-    RECO --> PREP
-    RECO --> CACHE
-    SK --> PREP
-    RD --> PREP
-    PR --> PREP
-    WF --> COL
+    A1 --> A2
+    A1 --> A4
+    A1 --> A6
+    A2 --> A3
+    A2 --> A4
+    A3 --> A4
+    A3 --> A5
+    A3 --> A6
+    A4 --> A5
+    A4 --> A6
+    A5 --> A6
 
-    PREP --> SCORE
-    SCORE --> PRESET
-    SCORE --> RANK
-    PRESET --> RANK
-    PRESET --> CAT
-    RANK --> CAT
-    CAT --> ATLAS
-    PREP --> ATLAS
-    ATLAS --> MART
+    A1 --> D5
+    A2 --> D5
+    A3 --> D5
+    A4 --> D5
+    A5 --> D5
+    A6 --> D5
+    C7 --> D5
 
-    MART --> DB
-    DB --> BI
+    D5 --> P1
+    P1 --> P2
+    P2 --> P3
+    P3 --> P4
+    P3 --> P5
+
+    classDef source fill:#E4D7C2,stroke:#B79B72,color:#26303A,stroke-width:2px;
+    classDef collection fill:#DDE5E9,stroke:#5E8FA0,color:#26303A,stroke-width:2px;
+    classDef storage fill:#C2D8DF,stroke:#5E8FA0,color:#26303A,stroke-width:2px;
+    classDef analytics fill:#93B9C6,stroke:#2E5A5E,color:#17262E,stroke-width:2px;
+    classDef publication fill:#2E5A5E,stroke:#17262E,color:#F5F7F8,stroke-width:2px;
+    classDef dashboard fill:#A9705B,stroke:#26303A,color:#F5F7F8,stroke-width:2px;
+
+    class S1,S2,S3,S4,S5,S6,S7,S8 source;
+    class C1,C2,C3,C4,C5,C6,C7 collection;
+    class D1,D2,D3,D4,D5 storage;
+    class A1,A2,A3,A4,A5,A6 analytics;
+    class P1,P2,P3 publication;
+    class P4,P5 dashboard;
 ```
 ---
 
