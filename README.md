@@ -175,164 +175,193 @@ Default: Базовый каталог / Топ по индексу / Все →
 
 ---
 
-## 3. Архитектура данных (слои)
+## 3. Архитектура данных: обзор
 
-Данные текут по слоям **RAW → Collected → Prepared → Mart**, плюс **Cache** (инкрементальные кэши) и **Reference** (справочники).
-
-### Слои данных и ответственные скрипты
-
-| Слой | Папка | Кто создаёт |
-|---|---|---|
-| **RAW** (неизменяемые входы) | `data/raw/` | Вручную / заказчик |
-| **Collected** (сбор) | `data/collected/` | `geocode_resorts.py`, `apply_coordinates.py`, `fetch_weather_forecast.py` |
-| **Prepared** (объединённые) | `data/prepared/` | `apply_coordinates.py`, `regional_demand.py`, `run_parsers.py`, `recompute_resort_data.py`, `fetch_skimap_ids.py` |
-| **Mart** (витрины CSV) | `data/mart/` | `build_resort_features.py`, `score_resorts.py`, `preset_engine.py`, `ranking_insights.py`, `catalog_builder.py`, `build_atlas_catalog.py`, `trip_conditions.py`, `recompute_resort_data.py` |
-| **Cache** (инкрементальные кэши) | `data/cache/` | `recompute_resort_data.py` |
-| **Reference** (справочники) | `data/reference/` | `regions.py`, вручную |
-
-**Состав файлов по слоям:**
-*   **RAW:** `resort_seed.csv`, `resorts.json` (эталон заказчика), `resorts_manual.json` (ручные курорты), `prices_monthly.json`, `prices_manual.json` (ручные цены), `rosstat_tourist_trips.csv`, `rosstat_tourist_nights.csv`.
-*   **Collected:** `coordinates_verified.json`, `coordinates_review.json`, `weather_forecast.json`.
-*   **Prepared:** `resorts.json` (справочник курортов), `region_metrics.json`, `prices.json`.
-*   **Mart:** 13 датасетов (9 базовых + `presets` + `resort_preset_components` + `scoring_weights` + `atlas_catalog`).
-*   **Cache:** `climate_daily.json`, `airports.csv`.
-*   **Reference:** `field_dictionary.json`, `region_key.json`, `scoring_weights.json`, `scoring_presets.json`.
-
-### Диаграмма потока данных (Data Flow)
+Данные проходят пять стадий: **источники → сбор → хранение → аналитика → публикация**. Каждая стадия детально описана в разделах ниже; здесь — только общий контур.
 
 ```mermaid
 flowchart LR
-    subgraph MAIN["ОСНОВНОЙ ПОТОК"]
-        direction TB
-
-        subgraph SRC["1. ИСТОЧНИКИ ДАННЫХ"]
-            direction LR
-            S1["Seed заказчика<br/>32 курорта"]
-            S2["Координаты и ссылки<br/>OpenSkiMap, Wikidata,<br/>OSM, Nominatim"]
-            S3["Трассы и инфраструктура<br/>OpenSkiMap, OSM, Overpass"]
-            S4["Исторический климат<br/>Open-Meteo Archive, ERA5"]
-            S5["Прогноз<br/>Open-Meteo Forecast"]
-            S6["Региональный спрос<br/>Росстат, ЕМИСС"]
-            S7["Цены<br/>сайты курортов, парсеры"]
-            S8["Аэропорты<br/>OurAirports"]
-        end
-
-        subgraph COLL["2. СБОР И ПРОВЕРКА"]
-            direction LR
-            C1["geocode_resorts.py<br/>координаты и валидация"]
-            C2["recompute_resort_data.py<br/>трассы, климат,<br/>amenities, аэропорты"]
-            C3["fetch_skimap_ids.py<br/>карточки и ссылки"]
-            C4["regional_demand.py<br/>региональные метрики"]
-            C5["run_parsers.py<br/>подготовка цен"]
-            C6["fetch_weather_forecast.py<br/>получение прогноза"]
-            C7["trip_conditions.py<br/>погодные предпосылки"]
-        end
-
-        subgraph AN["4. РАСЧЕТЫ И АНАЛИТИКА"]
-            direction LR
-            A1["build_resort_features.py<br/>подготовленные признаки"]
-            A2["score_resorts.py<br/>13 показателей<br/>5 компонентов<br/>итоговый индекс"]
-            A3["preset_engine.py<br/>6 сценариев приоритетов"]
-            A4["ranking_insights.py<br/>устойчивость,<br/>локальный рейтинг,<br/>объяснения"]
-            A5["catalog_builder.py<br/>сценарии каталога"]
-            A6["build_atlas_catalog.py<br/>витрина страницы 1"]
-        end
-
-        subgraph PUB["5. ПУБЛИКАЦИЯ И BI"]
-            direction LR
-            P1["load_supabase.py<br/>загрузка витрин"]
-            P2["Supabase PostgreSQL"]
-            P3["Preset Cloud<br/>Apache Superset"]
-            P4["Страница 1<br/>Атлас и рейтинги"]
-            P5["Страница 2<br/>Факты и сравнение"]
-        end
-
-        SRC --> COLL
-        COLL --> AN
-        AN --> PUB
-    end
-
-    subgraph STOR["3. СЛОИ ХРАНЕНИЯ"]
-        direction TB
-        D1["RAW<br/>seed, цены,<br/>статистика"]
-        D2["Collected<br/>координаты,<br/>прогноз"]
-        D3["Prepared<br/>курорты, цены,<br/>региональные данные"]
-        D4["Cache<br/>климат,<br/>аэропорты"]
-        D5["Mart<br/>13 аналитических<br/>витрин"]
-        D1 ~~~ D2 ~~~ D3 ~~~ D4 ~~~ D5
-    end
-
-    S1 --> C1
-    S2 --> C1
-    S2 --> C3
-    S3 --> C2
-    S4 --> C2
-    S5 --> C6
-    S6 --> C4
-    S7 --> C5
-    S8 --> C2
-
-    D1 --> C1
-    D1 --> C4
-    D1 --> C5
-
-    C1 --> D2
-    C2 --> D3
-    C2 --> D4
-    C3 --> D3
-    C4 --> D3
-    C5 --> D3
-    C6 --> D2
-    C6 --> C7
-    C7 --> D2
-
-    D2 --> A1
-    D3 --> A1
-    D4 --> A1
-
-    A1 --> A2
-    A1 --> A4
-    A1 --> A6
-    A2 --> A3
-    A2 --> A4
-    A3 --> A4
-    A3 --> A5
-    A3 --> A6
-    A4 --> A5
-    A4 --> A6
-    A5 --> A6
-
-    A1 --> D5
-    A2 --> D5
-    A3 --> D5
-    A4 --> D5
-    A5 --> D5
-    A6 --> D5
-    C7 --> D5
-
-    D5 --> P1
-    P1 --> P2
-    P2 --> P3
-    P3 --> P4
-    P3 --> P5
-
-    classDef source fill:#E4D7C2,stroke:#B79B72,color:#26303A,stroke-width:2px;
-    classDef collection fill:#DDE5E9,stroke:#5E8FA0,color:#26303A,stroke-width:2px;
-    classDef storage fill:#C2D8DF,stroke:#5E8FA0,color:#26303A,stroke-width:2px;
-    classDef analytics fill:#93B9C6,stroke:#2E5A5E,color:#17262E,stroke-width:2px;
-    classDef publication fill:#2E5A5E,stroke:#17262E,color:#F5F7F8,stroke-width:2px;
-    classDef dashboard fill:#A9705B,stroke:#26303A,color:#F5F7F8,stroke-width:2px;
-
-    class S1,S2,S3,S4,S5,S6,S7,S8 source;
-    class C1,C2,C3,C4,C5,C6,C7 collection;
-    class D1,D2,D3,D4,D5 storage;
-    class A1,A2,A3,A4,A5,A6 analytics;
-    class P1,P2,P3 publication;
-    class P4,P5 dashboard;
+    A["1. Источники<br/>открытые API и сайты<br/>(11 источников)"] --> B["2. Сбор<br/>скрипты collect/transform<br/>9 скриптов"]
+    B --> C["3. Хранение<br/>RAW → Collected → Prepared<br/>→ Cache → Mart"]
+    C --> D["4. Аналитика<br/>scoring + analytics<br/>6 модулей"]
+    D --> E["5. Публикация<br/>Supabase → Preset Cloud<br/>2 страницы дашборда"]
+    classDef stage fill:#C2D8DF,stroke:#5E8FA0,color:#26303A,stroke-width:2px;
+    class A,B,C,D,E stage;
 ```
+
+## 4. Источники данных
+
+Откуда берутся данные и какой скрипт их забирает:
+
+| Источник | Что даёт | Скрипт сбора |
+|---|---|---|
+| **OpenSkiMap** | координаты skiArea, трассы, подъёмники, сложность, высоты | `geocode_resorts`, `recompute_resort_data` |
+| **Wikidata** | Q-id, координаты P625, sitelink Wikipedia, P6400 (Skimap ID) | `geocode_resorts`, `fetch_skimap_ids` |
+| **Overpass / OSM** | объекты в 6 км, теги `piste:*`, центроид | `geocode_resorts`, `recompute_resort_data` |
+| **Skimap.org** | ID и ссылка на схему трасс | `fetch_skimap_ids` |
+| **Wikipedia RU** | статья (fallback для ссылки) | `fetch_skimap_ids` |
+| **Open-Meteo Archive** | климат ERA5, 30 сезонов | `recompute_resort_data` |
+| **Open-Meteo Forecast** | прогноз 10 дней | `fetch_weather_forecast` |
+| **OurAirports** | ближайший аэропорт | `recompute_resort_data` |
+| **Росстат / ЕМИСС** | турпоток, ночёвки | `regional_demand` |
+| **Сайты курортов** | цены ски-пассов | `prices/run_parsers` |
+| **Nominatim** | валидация региона | `geocode_resorts` |
+
+**Каскады и фолбэки:**
+- **Координаты** (`geocode_resorts`): OpenSkiMap → Wikidata → центроид Overpass → ориентир заказчика; приоритет `openskimap > osm_centroid > wikidata`.
+- **Ссылки `details_url`** (`fetch_skimap_ids`): Skimap → Wikipedia → Wikidata → NULL.
+- **Цены** (`run_parsers`): `prices_manual.json` > `prices_monthly.json` > живые скраперы (Шерегеш, Кукисвумчорр, Гора Белая).
+
+## 5. Сбор данных
+
+Какой скрипт что делает и **в какой слой пишет**:
+
+| Скрипт | Что делает | Пишет в слой |
+|---|---|---|
+| `merge_resorts.py` | вливает ручные курорты в seed | **RAW** |
+| `geocode_resorts.py` | каскад координат + валидация региона | **Collected** |
+| `apply_coordinates.py` | собирает справочник курортов | **Prepared** |
+| `recompute_resort_data.py` | OSM-инфра + трассы + климат + аэропорт | **Prepared + Cache + Mart** |
+| `regional_demand.py` | нормирует турпоток | **Prepared** |
+| `prices/run_parsers.py` | цены (ручные → матрица → парсеры) | **Prepared** |
+| `fetch_skimap_ids.py` | каскад ссылок | **Prepared** |
+| `fetch_weather_forecast.py` | прогноз 10 дней | **Collected** |
+| `trip_conditions.py` | эвристика состояния трассы | **Mart** |
+
+**Инкрементальность и кэш:** климат докачивается (`cache/climate_daily.json`), аэропорты скачиваются один раз (`cache/airports.csv`), подтверждённые координаты не перегеокодируются (`KEEP_QUALITIES`). Троттлинг: Wikidata 0.6 с, Overpass 2.5 с; 3 зеркала Overpass с фолбэком.
+
+## 6. Слои хранения
+
+Где лежат данные, кто пишет и кто читает:
+
+| Слой | Что лежит | Кто пишет | Кто читает |
+|---|---|---|---|
+| **RAW** | `resort_seed.csv`, `resorts.json`, `resorts_manual.json`, `prices_*.json`, `rosstat_*.csv` | вручную / `merge_resorts` | `geocode_resorts`, `regional_demand`, `run_parsers` |
+| **Collected** | `coordinates_*.json`, `weather_forecast.json` | `geocode_resorts`, `apply_coordinates`, `fetch_weather_forecast` | `apply_coordinates`, `trip_conditions` |
+| **Prepared** | `resorts.json`, `region_metrics.json`, `prices.json` | `apply_coordinates`, `recompute_resort_data`, `regional_demand`, `run_parsers`, `fetch_skimap_ids` | `build_resort_features`, `fetch_weather_forecast` |
+| **Cache** | `climate_daily.json`, `airports.csv` | `recompute_resort_data` | `recompute_resort_data` (инкремент) |
+| **Mart** | 13 витрин CSV | `build_resort_features`, `score_resorts`, `preset_engine`, `ranking_insights`, `catalog_builder`, `build_atlas_catalog`, `trip_conditions`, `recompute_resort_data` | `load_supabase` → BI |
+| **Reference** | `scoring_weights.json`, `scoring_presets.json`, `field_dictionary.json`, `region_key.json` | вручную | `score_resorts`, `preset_engine`, `ranking_insights` |
+
+## 7. Аналитические модули
+
+Как Prepared-данные превращаются в витрины. Порядок важен: каждый модуль читает выходы предыдущих.
+
+```mermaid
+flowchart LR
+    A1["build_resort_features<br/>признаки"] --> A2["score_resorts<br/>13→5→индекс"]
+    A2 --> A3["preset_engine<br/>6 пресетов"]
+    A2 --> A4["ranking_insights<br/>Monte Carlo + local"]
+    A3 --> A4
+    A3 --> A5["catalog_builder<br/>сценарии каталога"]
+    A4 --> A5
+    A5 --> A6["build_atlas_catalog<br/>витрина стр. 1"]
+    A1 --> A6
+    A4 --> A6
+    classDef a fill:#93B9C6,stroke:#2E5A5E,color:#17262E,stroke-width:2px;
+    class A1,A2,A3,A4,A5,A6 a;
+```
+
+| Модуль | Входы | Выходы |
+|---|---|---|
+| `build_resort_features` | Prepared (`resorts.json`, `region_metrics.json`, `prices.json`) | `resort_features.csv` |
+| `score_resorts` | `resort_features.csv` + `scoring_weights.json` | `resort_scores.csv`, `scoring_weights.csv` |
+| `preset_engine` | `resort_scores.csv` + `scoring_presets.json` | `presets.csv`, `resort_preset_components.csv` |
+| `ranking_insights` | `resort_scores.csv` + `resort_features.csv` + `presets.csv` | `ranking_stability.csv`, `resort_components.csv`, `resort_reasons.csv` |
+| `catalog_builder` | `resort_preset_components.csv` + `resort_features.csv` | `catalog_scenarios.csv`, `catalog_members.csv` |
+| `build_atlas_catalog` | все mart + `ranking_stability` + `catalog_*` | `atlas_catalog.csv` |
+
+## 8. Витрины Mart и их назначение
+
+| Витрина | Строк | Назначение | Страница |
+|---|---|---|---|
+| `atlas_catalog` | 732 | широкая витрина рейтинга и сценариев | 1 |
+| `ranking_stability` | 192 | устойчивость + локальный рейтинг | 1 (через view `v_ranking_stability`) |
+| `resort_preset_components` | 960 | пресет × курорт × компонент | 1 |
+| `presets` | 6 | словарь пресетов (фильтр) | 1 |
+| `catalog_scenarios` | 72 | сценарии каталога | 1 |
+| `catalog_members` | 630 | состав каталога | 1 |
+| `resort_scores` | 32 | скоринг (13→5→индекс) | 2 (через `atlas_summary`) |
+| `resort_features` | 32 | сырые факты | 2 (через `atlas_summary`) |
+| `resort_components` | 160 | компоненты (вклады) | 2 |
+| `resort_reasons` | 71 | объяснения «почему» | 2 |
+| `scoring_weights` | 13 | веса показателей | 2 |
+| `climate_monthly` | 192 | климат по месяцам | 2 |
+| `weather_forecast_daily` | 320 | прогноз (курорт × дата) | 2 |
+
+> Примечание: распределение витрин по страницам выведено из SQL-view (`atlas_summary`, `v_index_breakdown`) и описания дашборда. Точную привязку витрин к чартам в Preset уточните у владельца проекта. View `v_ranking_stability` — в коде отсутствует (создаётся в Supabase), её точный набор колонок помечен как `(?)`.
+
+## 9. Публикация в BI
+
+Витрины Mart загружаются в Supabase, поверх них создаются SQL-view, а Preset Cloud отдаёт две страницы.
+
+```mermaid
+flowchart LR
+    M["Mart<br/>13 витрин"] --> L["load_supabase.py"]
+    L --> DB[("Supabase<br/>PostgreSQL")]
+    DB --> V["SQL-view<br/>atlas_summary · v_index_breakdown ·<br/>v_ranking_stability (?) · v_weather_forecast"]
+    V --> P["Preset Cloud"]
+    P --> PG1["Страница 1<br/>Атлас и рейтинги"]
+    P --> PG2["Страница 2<br/>Факты и сравнение"]
+    classDef p fill:#2E5A5E,stroke:#17262E,color:#F5F7F8,stroke-width:2px;
+    class M,L,DB,V,P,PG1,PG2 p;
+```
+
+
+
+## 10. Методика скоринга (`score_resorts.py`)
+
+13 показателей группируются в 5 компонентов. Веса в сумме дают 100.
+
+| Компонент | Показатели | Вес |
+|---|---|---|
+| Региональный спрос | Поездки (25) + Рост (10) + Длительность (5) | **40** |
+| Инфраструктура | Трассы (10) + Подъемники (7) + Размещение (5) + Инфраструктура (3) | **25** |
+| Зимние условия | Снежные дни (8) + Морозные дни (6) + Снегопад (6) | **20** |
+| Доступность | Аэропорт (8) + Транспорт (2) | **10** |
+| Цена | Стоимость ски-пасса (5) | **5** |
+
+Веса (и русские подписи) задаются в `data/reference/scoring_weights.json` и автоматически выгружаются в витрину `scoring_weights` (13 строк: показатель → компонент → вес), которая загружается в Supabase и доступна на дашборде. Изменили вес в конфиге → повторный прогон → дашборд показывает новые значения.
+
+**Формулы:**
+- **Min-max:** `100·(x−min)/(max−min)`
+- **Log min-max:** Для поездок, OSM-объектов и снегопада (сглаживает выбросы).
+- **Обратная:** `100 − log_min_max` для аэропорта и цены (чем меньше, тем лучше).
+- **None (нет данных):** Дает нейтральные **50 баллов**.
+
+**Индекс:** `popularity_score = Σ(балл × вес) / 100`.
+**Уверенность:** `confidence_score` зависит от полноты данных (completeness), наличия цены и подтвержденных координат.
+
+### Пресеты скоринга (сценарии приоритетов)
+
+Веса вынесены в два конфига `data/reference/`:
+- `scoring_weights.json` — 13 весов показателей + 5 весов компонентов (читает и валидирует `score_resorts.py`);
+- `scoring_presets.json` — 6 пресетов (id + название + описание + 5 весов компонентов).
+
+Движок `src/scoring/preset_engine.py` перевзвешивает **только 5 компонентных баллов** (не трогая 13 показателей и нормализацию):
+
+```text
+scenario_score = Σ component_score × component_weight_pct / 100
+```
+
+| Пресет | Спрос | Инфра | Зима | Доступ | Цена |
+|---|--:|--:|--:|--:|--:|
+| base — Базовый каталог | 40 | 25 | 20 | 10 | 5 |
+| balance — Баланс для катания | 5 | 35 | 35 | 20 | 5 |
+| infra — Инфраструктура важнее | 5 | 60 | 20 | 10 | 5 |
+| snow — Снег важнее | 5 | 20 | 60 | 10 | 5 |
+| access — Доступность важнее | 5 | 25 | 20 | 45 | 5 |
+| price — Цена важнее | 5 | 20 | 20 | 15 | 40 |
+
+Результат — две витрины: `presets.csv` (словарь) и `resort_preset_components.csv` (long: пресет × курорт × компонент = 960 строк). Базовый пресет `base` воспроизводит `popularity_score` (контрольная точка).
+
+**Устойчивость и локальный рейтинг — тоже мультипресетные** (`ranking_insights.py`): `ranking_stability.csv` — **192 строки (32 курорта × 6 пресетов) × 11 колонок** (`resort_id, preset_id, preset_name_ru, name_ru, region, median_rank, rank_p5, rank_p95, top10_frequency, local_score, local_rank`). Для каждого пресета — Монте-Карло (5000 прогонов, seed 42, мультипликативный шум ×U(0.6, 1.4) вокруг весов ЭТОГО пресета, перенормировка к 100) → `median_rank`/`rank_p5`/`rank_p95`/`top10_frequency`; `local_score` = взвешенная сумма 4 нерегиональных компонентов (infra, winter, access, price) с весами пресета, перенормированная к 100% (regional не участвует); `local_rank` = место по `local_score` внутри пресета.
+
+**Итоговая витрина страницы 1 — `atlas_catalog.csv`** (`build_atlas_catalog.py`): **732 строки × 86 колонок** = `all_top` (полный рейтинг, 192) + `all_diversity` (лучший курорт региона, ~120) + member-сценарии `top`/`diversity` (~420). Из `ranking_stability` в неё идут только `stability_median_rank` (переименованный `median_rank`), `local_score`, `local_rank` (мерж по `resort_id + preset_id`); `rank_p5`/`rank_p95`/`top10_frequency` остаются только в `ranking_stability` (стр. «Устойчивость рейтинга»).
+
 ---
 
-## 4. Пайплайн и режимы (`run_pipeline.py`)
+## 11. Пайплайн и режимы (`run_pipeline.py`)
 
 Оркестратор собирает шаги в правильном порядке и останавливается на первой ошибке.
 
@@ -433,7 +462,7 @@ flowchart TD
 
 ---
 
-## 5. Сущности и контракт гранулярности (Для BI)
+## 12. Сущности и контракт гранулярности (Для BI)
 
 Это главный технический договор для Preset. Смешивание гранулярностей в одной широкой таблице без контроля кардинальности **запрещено**.
 
@@ -457,84 +486,7 @@ flowchart TD
 
 ---
 
-## 6. Источники данных и фичи
-
-### 5.1. Координаты — `geocode_resorts.py`
-Каскад: OpenSkiMap (`exact`) → Wikidata (`wikidata`) → Overpass (`osm_centroid`) → Ориентир заказчика (`reference`). Если ничего нет — `review`. Валидация региона через Nominatim.
-
-### 5.2. Инфраструктура — OpenSkiMap + Overpass
-- **OpenSkiMap** — основной источник: сложность, длина, высоты (`piste_min/max_elevation_m`), подъемники.
-- **Overpass** — fallback для сложности (если нет в OpenSkiMap) и **всегда** для amenities (отели, кафе в радиусе 6 км).
-
-### 5.3. Ссылки (`details_url`) — `fetch_skimap_ids.py`
-Каскад: Skimap.org → Wikipedia (RU) → Wikidata → NULL.
-
-### 5.4. Климат (статика, 30 лет)
-- **Источник:** Open-Meteo Historical API (модель ERA5).
-- **Период:** 30 зимних сезонов (ноябрь–апрель).
-- **Параметр `elevation`:** Передается средняя высота склона `(piste_min + piste_max) / 2`. Open-Meteo применяет температурный градиент, чтобы данные отражали реальную высоту катания, а не подножие.
-- **Кэш:** `data/cache/climate_daily.json`. Докачивает только недостающие сезоны (защита от 429).
-
-### 5.5. Прогноз (динамика, 10 дней)
-- **Источник:** Open-Meteo Forecast API.
-- **Горизонт:** 10 дней (баланс точности и полезности).
-- **Правило:** `trip_conditions.py` определяет предпосылки состояния трассы («пухляк», «накат», «каша», «лёд», «без снега») на основе осадков, температуры и ветра.
-
----
-
-## 7. Методика скоринга (`score_resorts.py`)
-
-13 показателей группируются в 5 компонентов. Веса в сумме дают 100.
-
-| Компонент | Показатели | Вес |
-|---|---|---|
-| Региональный спрос | Поездки (25) + Рост (10) + Длительность (5) | **40** |
-| Инфраструктура | Трассы (10) + Подъемники (7) + Размещение (5) + Инфраструктура (3) | **25** |
-| Зимние условия | Снежные дни (8) + Морозные дни (6) + Снегопад (6) | **20** |
-| Доступность | Аэропорт (8) + Транспорт (2) | **10** |
-| Цена | Стоимость ски-пасса (5) | **5** |
-
-Веса (и русские подписи) задаются в `data/reference/scoring_weights.json` и автоматически выгружаются в витрину `scoring_weights` (13 строк: показатель → компонент → вес), которая загружается в Supabase и доступна на дашборде. Изменили вес в конфиге → повторный прогон → дашборд показывает новые значения.
-
-**Формулы:**
-- **Min-max:** `100·(x−min)/(max−min)`
-- **Log min-max:** Для поездок, OSM-объектов и снегопада (сглаживает выбросы).
-- **Обратная:** `100 − log_min_max` для аэропорта и цены (чем меньше, тем лучше).
-- **None (нет данных):** Дает нейтральные **50 баллов**.
-
-**Индекс:** `popularity_score = Σ(балл × вес) / 100`.
-**Уверенность:** `confidence_score` зависит от полноты данных (completeness), наличия цены и подтвержденных координат.
-
-### Пресеты скоринга (сценарии приоритетов)
-
-Веса вынесены в два конфига `data/reference/`:
-- `scoring_weights.json` — 13 весов показателей + 5 весов компонентов (читает и валидирует `score_resorts.py`);
-- `scoring_presets.json` — 6 пресетов (id + название + описание + 5 весов компонентов).
-
-Движок `src/scoring/preset_engine.py` перевзвешивает **только 5 компонентных баллов** (не трогая 13 показателей и нормализацию):
-
-```text
-scenario_score = Σ component_score × component_weight_pct / 100
-```
-
-| Пресет | Спрос | Инфра | Зима | Доступ | Цена |
-|---|--:|--:|--:|--:|--:|
-| base — Базовый каталог | 40 | 25 | 20 | 10 | 5 |
-| balance — Баланс для катания | 5 | 35 | 35 | 20 | 5 |
-| infra — Инфраструктура важнее | 5 | 60 | 20 | 10 | 5 |
-| snow — Снег важнее | 5 | 20 | 60 | 10 | 5 |
-| access — Доступность важнее | 5 | 25 | 20 | 45 | 5 |
-| price — Цена важнее | 5 | 20 | 20 | 15 | 40 |
-
-Результат — две витрины: `presets.csv` (словарь) и `resort_preset_components.csv` (long: пресет × курорт × компонент = 960 строк). Базовый пресет `base` воспроизводит `popularity_score` (контрольная точка).
-
-**Устойчивость и локальный рейтинг — тоже мультипресетные** (`ranking_insights.py`): `ranking_stability.csv` — **192 строки (32 курорта × 6 пресетов) × 11 колонок** (`resort_id, preset_id, preset_name_ru, name_ru, region, median_rank, rank_p5, rank_p95, top10_frequency, local_score, local_rank`). Для каждого пресета — Монте-Карло (5000 прогонов, seed 42, мультипликативный шум ×U(0.6, 1.4) вокруг весов ЭТОГО пресета, перенормировка к 100) → `median_rank`/`rank_p5`/`rank_p95`/`top10_frequency`; `local_score` = взвешенная сумма 4 нерегиональных компонентов (infra, winter, access, price) с весами пресета, перенормированная к 100% (regional не участвует); `local_rank` = место по `local_score` внутри пресета.
-
-**Итоговая витрина страницы 1 — `atlas_catalog.csv`** (`build_atlas_catalog.py`): **732 строки × 86 колонок** = `all_top` (полный рейтинг, 192) + `all_diversity` (лучший курорт региона, ~120) + member-сценарии `top`/`diversity` (~420). Из `ranking_stability` в неё идут только `stability_median_rank` (переименованный `median_rank`), `local_score`, `local_rank` (мерж по `resort_id + preset_id`); `rank_p5`/`rank_p95`/`top10_frequency` остаются только в `ranking_stability` (стр. «Устойчивость рейтинга»).
-
----
-
-## 8. UX-правила и объяснимость в UI
+## 13. UX-правила и объяснимость в UI
 
 Для каждой цифры в дашборде пользователь должен понимать, что это:
 1. **Факт:** «расстояние до аэропорта по прямой — 35 км».
@@ -551,7 +503,7 @@ scenario_score = Σ component_score × component_weight_pct / 100
 
 ---
 
-## 9. Запуск и Troubleshooting
+## 14. Запуск и Troubleshooting
 
 ```powershell
 python run_pipeline.py --mode full      # Полная пересборка
@@ -576,7 +528,7 @@ python run_pipeline.py --mode rescore --no-load  # пересчёт без за�
 
 ---
 
-## 10. Ограничения и допущения
+## 15. Ограничения и допущения
 
 - **Индекс потенциала ≠ популярность**: оценка по открытым данным, а не фактическая посещаемость.
 - **Региональный спрос** относится ко всему субъекту РФ, а не к конкретному курорту.
