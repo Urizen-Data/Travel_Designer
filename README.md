@@ -213,7 +213,7 @@ Travel_Designer/
 ```
 
 **Что не попадает в Git** (`.gitignore`): генерируемые слои `data/collected/`, `data/prepared/`, `data/cache/`; секреты `.env`; внутренний контекст `readme_context.md`; исходное ТЗ (`ТЗ/`); легаси-входы (`resort_open_data.json`, `climate_monthly.json` в `raw`). Витрины `data/mart/` и справочники `data/reference/` включены в репозиторий.
-## 4. Архитектура данных: обзор
+## 4. Data flow: обзор
 
 Данные проходят пять стадий: **источники → сбор → хранение → аналитика → публикация**. Каждая стадия детально описана в разделах ниже; здесь — только общий контур.
 
@@ -329,7 +329,136 @@ flowchart LR
 | `catalog_builder` | `resort_preset_components.csv` + `resort_features.csv` | `catalog_scenarios.csv`, `catalog_members.csv` |
 | `build_atlas_catalog` | все mart + `ranking_stability` + `catalog_*` | `atlas_catalog.csv` |
 
-## 9. Витрины Mart и их назначение
+## 9. Витрины Mart и архитектура данных
+
+**Архитектура данных: от сырых фактов до интерактивного дашборда.** Схема иллюстрирует жизненный цикл данных в проекте. Главный принцип — разделение тяжелых вычислений и легкой визуализации. Пайплайн на Python собирает сырые факты (OSM, климат, цены) и производит сложный скоринг, упаковывая всё в единую широкую витрину `atlas_catalog`. Это позволяет дашборду на Первой странице работать мгновенно, без сложных SQL-джойнов на лету. Аналитические SQL-вьюхи (например, `v_index_breakdown` и `atlas_summary`) собираются поверх готовых данных и служат источником для детальных сравнений, паспортов курортов и «анатомии индекса» на Второй странице.
+
+```mermaid
+%%{init: {'theme': 'dark', 'themeVariables': { 'fontSize': '16px', 'fontFamily': 'sans-serif', 'primaryTextColor': '#ffffff', 'lineColor': '#93B9C6'}}}%%
+flowchart TB
+
+    %% ===== СЛОЙ 1: СЫРЬЕ И СЛОВАРИ =====
+    subgraph L1["1. Базовые данные и конфиги"]
+        direction TB
+        RF["resort_features (32)<br/>Сырые факты"]
+        SW["scoring_weights (13)<br/>Веса показателей"]
+        PR["presets (6)<br/>Словарь пресетов"]
+    end
+
+    %% ===== СЛОЙ 2: СКОРИНГ =====
+    subgraph L2["2. Скоринг и расчеты"]
+        direction TB
+        RS["resort_scores (32)<br/>13 → 5 → Индекс"]
+        RPC["resort_preset_components (960)<br/>Компоненты по пресетам"]
+    end
+
+    %% ===== СЛОЙ 3: АНАЛИТИКА =====
+    subgraph L3["3. Аналитические витрины"]
+        direction TB
+        RST["ranking_stability (192)<br/>Монте-Карло"]
+        RR["resort_reasons (71)<br/>Плюсы/Минусы"]
+        CS["catalog_scenarios (72)"]
+        CM["catalog_members (630)"]
+    end
+
+    %% ===== СЛОЙ 4: ГЛАВНАЯ ВИТРИНА =====
+    subgraph L4["4. Широкая витрина (PIPELINE)"]
+        direction TB
+        AC["atlas_catalog (732)<br/>Готовая таблица для BI"]
+    end
+
+    %% ===== СЛОЙ 5: ВЬЮХИ БД =====
+    subgraph L5["5. SQL-вьюхи (Supabase)"]
+        direction TB
+        AS["atlas_summary (32)"]
+        RSV["v_ranking_stability (732)"]
+        IB["v_index_breakdown (416)"]
+        WFV["v_weather_forecast"]
+    end
+
+    %% ===== СЛОЙ 6: КЛИМАТ =====
+    subgraph L6["6. Погода и климат"]
+        direction TB
+        CL["climate_monthly (192)"]
+        WF["weather_forecast_daily (320)"]
+    end
+
+    %% ===== СЛОЙ 7: ДАШБОРД =====
+    subgraph L7["7. Страницы дашборда"]
+        direction TB
+        P1["Стр. 1: Атлас и рейтинги"]
+        P2["Стр. 2: Факты и сравнение"]
+    end
+
+    %% ===== СВЯЗИ: СБОРКА ПАЙПЛАЙНА =====
+    RF -->|"база"| RS
+    SW -->|"веса"| RS
+    
+    RS -->|"13 баллов"| RPC
+    PR -->|"веса пресетов"| RPC
+    RS -->|"база"| RST
+    PR -->|"сценарии"| RST
+    
+    RF -->|"факты"| RR
+    RS -->|"вклады"| RR
+    
+    RPC -->|"данные"| CS
+    PR -->|"стратегии"| CS
+    CS -->|"состав"| CM
+
+    %% ===== СБОРКА ATLAS_CATALOG =====
+    RPC -.->|"склейка"| AC
+    RST -.->|"метрики"| AC
+    CS -.->|"сценарии"| AC
+    CM -.->|"состав"| AC
+    RF -.->|"факты"| AC
+    RS -.->|"базовый балл"| AC
+
+    %% ===== СБОРКА ВЬЮХ =====
+    AC -->|"JOIN"| AS
+    RF -->|"JOIN"| AS
+    RS -->|"JOIN"| AS
+    RR -->|"JOIN"| AS
+    SW -->|"JOIN"| AS
+
+    AS -->|"UNPIVOT"| IB
+    SW -->|"веса"| IB
+
+    AC -->|"JOIN"| RSV
+    RST -->|"метрики"| RSV
+
+    WF -->|"фильтр"| WFV
+
+    %% ===== СВЯЗЬ СО СТРАНИЦАМИ =====
+    AC -->|"таблица, карта, бары"| P1
+    RSV -->|"график Монте-Карло"| P1
+    
+    AS -->|"паспорта, таблицы"| P2
+    CL -->|"графики климата"| P2
+    WFV -->|"прогноз погоды"| P2
+    IB -->|"анатомия индекса"| P2
+
+
+    %% ===== СТИЛИ (Высокий контраст) =====
+    classDef layer fill:#1e1e1e,stroke:#555,stroke-width:2px,color:#fff;
+    classDef base fill:#2b3e50,stroke:#5E8FA0,color:#ffffff,stroke-width:2px;
+    classDef score fill:#3b5c70,stroke:#93B9C6,color:#ffffff,stroke-width:2px;
+    classDef derived fill:#4d7d8c,stroke:#C2D8DF,color:#ffffff,stroke-width:2px;
+    classDef final fill:#A9705B,stroke:#E4D7C2,color:#ffffff,stroke-width:2px;
+    classDef view fill:#2E5A5E,stroke:#93B9C6,color:#ffffff,stroke-width:2px;
+    classDef weather fill:#8C7A5B,stroke:#E4D7C2,color:#ffffff,stroke-width:2px;
+    classDef page fill:#8a3c2a,stroke:#F5F7F8,color:#ffffff,stroke-width:3px;
+
+    class RF,SW,PR base;
+    class RS,RPC score;
+    class RST,RR,CS,CM derived;
+    class AC final;
+    class AS,RSV,IB,WFV view;
+    class CL,WF weather;
+    class P1,P2 page;
+```
+
+### Назначение витрин (справочная таблица)
 
 | Витрина (Датасет) | Строк | Назначение (и роль в пайплайне) | Где используется на дашборде |
 |---|---|---|---|
@@ -350,7 +479,6 @@ flowchart LR
 | `v_index_breakdown` *(view)* | 416 | Long-format разбивка индекса (UNPIVOT 13 показателей). Читает view `atlas_summary` + `scoring_weights` | stacked bar / treemap по 13 показателям |
 | `v_ranking_stability` *(view)* | 732 | `atlas_catalog` + метрики устойчивости. JOIN `atlas_catalog` + `ranking_stability` по `resort_id + preset_id` | **Стр. 1** (график устойчивости Монте-Карло) |
 | `v_weather_forecast` *(view)* | — | Читает `weather_forecast_daily` | **Стр. 2** (Handlebars-карточки, динамика прогноза погоды) |
-
 
 ## 10. Публикация в BI
 
