@@ -11,7 +11,7 @@
 
 ![Страница 1 — Атлас и рейтинги](screenshots/Ski_atlas_longshot_1.png)
 
-### Страница 2 — «Атлас сравнение — факты и прогноз»
+### Страница 2 — «Факты и прогноз»
 
 ![Страница 2 — Атлас сравнение](screenshots/Ski_atlas_longshot_2.png)
 
@@ -331,23 +331,26 @@ flowchart LR
 
 ## 9. Витрины Mart и их назначение
 
-| Витрина | Строк | Назначение | Страница |
+| Витрина (Датасет) | Строк | Назначение (и роль в пайплайне) | Где используется на дашборде |
 |---|---|---|---|
-| `atlas_catalog` | 732 | широкая витрина рейтинга и сценариев | 1 |
-| `ranking_stability` | 192 | устойчивость + локальный рейтинг | 1 (через view `v_ranking_stability`) |
-| `resort_preset_components` | 960 | пресет × курорт × компонент | 1 |
-| `presets` | 6 | словарь пресетов (фильтр) | 1 |
-| `catalog_scenarios` | 72 | сценарии каталога | 1 |
-| `catalog_members` | 630 | состав каталога | 1 |
-| `resort_scores` | 32 | скоринг (13→5→индекс) | 2 (через `atlas_summary`) |
-| `resort_features` | 32 | сырые факты | 2 (через `atlas_summary`) |
-| `resort_components` | 160 | компоненты (вклады) | 2 |
-| `resort_reasons` | 71 | объяснения «почему» | 2 |
-| `scoring_weights` | 13 | веса показателей | 2 |
-| `climate_monthly` | 192 | климат по месяцам | 2 |
-| `weather_forecast_daily` | 320 | прогноз (курорт × дата) | 2 |
+| `atlas_catalog` | 732 | Главная широкая витрина BI. Собирается `build_atlas_catalog.py` из **`resort_preset_components` (pivot)** + `presets` + `resort_features` + `resort_scores` + `ranking_stability` + `scoring_weights` + `catalog_scenarios` + `catalog_members` | **Стр. 1** (Карта, Рейтинг, Пузырьки, KPI, Таблица скоринга, Детализация) · источник для view `atlas_summary` (Стр. 2) |
+| `ranking_stability` | 192 | Устойчивость (Монте-Карло) + локальный рейтинг. Считается из `resort_scores` + `resort_features` + `presets`. Источник для `atlas_catalog` и view `v_ranking_stability` | **Стр. 1** (через view `v_ranking_stability`) |
+| `resort_preset_components` | 960 | Скоринг по 6 пресетам (пресет × курорт × компонент). Источник для `atlas_catalog` (pivot) и `catalog_scenarios`/`catalog_members` (через `catalog_builder`) | (только на уровне пайплайна) |
+| `presets` | 6 | Словарь 6 пресетов (id + название + 5 весов). Источник для `atlas_catalog`, `ranking_stability`, `resort_components`, `resort_reasons`, `catalog_*` | (только на уровне пайплайна) |
+| `catalog_scenarios` | 72 | Готовые сценарии каталога. Источник для `atlas_catalog` | (только на уровне пайплайна) |
+| `catalog_members` | 630 | Состав сценариев каталога. Источник для `atlas_catalog` | (только на уровне пайплайна) |
+| `resort_scores` | 32 | Базовый скоринг (13→5→индекс). Источник для `atlas_catalog`, `presets`, `resort_preset_components`, `ranking_stability`, `resort_components`, `resort_reasons`, view `atlas_summary` | **Стр. 2** (через view `atlas_summary`) |
+| `resort_features` | 32 | Сырые факты (трассы, цены, OSM, климат, аэропорт). Источник для `resort_scores`, `atlas_catalog`,view  `atlas_summary`, `resort_preset_components`, `catalog_*` | **Стр. 2** (через view `atlas_summary`) |
+| `resort_components` | 160 | Компоненты (вклады) курорта — для проверки/drill-down. **Не** источник `atlas_catalog` | (только на уровне пайплайна) |
+| `resort_reasons` | 71 | Текстовые объяснения (strength/weakness). Источник для `atlas_summary` | **Стр. 2** (через view `atlas_summary` в паспортах) |
+| `scoring_weights` | 13 | Веса 13 показателей. Источник для `atlas_catalog`, view `atlas_summary`, `v_index_breakdown` | **Стр. 2** (через view `atlas_summary`/`v_index_breakdown` — детализация 13 показателей) |
+| `climate_monthly` | 192 | Среднемесячный климат за 30 сезонов (ноябрь–апрель) | **Стр. 2** (графики исторического климата) |
+| `weather_forecast_daily` | 320 | Прогноз 10 дней (курорт × дата) | **Стр. 2** (через view `v_weather_forecast` - прогноз, снежная глубина) |
+| `atlas_summary` *(view)* | 32 | Базовый срез (preset=base). Собирается из `resort_features` + `atlas_catalog` + `resort_scores` + `scoring_weights` + `resort_reasons` | **Стр. 2** (паспорта, таблицы детализации) |
+| `v_index_breakdown` *(view)* | 416 | Long-format разбивка индекса (UNPIVOT 13 показателей). Читает view `atlas_summary` + `scoring_weights` | stacked bar / treemap по 13 показателям |
+| `v_ranking_stability` *(view)* | 732 | `atlas_catalog` + метрики устойчивости. JOIN `atlas_catalog` + `ranking_stability` по `resort_id + preset_id` | **Стр. 1** (график устойчивости Монте-Карло) |
+| `v_weather_forecast` *(view)* | — | Читает `weather_forecast_daily` | **Стр. 2** (Handlebars-карточки, динамика прогноза погоды) |
 
-> Примечание: распределение витрин по страницам выведено из SQL-view (`atlas_summary`, `v_index_breakdown`) и описания дашборда. Точную привязку витрин к чартам в Preset уточните у владельца проекта. View `v_ranking_stability` — в коде отсутствует (создаётся в Supabase), её точный набор колонок помечен как `(?)`.
 
 ## 10. Публикация в BI
 
