@@ -175,7 +175,47 @@ Default: Базовый каталог / Топ по индексу / Все →
 
 ---
 
-## 3. Архитектура данных: обзор
+## 3. Структура папок проекта
+
+```text
+Travel_Designer/
+├── src/                        # исходный код пайплайна
+│   ├── collect/                # сбор: координаты, OpenSkiMap, OSM, климат, прогноз, цены
+│   │   ├── geocode_resorts.py         # координаты (каскад OpenSkiMap → Wikidata → Overpass)
+│   │   ├── openskimap_client.py       # клиент OpenSkiMap (трассы, высоты, подъёмники)
+│   │   ├── recompute_resort_data.py   # OSM-инфраструктура + трассы + климат + аэропорт
+│   │   ├── fetch_skimap_ids.py        # ссылки details_url
+│   │   ├── fetch_weather_forecast.py  # прогноз 10 дней
+│   │   ├── manual_inputs.py           # ручные JSON (load_resorts_manual, load_prices_manual, merge_resorts_into_seed)
+│   │   ├── merge_resorts.py           # CLI-шаг слияния ручных курортов в seed
+│   │   └── prices/                    # парсеры цен (run_parsers, scrape_prices, sites, parsers/*)
+│   ├── transform/              # трансформация: apply_coordinates, build_resort_features,
+│   │                           #   regional_demand, regions
+│   ├── scoring/                # скоринг: score_resorts (13→5→индекс), preset_engine
+│   ├── analytics/              # аналитика: ranking_insights, catalog_builder,
+│   │                           #   build_atlas_catalog, trip_conditions
+│   ├── load/                   # загрузка: load_supabase
+│   └── common/                 # утилиты: mart_io (чтение/запись витрин)
+├── data/
+│   ├── raw/                    # неизменяемые входы (seed, цены, Росстат) — от заказчика
+│   ├── collected/              # сбор (координаты, прогноз) — генерируется
+│   ├── prepared/               # объединённые (resorts.json, region_metrics, prices) — генерируется
+│   ├── cache/                  # кэши (climate_daily, airports) — генерируется
+│   ├── mart/                   # 13 витрин CSV (результат) — коммитится
+│   └── reference/              # справочники: scoring_weights, scoring_presets,
+│                               #   field_dictionary, region_key, views_backup.sql
+├── docs/                       # документация: PROJECT_CONTEXT, DASHBOARD_*, DATA_GAPS
+├── tests/                      # авто-тесты (pytest, 15 файлов)
+├── notebooks/                  # Jupyter-ноутбуки анализа (01–04)
+├── screenshots/                # скриншоты дашборда
+├── run_pipeline.py             # оркестратор пайплайна (CLI: --mode ...)
+├── requirements.txt            # зависимости
+├── .gitignore                  # что не коммитится
+└── README.md                   # этот документ
+```
+
+**Что не попадает в Git** (`.gitignore`): генерируемые слои `data/collected/`, `data/prepared/`, `data/cache/`; секреты `.env`; внутренний контекст `readme_context.md`; исходное ТЗ (`ТЗ/`); легаси-входы (`resort_open_data.json`, `climate_monthly.json` в `raw`). Витрины `data/mart/` и справочники `data/reference/` включены в репозиторий.
+## 4. Архитектура данных: обзор
 
 Данные проходят пять стадий: **источники → сбор → хранение → аналитика → публикация**. Каждая стадия детально описана в разделах ниже; здесь — только общий контур.
 
@@ -189,7 +229,7 @@ flowchart LR
     class A,B,C,D,E stage;
 ```
 
-## 4. Источники данных
+## 5. Источники данных
 
 Откуда берутся данные и какой скрипт их забирает:
 
@@ -232,7 +272,7 @@ Open-Meteo применяет температурный градиент (lapse
 
 **Прогноз (10 дней) и предпосылки состояния трассы.** Прогноз Open-Meteo Forecast (горизонт 10 дней) складывается в `weather_forecast_daily`; `trip_conditions.py` превращает осадки, температуру и ветер в **предпосылки** состояния трассы — «пухляк», «накат», «каша», «лёд», «без снега» (это не фактическое состояние трассы, а модельная оценка — см. раздел «Ограничения»).
 
-## 5. Сбор данных
+## 6. Сбор данных
 
 Какой скрипт что делает и **в какой слой пишет**:
 
@@ -250,7 +290,7 @@ Open-Meteo применяет температурный градиент (lapse
 
 **Инкрементальность и кэш:** климат докачивается (`cache/climate_daily.json`), аэропорты скачиваются один раз (`cache/airports.csv`), подтверждённые координаты не перегеокодируются (`KEEP_QUALITIES`). Троттлинг: Wikidata 0.6 с, Overpass 2.5 с; 3 зеркала Overpass с фолбэком.
 
-## 6. Слои хранения
+## 7. Слои хранения
 
 Где лежат данные, кто пишет и кто читает:
 
@@ -263,7 +303,7 @@ Open-Meteo применяет температурный градиент (lapse
 | **Mart** | 13 витрин CSV | `build_resort_features`, `score_resorts`, `preset_engine`, `ranking_insights`, `catalog_builder`, `build_atlas_catalog`, `trip_conditions`, `recompute_resort_data` | `load_supabase` → BI |
 | **Reference** | `scoring_weights.json`, `scoring_presets.json`, `field_dictionary.json`, `region_key.json` | вручную | `score_resorts`, `preset_engine`, `ranking_insights` |
 
-## 7. Аналитические модули
+## 8. Аналитические модули
 
 Как Prepared-данные превращаются в витрины. Порядок важен: каждый модуль читает выходы предыдущих.
 
@@ -291,7 +331,7 @@ flowchart LR
 | `catalog_builder` | `resort_preset_components.csv` + `resort_features.csv` | `catalog_scenarios.csv`, `catalog_members.csv` |
 | `build_atlas_catalog` | все mart + `ranking_stability` + `catalog_*` | `atlas_catalog.csv` |
 
-## 8. Витрины Mart и их назначение
+## 9. Витрины Mart и их назначение
 
 | Витрина | Строк | Назначение | Страница |
 |---|---|---|---|
@@ -311,7 +351,7 @@ flowchart LR
 
 > Примечание: распределение витрин по страницам выведено из SQL-view (`atlas_summary`, `v_index_breakdown`) и описания дашборда. Точную привязку витрин к чартам в Preset уточните у владельца проекта. View `v_ranking_stability` — в коде отсутствует (создаётся в Supabase), её точный набор колонок помечен как `(?)`.
 
-## 9. Публикация в BI
+## 10. Публикация в BI
 
 Витрины Mart загружаются в Supabase, поверх них создаются SQL-view, а Preset Cloud отдаёт две страницы.
 
@@ -329,7 +369,7 @@ flowchart LR
 
 
 
-## 10. Методика скоринга (`score_resorts.py`)
+## 11. Методика скоринга (`score_resorts.py`)
 
 13 показателей группируются в 5 компонентов. Веса в сумме дают 100.
 
@@ -381,7 +421,7 @@ scenario_score = Σ component_score × component_weight_pct / 100
 
 ---
 
-## 11. Пайплайн и режимы (`run_pipeline.py`)
+## 12. Пайплайн и режимы (`run_pipeline.py`)
 
 Оркестратор собирает шаги в правильном порядке и останавливается на первой ошибке.
 
@@ -482,7 +522,7 @@ flowchart TD
 
 ---
 
-## 12. Сущности и контракт гранулярности (Для BI)
+## 13. Сущности и контракт гранулярности (Для BI)
 
 Это главный технический договор для Preset. Смешивание гранулярностей в одной широкой таблице без контроля кардинальности **запрещено**.
 
@@ -506,7 +546,7 @@ flowchart TD
 
 ---
 
-## 13. UX-правила и объяснимость в UI
+## 14. UX-правила и объяснимость в UI
 
 Для каждой цифры в дашборде пользователь должен понимать, что это:
 1. **Факт:** «расстояние до аэропорта по прямой — 35 км».
@@ -523,7 +563,7 @@ flowchart TD
 
 ---
 
-## 14. Запуск и Troubleshooting
+## 15. Запуск и Troubleshooting
 
 ```powershell
 python run_pipeline.py --mode full      # Полная пересборка
@@ -548,7 +588,7 @@ python run_pipeline.py --mode rescore --no-load  # пересчёт без за�
 
 ---
 
-## 15. Ограничения и допущения
+## 16. Ограничения и допущения
 
 - **Индекс потенциала ≠ популярность**: оценка по открытым данным, а не фактическая посещаемость.
 - **Региональный спрос** относится ко всему субъекту РФ, а не к конкретному курорту.
