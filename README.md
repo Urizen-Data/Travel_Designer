@@ -21,7 +21,7 @@
 
 ### Общее назначение
 
-**Ski Atlas** — воспроизводимый композитный рейтинг **32 горнолыжных курортов в 20 регионах РФ** для приоритизации подключения к каталогу Travel Designer. Поскольку прямой сопоставимой статистики посещаемости по конкретным курортам в открытом доступе нет, рейтинг собирается из открытых источников: региональный турпоток, инфраструктура (OSM), климат (ERA5), аэропорт, цены.
+**Ski Atlas** — воспроизводимый композитный рейтинг **горнолыжных курортов** для приоритизации подключения к каталогу Travel Designer. Поскольку прямой сопоставимой статистики посещаемости по конкретным курортам в открытом доступе нет, рейтинг собирается из открытых источников: региональный турпоток, инфраструктура (OSM), климат (ERA5), аэропорт, цены.
 
 **Ключевая идея:** не «правильный ответ», а **объяснимый и воспроизводимый инструмент** с прозрачными весами, ограничениями и оценкой уверенности в данных.
 
@@ -169,7 +169,7 @@ Default: Базовый каталог / Топ по индексу / Все →
 - **109 полей** в словаре `data/reference/field_dictionary.json`;
 - **107 авто-тестов**.
 
-**Происхождение данных.** Seed (`resort_seed.csv`: название + регион + нас.пункт + опц. координаты) и ориентиры координат задал заказчик. Всё остальное собирается скриптами из открытых источников: OpenSkiMap, Overpass/OSM, Wikidata, Skimap.org, Open-Meteo, OurAirports, Росстат/ЕМИСС.
+**Происхождение данных.** Список курортов (`resorts_manual.json`: название + регион + нас.пункт + опц. координаты) задал заказчик. Всё остальное собирается скриптами из открытых источников: OpenSkiMap, Overpass/OSM, Wikidata, Skimap.org, Open-Meteo, OurAirports, Росстат/ЕМИСС.
 
 ---
 
@@ -184,8 +184,7 @@ Travel_Designer/
 │   │   ├── recompute_resort_data.py   # OSM-инфраструктура + трассы + климат + аэропорт
 │   │   ├── fetch_skimap_ids.py        # ссылки details_url
 │   │   ├── fetch_weather_forecast.py  # прогноз 10 дней
-│   │   ├── manual_inputs.py           # ручные JSON (load_resorts_manual, load_prices_manual, merge_resorts_into_seed)
-│   │   ├── merge_resorts.py           # CLI-шаг слияния ручных курортов в seed
+│   │   ├── manual_inputs.py           # единый ручной конфиг (load_resorts_manual, load_manual_prices, append/update/remove_resort)
 │   │   └── prices/                    # парсеры цен (run_parsers, scrape_prices, sites, parsers/*)
 │   ├── transform/              # трансформация: apply_coordinates, build_resort_features,
 │   │                           #   regional_demand, regions
@@ -248,7 +247,7 @@ flowchart LR
 **Каскады и фолбэки:**
 - **Координаты** (`geocode_resorts`): OpenSkiMap → Wikidata → центроид Overpass → ориентир заказчика; приоритет `openskimap > osm_centroid > wikidata`.
 - **Ссылки `details_url`** (`fetch_skimap_ids`): Skimap → Wikipedia → Wikidata → NULL.
-- **Цены** (`run_parsers`): `prices_manual.json` > `prices_monthly.json` > живые скраперы (Шерегеш, Кукисвумчорр, Гора Белая).
+- **Цены** (`run_parsers`): `resorts_manual.json` (`manual` > `secondary`/`official`) > живые скраперы (Шерегеш, Кукисвумчорр, Гора Белая).
 
 ### Ключевые источники и фичи
 
@@ -276,7 +275,6 @@ Open-Meteo применяет температурный градиент (lapse
 
 | Скрипт | Что делает | Пишет в слой |
 |---|---|---|
-| `merge_resorts.py` | вливает ручные курорты в seed | **RAW** |
 | `geocode_resorts.py` | каскад координат + валидация региона | **Collected** |
 | `apply_coordinates.py` | собирает справочник курортов | **Prepared** |
 | `recompute_resort_data.py` | OSM-инфра + трассы + климат + аэропорт | **Prepared + Cache + Mart** |
@@ -294,7 +292,7 @@ Open-Meteo применяет температурный градиент (lapse
 
 | Слой | Что лежит | Кто пишет | Кто читает |
 |---|---|---|---|
-| **RAW** | `resort_seed.csv`, `resorts.json`, `resorts_manual.json`, `prices_*.json`, `rosstat_*.csv` | вручную / `merge_resorts` | `geocode_resorts`, `regional_demand`, `run_parsers` |
+| **RAW** | `resorts_manual.json` (курорты + цены + ссылки), `resorts.json` (эталон), `rosstat_*.csv` | вручную | `geocode_resorts`, `regional_demand`, `run_parsers` |
 | **Collected** | `coordinates_*.json`, `weather_forecast.json` | `geocode_resorts`, `apply_coordinates`, `fetch_weather_forecast` | `apply_coordinates`, `trip_conditions` |
 | **Prepared** | `resorts.json`, `region_metrics.json`, `prices.json` | `apply_coordinates`, `recompute_resort_data`, `regional_demand`, `run_parsers`, `fetch_skimap_ids` | `build_resort_features`, `fetch_weather_forecast` |
 | **Cache** | `climate_daily.json`, `airports.csv` | `recompute_resort_data` | `recompute_resort_data` (инкремент) |
@@ -558,12 +556,12 @@ scenario_score = Σ component_score × component_weight_pct / 100
 
 | Цепочка | Шаги |
 |---|---|
-| `RATING_FULL` | merge_resorts → geocode → apply → recompute → regional_demand → prices → skimap_ids → build_features → score → preset_engine → ranking_insights → catalog → atlas_catalog |
-| `RATING_STATIC` | merge_resorts → apply → recompute → regional_demand → prices → skimap_ids → build_features → score → preset_engine → ranking_insights → catalog → atlas_catalog |
+| `RATING_FULL` | geocode → apply → recompute → regional_demand → prices → skimap_ids → build_features → score → preset_engine → ranking_insights → catalog → atlas_catalog |
+| `RATING_STATIC` | apply → recompute → regional_demand → prices → skimap_ids → build_features → score → preset_engine → ranking_insights → catalog → atlas_catalog |
 | `RATING_ADD` | как `RATING_FULL` (геокодинг новой точки + полный пересбор) |
 | `WEATHER` | fetch_weather_forecast → trip_conditions |
 | `CLIMATE` | recompute `--only-climate` → build_features → score → preset_engine → ranking_insights → catalog → atlas_catalog |
-| `REMOVE` | merge_resorts → apply_coordinates + `RATING_TAIL` (пересборка без удалённого курорта) |
+| `REMOVE` | apply_coordinates + `RATING_TAIL` (пересборка без удалённого курорта) |
 | `RATING_RESCORE` | build_features → score → preset_engine → ranking_insights → catalog → atlas_catalog → load_supabase (локально, без сетевых запросов) |
 | `LOAD` | load_supabase |
 
@@ -571,8 +569,8 @@ scenario_score = Σ component_score × component_weight_pct / 100
 
 ```mermaid
 flowchart TD
-    FULL["--mode full"] -->|всё + погода| MG
-    ADD["--mode add"] -->|новый курорт| MG
+    FULL["--mode full"] -->|всё + погода| G
+    ADD["--mode add"] -->|новый курорт| G
     STATIC["--mode static"] -->|без геокодинга| A
     REMOVE["--mode remove"] -->|удаление| A
     CLIMATE["--mode climate"] -.->|только климат| R
@@ -581,9 +579,8 @@ flowchart TD
 
     subgraph RATING["Ветка «рейтинг»"]
         direction TB
-        MG[merge_resorts] --> G[geocode_resorts]
+        G[geocode_resorts]
         G --> A[apply_coordinates]
-        MG --> A
         A --> R[recompute_resort_data]
         R --> D[regional_demand]
         D --> P[prices/run_parsers]
@@ -622,32 +619,39 @@ flowchart TD
 
 ### Ручное добавление курортов и цен (JSON-конфиги)
 
-Вместо CLI (`--mode add`) и правки CSV можно управлять сущностями простыми JSON-файлами в `data/raw/`:
+Вместо CLI (`--mode add`) управляйте курортами через **единый файл** `data/raw/resorts_manual.json` — единственный источник правды по курортам, ценам и ссылкам:
 
-**`resorts_manual.json`** — ручные курорты (дополняют `resort_seed.csv`, не заменяют его):
 ```json
-{"resorts": [
-  {"name_ru": "Новый Курорт", "region": "Республика Алтай",
-   "settlement": "с. Телецкое", "lat": 51.7, "lon": 87.5}
-]}
+{
+  "resorts": [
+    {
+      "resort_id": "R033",
+      "name_ru": "Новый Курорт",
+      "region": "Республика Алтай",
+      "settlement": "с. Телецкое",
+      "lat": 51.7, "lon": 87.5,
+      "official_website_url": "https://example.com",
+      "details_url": null,
+      "skimap_url": null,
+      "prices": [
+        {"month": null, "adult_price_min_rub": 3000, "adult_price_max_rub": 4500,
+         "child_price_min_rub": null, "child_price_max_rub": null,
+         "tariff_product": "Ски-пасс на 1 день", "coverage": null,
+         "source_quality": "manual", "source_url": "https://example.com", "checked_at": "2026-09-14"}
+      ]
+    }
+  ]
+}
 ```
-*   `name_ru` и `region` обязательны; `settlement`, `lat`, `lon` — опциональны.
-*   Если указаны и `lat`, и `lon` — используются как точные координаты; иначе работает геокодинг (`geocode_resorts`).
-*   При запуске любой ветки «рейтинг» (`full`/`static`/`add`/`remove`) шаг `merge_resorts` дописывает новые курорты в `resort_seed.csv` (без дублей по `name_ru`), после чего `apply_coordinates` пересобирает `resorts.json`.
 
-**`prices_manual.json`** — ручные цены (приоритет над `prices_monthly.json` и парсерами):
-```json
-{"prices": [
-  {"resort_name": "Новый Курорт", "adult_price_min_rub": 3000,
-   "adult_price_max_rub": 4500, "month": null,
-   "tariff_product": "Ски-пасс на 1 день", "source_quality": "manual"}
-]}
-```
-*   Привязка к курорту — по `resort_name` (`name_ru`) или явному `resort_id`.
-*   Приоритет цен: `prices_manual.json` > `prices_monthly.json` > парсеры; если цены нет нигде — нейтральные 50 баллов в скоринге.
-*   Ручные цены перекрывают месячную матрицу и парсеры и корректно вливаются в `prepared/prices.json`.
+**Правила:**
+*   `resort_id` — стабильный (R001…R032 уже заняты). Для нового курорта можно не указывать — `manual_inputs.py` выдаст следующий свободный (`R033`). Менять существующие ID нельзя.
+*   `name_ru` и `region` обязательны; `settlement`, `lat`, `lon` — опциональны. Если заданы и `lat`, и `lon` — это точные координаты; иначе геокодинг.
+*   `official_website_url`, `details_url`, `skimap_url` — вручную; если пусто — заполняются фолбэками (OpenSkiMap / `fetch_skimap_ids`).
+*   `prices` — список цен: `month: null` = бессрочная, `"YYYY-MM"` = месячная. Приоритет `source_quality`: `manual` > `secondary`/`official` > живые парсеры. `checked_at` — `"YYYY-MM-DD"` или `null`.
+*   Если цены нет нигде — нейтральные 50 баллов в скоринге.
 
-**Итоговый сценарий:** вписываете курорт + цену в оба JSON → `python run_pipeline.py --mode static` → в дашборде появляется новый курорт с указанной ценой.
+**Итоговый сценарий:** вписываете курорт + цену + ссылки в `resorts_manual.json` → `python run_pipeline.py --mode static` → в дашборде появляется курорт с ценой и ссылками.
 
 ---
 

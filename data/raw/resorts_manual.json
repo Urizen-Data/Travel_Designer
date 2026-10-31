@@ -1,4 +1,1175 @@
 {
-  "_comment": "Ручное добавление курортов. Поля: name_ru (обязательно), region (обязательно), settlement, lat, lon (если указаны lat+lon — используются как точные, иначе геокодинг).",
-  "resorts": []
+  "_comment": "Единый источник правды по курортам. resort_id стабилен (R001..). Пустые поля заполняются фолбэками пайплайна: lat/lon — геокодинг, official_website_url — OpenSkiMap, details_url/skimap_url — fetch_skimap_ids, prices (если пусто) — живые парсеры. checked_at — 'YYYY-MM-DD' или null.",
+  "resorts": [
+    {
+      "resort_id": "R001",
+      "name_ru": "Роза Хутор",
+      "region": "Краснодарский край",
+      "settlement": "Сочи",
+      "lat": null,
+      "lon": null,
+      "official_website_url": null,
+      "details_url": null,
+      "skimap_url": null,
+      "prices": [
+        {
+          "month": "2026-01",
+          "adult_price_min_rub": 5550,
+          "adult_price_max_rub": 6350,
+          "child_price_min_rub": 2800,
+          "child_price_max_rub": 3200,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": "05–31.01.2026; тариф менялся внутри месяца",
+          "source_quality": "secondary",
+          "source_url": "https://skipasskp.ru/skipass-ceny-kp",
+          "checked_at": "2026-09-14"
+        },
+        {
+          "month": "2026-02",
+          "adult_price_min_rub": 6800,
+          "adult_price_max_rub": 6800,
+          "child_price_min_rub": 3400,
+          "child_price_max_rub": 3400,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": "01–28.02.2026",
+          "source_quality": "secondary",
+          "source_url": "https://skipasskp.ru/skipass-ceny-kp",
+          "checked_at": "2026-09-14"
+        },
+        {
+          "month": "2026-03",
+          "adult_price_min_rub": 5550,
+          "adult_price_max_rub": 6800,
+          "child_price_min_rub": 2800,
+          "child_price_max_rub": 3400,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": "01–31.03.2026; изменение тарифа 10.03",
+          "source_quality": "secondary",
+          "source_url": "https://skipasskp.ru/skipass-ceny-kp",
+          "checked_at": "2026-09-14"
+        },
+        {
+          "month": "2026-04",
+          "adult_price_min_rub": 5190,
+          "adult_price_max_rub": 5190,
+          "child_price_min_rub": 2600,
+          "child_price_max_rub": 2600,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": "01–12.04.2026",
+          "source_quality": "secondary",
+          "source_url": "https://skipasskp.ru/skipass-ceny-kp",
+          "checked_at": "2026-09-14"
+        }
+      ]
+    },
+    {
+      "resort_id": "R002",
+      "name_ru": "Красная Поляна",
+      "region": "Краснодарский край",
+      "settlement": "Эстосадок",
+      "lat": null,
+      "lon": null,
+      "official_website_url": null,
+      "details_url": null,
+      "skimap_url": null,
+      "prices": [
+        {
+          "month": "2025-12",
+          "adult_price_min_rub": 3900,
+          "adult_price_max_rub": 5250,
+          "child_price_min_rub": 2300,
+          "child_price_max_rub": 3050,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": "26–31.12.2025",
+          "source_quality": "secondary",
+          "source_url": "https://skipasskp.ru/skipass-ceny-kp",
+          "checked_at": "2026-09-14"
+        },
+        {
+          "month": "2026-01",
+          "adult_price_min_rub": 4100,
+          "adult_price_max_rub": 5250,
+          "child_price_min_rub": 2500,
+          "child_price_max_rub": 3050,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": "01–31.01.2026",
+          "source_quality": "secondary",
+          "source_url": "https://skipasskp.ru/skipass-ceny-kp",
+          "checked_at": "2026-09-14"
+        },
+        {
+          "month": "2026-02",
+          "adult_price_min_rub": 5200,
+          "adult_price_max_rub": 5200,
+          "child_price_min_rub": 2750,
+          "child_price_max_rub": 2750,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": "01–28.02.2026",
+          "source_quality": "secondary",
+          "source_url": "https://skipasskp.ru/skipass-ceny-kp",
+          "checked_at": "2026-09-14"
+        },
+        {
+          "month": "2026-03",
+          "adult_price_min_rub": 4100,
+          "adult_price_max_rub": 5200,
+          "child_price_min_rub": 2500,
+          "child_price_max_rub": 2750,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": "01–31.03.2026; изменение тарифа 10.03",
+          "source_quality": "secondary",
+          "source_url": "https://skipasskp.ru/skipass-ceny-kp",
+          "checked_at": "2026-09-14"
+        },
+        {
+          "month": "2026-04",
+          "adult_price_min_rub": 3900,
+          "adult_price_max_rub": 3900,
+          "child_price_min_rub": 2300,
+          "child_price_max_rub": 2300,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": "01–30.04.2026",
+          "source_quality": "secondary",
+          "source_url": "https://skipasskp.ru/skipass-ceny-kp",
+          "checked_at": "2026-09-14"
+        },
+        {
+          "month": "2026-05",
+          "adult_price_min_rub": 3900,
+          "adult_price_max_rub": 3900,
+          "child_price_min_rub": 2300,
+          "child_price_max_rub": 2300,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": "01–11.05.2026",
+          "source_quality": "secondary",
+          "source_url": "https://skipasskp.ru/skipass-ceny-kp",
+          "checked_at": "2026-09-14"
+        }
+      ]
+    },
+    {
+      "resort_id": "R003",
+      "name_ru": "Газпром Поляна",
+      "region": "Краснодарский край",
+      "settlement": "Эстосадок",
+      "lat": null,
+      "lon": null,
+      "official_website_url": null,
+      "details_url": null,
+      "skimap_url": null,
+      "prices": [
+        {
+          "month": "2026-01",
+          "adult_price_min_rub": 4100,
+          "adult_price_max_rub": 4100,
+          "child_price_min_rub": 2550,
+          "child_price_max_rub": 2550,
+          "tariff_product": "Ски-пасс на 1 день, Лаура + Альпика",
+          "coverage": "12–31.01.2026",
+          "source_quality": "secondary",
+          "source_url": "https://www.ski.ru/az/resort/512/article/28246",
+          "checked_at": "2026-09-14"
+        }
+      ]
+    },
+    {
+      "resort_id": "R004",
+      "name_ru": "Шерегеш",
+      "region": "Кемеровская область",
+      "settlement": "Шерегеш",
+      "lat": null,
+      "lon": null,
+      "official_website_url": null,
+      "details_url": null,
+      "skimap_url": null,
+      "prices": [
+        {
+          "month": null,
+          "adult_price_min_rub": 4250,
+          "adult_price_max_rub": 4250,
+          "child_price_min_rub": null,
+          "child_price_max_rub": null,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": null,
+          "source_quality": "manual",
+          "source_url": "https://kaskad-gesh.ru",
+          "checked_at": null
+        }
+      ]
+    },
+    {
+      "resort_id": "R005",
+      "name_ru": "Архыз",
+      "region": "Карачаево-Черкесская Республика",
+      "settlement": "Архыз",
+      "lat": null,
+      "lon": null,
+      "official_website_url": null,
+      "details_url": null,
+      "skimap_url": null,
+      "prices": [
+        {
+          "month": null,
+          "adult_price_min_rub": 2910,
+          "adult_price_max_rub": 2910,
+          "child_price_min_rub": null,
+          "child_price_max_rub": null,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": null,
+          "source_quality": "manual",
+          "source_url": "https://allslopes.ru",
+          "checked_at": null
+        },
+        {
+          "month": "2025-12",
+          "adult_price_min_rub": 2550,
+          "adult_price_max_rub": 4350,
+          "child_price_min_rub": 1700,
+          "child_price_max_rub": 2600,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": "06–31.12.2025",
+          "source_quality": "secondary",
+          "source_url": "https://volodimire.pro/czeny-na-skipassy-na-kurorte-arhyz-v-sezone-2025-2026/",
+          "checked_at": "2026-09-14"
+        },
+        {
+          "month": "2026-01",
+          "adult_price_min_rub": 3500,
+          "adult_price_max_rub": 4350,
+          "child_price_min_rub": 2100,
+          "child_price_max_rub": 2600,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": "01–31.01.2026",
+          "source_quality": "secondary",
+          "source_url": "https://volodimire.pro/czeny-na-skipassy-na-kurorte-arhyz-v-sezone-2025-2026/",
+          "checked_at": "2026-09-14"
+        },
+        {
+          "month": "2026-02",
+          "adult_price_min_rub": 4350,
+          "adult_price_max_rub": 4350,
+          "child_price_min_rub": 2600,
+          "child_price_max_rub": 2600,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": "01–28.02.2026",
+          "source_quality": "secondary",
+          "source_url": "https://volodimire.pro/czeny-na-skipassy-na-kurorte-arhyz-v-sezone-2025-2026/",
+          "checked_at": "2026-09-14"
+        },
+        {
+          "month": "2026-03",
+          "adult_price_min_rub": 3550,
+          "adult_price_max_rub": 4350,
+          "child_price_min_rub": 2150,
+          "child_price_max_rub": 2600,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": "01–31.03.2026",
+          "source_quality": "secondary",
+          "source_url": "https://volodimire.pro/czeny-na-skipassy-na-kurorte-arhyz-v-sezone-2025-2026/",
+          "checked_at": "2026-09-14"
+        }
+      ]
+    },
+    {
+      "resort_id": "R006",
+      "name_ru": "Домбай",
+      "region": "Карачаево-Черкесская Республика",
+      "settlement": "Домбай",
+      "lat": null,
+      "lon": null,
+      "official_website_url": null,
+      "details_url": null,
+      "skimap_url": null,
+      "prices": [
+        {
+          "month": null,
+          "adult_price_min_rub": 2900,
+          "adult_price_max_rub": 2900,
+          "child_price_min_rub": null,
+          "child_price_max_rub": null,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": null,
+          "source_quality": "manual",
+          "source_url": "https://dombai-kd.ru",
+          "checked_at": null
+        }
+      ]
+    },
+    {
+      "resort_id": "R007",
+      "name_ru": "Эльбрус",
+      "region": "Кабардино-Балкарская Республика",
+      "settlement": "Терскол",
+      "lat": null,
+      "lon": null,
+      "official_website_url": null,
+      "details_url": null,
+      "skimap_url": null,
+      "prices": [
+        {
+          "month": null,
+          "adult_price_min_rub": 3240,
+          "adult_price_max_rub": 3240,
+          "child_price_min_rub": null,
+          "child_price_max_rub": null,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": null,
+          "source_quality": "manual",
+          "source_url": "https://www.rg.ru",
+          "checked_at": null
+        },
+        {
+          "month": "2025-12",
+          "adult_price_min_rub": 3780,
+          "adult_price_max_rub": 3780,
+          "child_price_min_rub": 2250,
+          "child_price_max_rub": 2250,
+          "tariff_product": "Онлайн-ски-пасс на 1 день",
+          "coverage": "26–31.12.2025",
+          "source_quality": "secondary",
+          "source_url": "https://allslopes.ru/elbrus/skipass",
+          "checked_at": "2026-09-14"
+        },
+        {
+          "month": "2026-01",
+          "adult_price_min_rub": 3240,
+          "adult_price_max_rub": 3780,
+          "child_price_min_rub": 1980,
+          "child_price_max_rub": 2250,
+          "tariff_product": "Онлайн-ски-пасс на 1 день",
+          "coverage": "01–31.01.2026; сезонные тарифы",
+          "source_quality": "secondary",
+          "source_url": "https://allslopes.ru/elbrus/skipass",
+          "checked_at": "2026-09-14"
+        },
+        {
+          "month": "2026-02",
+          "adult_price_min_rub": 3240,
+          "adult_price_max_rub": 3780,
+          "child_price_min_rub": 1980,
+          "child_price_max_rub": 2250,
+          "tariff_product": "Онлайн-ски-пасс на 1 день",
+          "coverage": "01–28.02.2026; сезонные тарифы",
+          "source_quality": "secondary",
+          "source_url": "https://allslopes.ru/elbrus/skipass",
+          "checked_at": "2026-09-14"
+        },
+        {
+          "month": "2026-03",
+          "adult_price_min_rub": 3240,
+          "adult_price_max_rub": 3780,
+          "child_price_min_rub": 1980,
+          "child_price_max_rub": 2250,
+          "tariff_product": "Онлайн-ски-пасс на 1 день",
+          "coverage": "01–31.03.2026; сезонные тарифы",
+          "source_quality": "secondary",
+          "source_url": "https://allslopes.ru/elbrus/skipass",
+          "checked_at": "2026-09-14"
+        },
+        {
+          "month": "2026-04",
+          "adult_price_min_rub": 3240,
+          "adult_price_max_rub": 3240,
+          "child_price_min_rub": 1980,
+          "child_price_max_rub": 1980,
+          "tariff_product": "Онлайн-ски-пасс на 1 день",
+          "coverage": "01–30.04.2026",
+          "source_quality": "secondary",
+          "source_url": "https://allslopes.ru/elbrus/skipass",
+          "checked_at": "2026-09-14"
+        },
+        {
+          "month": "2026-05",
+          "adult_price_min_rub": 3240,
+          "adult_price_max_rub": 3240,
+          "child_price_min_rub": 1980,
+          "child_price_max_rub": 1980,
+          "tariff_product": "Онлайн-ски-пасс на 1 день",
+          "coverage": "До фактического окончания горнолыжного сезона",
+          "source_quality": "secondary",
+          "source_url": "https://allslopes.ru/elbrus/skipass",
+          "checked_at": "2026-09-14"
+        }
+      ]
+    },
+    {
+      "resort_id": "R008",
+      "name_ru": "Чегет",
+      "region": "Кабардино-Балкарская Республика",
+      "settlement": "Эльбрус",
+      "lat": null,
+      "lon": null,
+      "official_website_url": null,
+      "details_url": null,
+      "skimap_url": null,
+      "prices": [
+        {
+          "month": null,
+          "adult_price_min_rub": 2500,
+          "adult_price_max_rub": 2500,
+          "child_price_min_rub": null,
+          "child_price_max_rub": null,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": null,
+          "source_quality": "manual",
+          "source_url": "https://www.snow-online.de",
+          "checked_at": null
+        }
+      ]
+    },
+    {
+      "resort_id": "R009",
+      "name_ru": "Мамисон",
+      "region": "Республика Северная Осетия — Алания",
+      "settlement": "Камсхо",
+      "lat": null,
+      "lon": null,
+      "official_website_url": null,
+      "details_url": null,
+      "skimap_url": null,
+      "prices": [
+        {
+          "month": null,
+          "adult_price_min_rub": 2970,
+          "adult_price_max_rub": 2970,
+          "child_price_min_rub": null,
+          "child_price_max_rub": null,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": null,
+          "source_quality": "manual",
+          "source_url": "https://profilerussia.com",
+          "checked_at": null
+        },
+        {
+          "month": "2025-12",
+          "adult_price_min_rub": 2430,
+          "adult_price_max_rub": 2970,
+          "child_price_min_rub": 1440,
+          "child_price_max_rub": 1800,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": "01–31.12.2025; сезонные тарифы",
+          "source_quality": "secondary",
+          "source_url": "https://www.championat.com/lifestyle/article-6279226-gornolyzhnyj-kurort-mamison-2025-2026-ceny-na-ski-passy-trassy-so-shemoj-prozhivanie-foto-kak-dobratsya-chto-posmotret.html",
+          "checked_at": "2026-09-14"
+        },
+        {
+          "month": "2026-01",
+          "adult_price_min_rub": 1400,
+          "adult_price_max_rub": 2970,
+          "child_price_min_rub": 800,
+          "child_price_max_rub": 1800,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": "Промо с 26.01.2026 и основной тариф",
+          "source_quality": "secondary",
+          "source_url": "https://www.ski.ru/az/blogs/post/mamison-snizhaet-ceny-na-ski-passy-otkryvaet-otel-i-kafe/",
+          "checked_at": "2026-09-14"
+        },
+        {
+          "month": "2026-02",
+          "adult_price_min_rub": 1400,
+          "adult_price_max_rub": 2970,
+          "child_price_min_rub": 800,
+          "child_price_max_rub": 1800,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": "Промо до 08.02.2026; высокий сезон с 09.02",
+          "source_quality": "secondary",
+          "source_url": "https://www.ski.ru/az/blogs/post/mamison-snizhaet-ceny-na-ski-passy-otkryvaet-otel-i-kafe/",
+          "checked_at": "2026-09-14"
+        },
+        {
+          "month": "2026-03",
+          "adult_price_min_rub": 1400,
+          "adult_price_max_rub": 2970,
+          "child_price_min_rub": 1440,
+          "child_price_max_rub": 1800,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": "Высокий сезон и весеннее специальное предложение",
+          "source_quality": "secondary",
+          "source_url": "https://www.championat.com/lifestyle/article-6279226-gornolyzhnyj-kurort-mamison-2025-2026-ceny-na-ski-passy-trassy-so-shemoj-prozhivanie-foto-kak-dobratsya-chto-posmotret.html",
+          "checked_at": "2026-09-14"
+        }
+      ]
+    },
+    {
+      "resort_id": "R010",
+      "name_ru": "Цей",
+      "region": "Республика Северная Осетия — Алания",
+      "settlement": "Алагирский район",
+      "lat": null,
+      "lon": null,
+      "official_website_url": null,
+      "details_url": null,
+      "skimap_url": null,
+      "prices": [
+        {
+          "month": null,
+          "adult_price_min_rub": 1350,
+          "adult_price_max_rub": 1350,
+          "child_price_min_rub": null,
+          "child_price_max_rub": null,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": null,
+          "source_quality": "manual",
+          "source_url": "https://www.ski.ru",
+          "checked_at": null
+        }
+      ]
+    },
+    {
+      "resort_id": "R011",
+      "name_ru": "Манжерок",
+      "region": "Республика Алтай",
+      "settlement": "Озёрное",
+      "lat": null,
+      "lon": null,
+      "official_website_url": null,
+      "details_url": null,
+      "skimap_url": null,
+      "prices": [
+        {
+          "month": null,
+          "adult_price_min_rub": 2800,
+          "adult_price_max_rub": 2800,
+          "child_price_min_rub": null,
+          "child_price_max_rub": null,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": null,
+          "source_quality": "manual",
+          "source_url": "https://xn--80akcrghjp.xn--p1ai",
+          "checked_at": null
+        }
+      ]
+    },
+    {
+      "resort_id": "R012",
+      "name_ru": "Телецкий",
+      "region": "Республика Алтай",
+      "settlement": "Турочакский район",
+      "lat": null,
+      "lon": null,
+      "official_website_url": null,
+      "details_url": null,
+      "skimap_url": null,
+      "prices": [
+        {
+          "month": null,
+          "adult_price_min_rub": 2500,
+          "adult_price_max_rub": 2500,
+          "child_price_min_rub": null,
+          "child_price_max_rub": null,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": null,
+          "source_quality": "manual",
+          "source_url": "https://ok.ru",
+          "checked_at": null
+        }
+      ]
+    },
+    {
+      "resort_id": "R013",
+      "name_ru": "Большой Вудъявр",
+      "region": "Мурманская область",
+      "settlement": "Кировск",
+      "lat": null,
+      "lon": null,
+      "official_website_url": null,
+      "details_url": null,
+      "skimap_url": null,
+      "prices": [
+        {
+          "month": null,
+          "adult_price_min_rub": 2800,
+          "adult_price_max_rub": 3900,
+          "child_price_min_rub": null,
+          "child_price_max_rub": null,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": null,
+          "source_quality": "manual",
+          "source_url": "https://bigwood.ru/",
+          "checked_at": null
+        },
+        {
+          "month": "2025-12",
+          "adult_price_min_rub": 3420,
+          "adult_price_max_rub": 3420,
+          "child_price_min_rub": null,
+          "child_price_max_rub": null,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": "26–31.12.2025; детский тариф не найден",
+          "source_quality": "secondary",
+          "source_url": "https://www.ski.ru/az/resort/5167/article/98790",
+          "checked_at": "2026-09-14"
+        },
+        {
+          "month": "2026-01",
+          "adult_price_min_rub": 2020,
+          "adult_price_max_rub": 3420,
+          "child_price_min_rub": null,
+          "child_price_max_rub": null,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": "01–31.01.2026; несколько тарифных периодов",
+          "source_quality": "secondary",
+          "source_url": "https://www.ski.ru/az/resort/5167/article/98790",
+          "checked_at": "2026-09-14"
+        },
+        {
+          "month": "2026-02",
+          "adult_price_min_rub": 2610,
+          "adult_price_max_rub": 2610,
+          "child_price_min_rub": null,
+          "child_price_max_rub": null,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": "01–28.02.2026; детский тариф не найден",
+          "source_quality": "secondary",
+          "source_url": "https://www.ski.ru/az/resort/5167/article/98790",
+          "checked_at": "2026-09-14"
+        },
+        {
+          "month": "2026-03",
+          "adult_price_min_rub": 2610,
+          "adult_price_max_rub": 3420,
+          "child_price_min_rub": null,
+          "child_price_max_rub": null,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": "01–31.03.2026; несколько тарифных периодов",
+          "source_quality": "secondary",
+          "source_url": "https://www.ski.ru/az/resort/5167/article/98790",
+          "checked_at": "2026-09-14"
+        },
+        {
+          "month": "2026-04",
+          "adult_price_min_rub": 3420,
+          "adult_price_max_rub": 3420,
+          "child_price_min_rub": null,
+          "child_price_max_rub": null,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": "01–30.04.2026; детский тариф не найден",
+          "source_quality": "secondary",
+          "source_url": "https://www.ski.ru/az/resort/5167/article/98790",
+          "checked_at": "2026-09-14"
+        },
+        {
+          "month": "2026-05",
+          "adult_price_min_rub": 1100,
+          "adult_price_max_rub": 3420,
+          "child_price_min_rub": null,
+          "child_price_max_rub": null,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": "01–31.05.2026; несколько тарифных периодов",
+          "source_quality": "secondary",
+          "source_url": "https://www.ski.ru/az/resort/5167/article/98790",
+          "checked_at": "2026-09-14"
+        },
+        {
+          "month": "2026-06",
+          "adult_price_min_rub": 1100,
+          "adult_price_max_rub": 1100,
+          "child_price_min_rub": null,
+          "child_price_max_rub": null,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": "01–10.06.2026; детский тариф не найден",
+          "source_quality": "secondary",
+          "source_url": "https://www.ski.ru/az/resort/5167/article/98790",
+          "checked_at": "2026-09-14"
+        }
+      ]
+    },
+    {
+      "resort_id": "R014",
+      "name_ru": "Кукисвумчорр",
+      "region": "Мурманская область",
+      "settlement": "Кукисвумчорр",
+      "lat": null,
+      "lon": null,
+      "official_website_url": null,
+      "details_url": null,
+      "skimap_url": null,
+      "prices": [
+        {
+          "month": null,
+          "adult_price_min_rub": 2000,
+          "adult_price_max_rub": 2000,
+          "child_price_min_rub": null,
+          "child_price_max_rub": null,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": null,
+          "source_quality": "manual",
+          "source_url": "https://kukisvumchorr.ru",
+          "checked_at": null
+        }
+      ]
+    },
+    {
+      "resort_id": "R015",
+      "name_ru": "КолаСпортЛэнд",
+      "region": "Мурманская область",
+      "settlement": "Кировск",
+      "lat": null,
+      "lon": null,
+      "official_website_url": null,
+      "details_url": null,
+      "skimap_url": null,
+      "prices": [
+        {
+          "month": null,
+          "adult_price_min_rub": 950,
+          "adult_price_max_rub": 950,
+          "child_price_min_rub": null,
+          "child_price_max_rub": null,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": null,
+          "source_quality": "manual",
+          "source_url": "https://ski-kolasport.narod.ru/",
+          "checked_at": null
+        }
+      ]
+    },
+    {
+      "resort_id": "R016",
+      "name_ru": "Горный воздух",
+      "region": "Сахалинская область",
+      "settlement": "Южно-Сахалинск",
+      "lat": null,
+      "lon": null,
+      "official_website_url": null,
+      "details_url": null,
+      "skimap_url": null,
+      "prices": [
+        {
+          "month": null,
+          "adult_price_min_rub": 2800,
+          "adult_price_max_rub": 2800,
+          "child_price_min_rub": null,
+          "child_price_max_rub": null,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": null,
+          "source_quality": "manual",
+          "source_url": "https://sutochno.ru",
+          "checked_at": null
+        }
+      ]
+    },
+    {
+      "resort_id": "R017",
+      "name_ru": "Холдоми",
+      "region": "Хабаровский край",
+      "settlement": "Солнечный муниципальный округ",
+      "lat": null,
+      "lon": null,
+      "official_website_url": null,
+      "details_url": null,
+      "skimap_url": null,
+      "prices": [
+        {
+          "month": null,
+          "adult_price_min_rub": 3650,
+          "adult_price_max_rub": 3650,
+          "child_price_min_rub": null,
+          "child_price_max_rub": null,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": null,
+          "source_quality": "manual",
+          "source_url": "https://holdomi.ru",
+          "checked_at": null
+        }
+      ]
+    },
+    {
+      "resort_id": "R018",
+      "name_ru": "Морозная гора",
+      "region": "Камчатский край",
+      "settlement": "Елизово",
+      "lat": null,
+      "lon": null,
+      "official_website_url": null,
+      "details_url": null,
+      "skimap_url": null,
+      "prices": [
+        {
+          "month": null,
+          "adult_price_min_rub": 2000,
+          "adult_price_max_rub": 2000,
+          "child_price_min_rub": null,
+          "child_price_max_rub": null,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": null,
+          "source_quality": "manual",
+          "source_url": "https://www.ski.ru",
+          "checked_at": null
+        }
+      ]
+    },
+    {
+      "resort_id": "R019",
+      "name_ru": "Бобровый лог",
+      "region": "Красноярский край",
+      "settlement": "Свердловский район",
+      "lat": null,
+      "lon": null,
+      "official_website_url": null,
+      "details_url": null,
+      "skimap_url": null,
+      "prices": [
+        {
+          "month": null,
+          "adult_price_min_rub": 2400,
+          "adult_price_max_rub": 2400,
+          "child_price_min_rub": null,
+          "child_price_max_rub": null,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": null,
+          "source_quality": "manual",
+          "source_url": "https://ngs24.ru",
+          "checked_at": null
+        }
+      ]
+    },
+    {
+      "resort_id": "R020",
+      "name_ru": "Соболиная гора",
+      "region": "Иркутская область",
+      "settlement": "Байкальское",
+      "lat": null,
+      "lon": null,
+      "official_website_url": null,
+      "details_url": null,
+      "skimap_url": null,
+      "prices": [
+        {
+          "month": null,
+          "adult_price_min_rub": 3400,
+          "adult_price_max_rub": 3400,
+          "child_price_min_rub": null,
+          "child_price_max_rub": null,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": null,
+          "source_quality": "manual",
+          "source_url": "https://ulan.mk.ru",
+          "checked_at": null
+        }
+      ]
+    },
+    {
+      "resort_id": "R021",
+      "name_ru": "Гора Белая",
+      "region": "Свердловская область",
+      "settlement": "муниципальный округ Нижний Тагил",
+      "lat": null,
+      "lon": null,
+      "official_website_url": null,
+      "details_url": null,
+      "skimap_url": null,
+      "prices": [
+        {
+          "month": null,
+          "adult_price_min_rub": 2400,
+          "adult_price_max_rub": 2400,
+          "child_price_min_rub": null,
+          "child_price_max_rub": null,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": null,
+          "source_quality": "manual",
+          "source_url": "https://v-tagile.ru",
+          "checked_at": null
+        }
+      ]
+    },
+    {
+      "resort_id": "R022",
+      "name_ru": "Евразия",
+      "region": "Челябинская область",
+      "settlement": "Уржумка",
+      "lat": null,
+      "lon": null,
+      "official_website_url": null,
+      "details_url": null,
+      "skimap_url": null,
+      "prices": [
+        {
+          "month": null,
+          "adult_price_min_rub": 1950,
+          "adult_price_max_rub": null,
+          "child_price_min_rub": null,
+          "child_price_max_rub": null,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": null,
+          "source_quality": "manual",
+          "source_url": "https://mt.ru",
+          "checked_at": null
+        },
+        {
+          "month": "2026-01",
+          "adult_price_min_rub": 1950,
+          "adult_price_max_rub": 3500,
+          "child_price_min_rub": 1300,
+          "child_price_max_rub": 2450,
+          "tariff_product": "Ски-пасс на полный день",
+          "coverage": "10–31.01.2026; будни и выходные",
+          "source_quality": "official",
+          "source_url": "https://euroasia.su/cable-car-fares/",
+          "checked_at": "2026-09-14"
+        },
+        {
+          "month": "2026-02",
+          "adult_price_min_rub": 1950,
+          "adult_price_max_rub": 3500,
+          "child_price_min_rub": 1300,
+          "child_price_max_rub": 2450,
+          "tariff_product": "Ски-пасс на полный день",
+          "coverage": "01–28.02.2026; будни и выходные",
+          "source_quality": "official",
+          "source_url": "https://euroasia.su/cable-car-fares/",
+          "checked_at": "2026-09-14"
+        },
+        {
+          "month": "2026-03",
+          "adult_price_min_rub": 1450,
+          "adult_price_max_rub": 3500,
+          "child_price_min_rub": 900,
+          "child_price_max_rub": 2450,
+          "tariff_product": "Ски-пасс на полный день",
+          "coverage": "01–31.03.2026; зимний/весенний тариф, будни/выходные",
+          "source_quality": "official",
+          "source_url": "https://euroasia.su/cable-car-fares/",
+          "checked_at": "2026-09-14"
+        }
+      ]
+    },
+    {
+      "resort_id": "R023",
+      "name_ru": "Аджигардак",
+      "region": "Челябинская область",
+      "settlement": "Аша",
+      "lat": null,
+      "lon": null,
+      "official_website_url": null,
+      "details_url": null,
+      "skimap_url": null,
+      "prices": [
+        {
+          "month": null,
+          "adult_price_min_rub": 2500,
+          "adult_price_max_rub": 2500,
+          "child_price_min_rub": null,
+          "child_price_max_rub": null,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": null,
+          "source_quality": "manual",
+          "source_url": "https://tonkosti.ru",
+          "checked_at": null
+        }
+      ]
+    },
+    {
+      "resort_id": "R024",
+      "name_ru": "Солнечная долина",
+      "region": "Челябинская область",
+      "settlement": "Миасский городской округ",
+      "lat": null,
+      "lon": null,
+      "official_website_url": null,
+      "details_url": null,
+      "skimap_url": null,
+      "prices": [
+        {
+          "month": null,
+          "adult_price_min_rub": 4500,
+          "adult_price_max_rub": 4500,
+          "child_price_min_rub": null,
+          "child_price_max_rub": null,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": null,
+          "source_quality": "manual",
+          "source_url": "https://ura.news",
+          "checked_at": null
+        }
+      ]
+    },
+    {
+      "resort_id": "R025",
+      "name_ru": "Завьялиха",
+      "region": "Челябинская область",
+      "settlement": "Трёхгорный городской округ",
+      "lat": null,
+      "lon": null,
+      "official_website_url": null,
+      "details_url": null,
+      "skimap_url": null,
+      "prices": [
+        {
+          "month": null,
+          "adult_price_min_rub": 4000,
+          "adult_price_max_rub": 4000,
+          "child_price_min_rub": null,
+          "child_price_max_rub": null,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": null,
+          "source_quality": "manual",
+          "source_url": "https://news.mail.ru",
+          "checked_at": null
+        }
+      ]
+    },
+    {
+      "resort_id": "R026",
+      "name_ru": "Абзаково",
+      "region": "Республика Башкортостан",
+      "settlement": "Абзаковский",
+      "lat": null,
+      "lon": null,
+      "official_website_url": null,
+      "details_url": null,
+      "skimap_url": null,
+      "prices": [
+        {
+          "month": null,
+          "adult_price_min_rub": 3800,
+          "adult_price_max_rub": 3800,
+          "child_price_min_rub": null,
+          "child_price_max_rub": null,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": null,
+          "source_quality": "manual",
+          "source_url": "https://profilerussia.com",
+          "checked_at": null
+        }
+      ]
+    },
+    {
+      "resort_id": "R027",
+      "name_ru": "Мраткино",
+      "region": "Республика Башкортостан",
+      "settlement": "Белорецк",
+      "lat": null,
+      "lon": null,
+      "official_website_url": null,
+      "details_url": null,
+      "skimap_url": null,
+      "prices": [
+        {
+          "month": null,
+          "adult_price_min_rub": 2100,
+          "adult_price_max_rub": 2100,
+          "child_price_min_rub": null,
+          "child_price_max_rub": null,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": null,
+          "source_quality": "manual",
+          "source_url": "https://www.skiresort.ch",
+          "checked_at": null
+        }
+      ]
+    },
+    {
+      "resort_id": "R028",
+      "name_ru": "Губаха",
+      "region": "Пермский край",
+      "settlement": "Новая Губаха",
+      "lat": null,
+      "lon": null,
+      "official_website_url": null,
+      "details_url": null,
+      "skimap_url": null,
+      "prices": [
+        {
+          "month": null,
+          "adult_price_min_rub": 2500,
+          "adult_price_max_rub": 2500,
+          "child_price_min_rub": null,
+          "child_price_max_rub": null,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": null,
+          "source_quality": "manual",
+          "source_url": "https://travel.rambler.ru",
+          "checked_at": null
+        }
+      ]
+    },
+    {
+      "resort_id": "R029",
+      "name_ru": "Игора",
+      "region": "Ленинградская область",
+      "settlement": "Сосновское",
+      "lat": null,
+      "lon": null,
+      "official_website_url": null,
+      "details_url": null,
+      "skimap_url": null,
+      "prices": []
+    },
+    {
+      "resort_id": "R030",
+      "name_ru": "Сорочаны",
+      "region": "Московская область",
+      "settlement": "Дмитровский муниципальный округ",
+      "lat": null,
+      "lon": null,
+      "official_website_url": null,
+      "details_url": null,
+      "skimap_url": null,
+      "prices": []
+    },
+    {
+      "resort_id": "R031",
+      "name_ru": "Красная Глинка",
+      "region": "Самарская область",
+      "settlement": "Красная Глинка",
+      "lat": null,
+      "lon": null,
+      "official_website_url": null,
+      "details_url": null,
+      "skimap_url": null,
+      "prices": [
+        {
+          "month": null,
+          "adult_price_min_rub": 1900,
+          "adult_price_max_rub": 3000,
+          "child_price_min_rub": null,
+          "child_price_max_rub": null,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": null,
+          "source_quality": "manual",
+          "source_url": "https://glksok.ru",
+          "checked_at": null
+        }
+      ]
+    },
+    {
+      "resort_id": "R032",
+      "name_ru": "Гладенькая",
+      "region": "Республика Хакасия",
+      "settlement": "Саяногорск",
+      "lat": null,
+      "lon": null,
+      "official_website_url": null,
+      "details_url": null,
+      "skimap_url": null,
+      "prices": [
+        {
+          "month": null,
+          "adult_price_min_rub": 1500,
+          "adult_price_max_rub": 1500,
+          "child_price_min_rub": null,
+          "child_price_max_rub": null,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": null,
+          "source_quality": "manual",
+          "source_url": "https://shansonline.ru",
+          "checked_at": null
+        },
+        {
+          "month": "2026-04",
+          "adult_price_min_rub": 1990,
+          "adult_price_max_rub": 2850,
+          "child_price_min_rub": null,
+          "child_price_max_rub": null,
+          "tariff_product": "Дневной ски-пасс",
+          "coverage": "09–30.04.2026; специальный и основной тариф",
+          "source_quality": "official",
+          "source_url": "https://ski-gladenkaya.ru/ski/sky_pass",
+          "checked_at": "2026-09-14"
+        }
+      ]
+    }
+  ]
 }

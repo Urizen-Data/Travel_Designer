@@ -154,16 +154,22 @@ def main() -> None:
     resorts = json.loads(path.read_text(encoding="utf-8"))
 
     for r in resorts:
+        # Ручные ссылки из resorts_manual.json приоритетнее — не перезаписываем.
+        manual_skimap = (r.get("skimap_url") or "").strip()
+        manual_details = (r.get("details_url") or "").strip()
+
         # skimap_url заполняем локально из openskimap_sources (без сети).
         skimap_id, skimap_url = resolve_skimap(r["name_ru"], r.get("openskimap_sources"))
         r["skimap_id"] = skimap_id
-        r["skimap_url"] = skimap_url
+        if not manual_skimap:
+            r["skimap_url"] = skimap_url
 
         # details_url — каскад Skimap → Wikipedia → Wikidata (как раньше).
         d = resolve(r["name_ru"], r.get("settlement", ""))
-        r["details_url"] = (d["details_url"] or "").strip() or None
-        r["details_url_source"] = d["details_url_source"]
         r["wikidata_qid"] = d["wikidata_qid"]
+        if not manual_details:
+            r["details_url"] = (d["details_url"] or "").strip() or None
+            r["details_url_source"] = d["details_url_source"]
 
     path.write_text(json.dumps(resorts, ensure_ascii=False, indent=2), encoding="utf-8")
 

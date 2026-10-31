@@ -41,8 +41,8 @@
 
 ### 3.3 Цены (`prices/run_parsers.py`)
 Приоритет (по убыванию):
-1. **`prices_manual.json`** — проверенные вручную (приоритет);
-2. **`prices_monthly.json`** — мануальная матрица по месяцам;
+1. **`resorts_manual.json`** — ручные цены `source_quality="manual"` (проверены, приоритет);
+2. **`resorts_manual.json`** — месячная матрица `source_quality="secondary"/"official"`;
 3. **живые скраперы** — `parse_sheregesh.py`, `parse_kukisvumchorr.py`, `parse_gora_belaya.py`.
 
 Если цены нет нигде — нейтральные **50 баллов** в скоринге.
@@ -89,9 +89,8 @@
 
 | Скрипт | Читает | Пишет | Что делает |
 |---|---|---|---|
-| `collect/merge_resorts.py` | resorts_manual.json + resort_seed.csv | resort_seed.csv | Вливает ручные курорты в seed |
-| `collect/geocode_resorts.py` | resort_seed.csv + API | collected/coordinates_verified.json | Каскад координат |
-| `transform/apply_coordinates.py` | seed + coordinates | prepared/resorts.json | Справочник курортов |
+| `collect/geocode_resorts.py` | resorts_manual.json + API | collected/coordinates_verified.json | Каскад координат |
+| `transform/apply_coordinates.py` | resorts_manual.json + coordinates | prepared/resorts.json | Справочник курортов |
 | `collect/recompute_resort_data.py` | prepared/resorts.json + OSM/Open-Meteo/OurAirports | prepared/resorts.json, mart/climate_monthly.csv, cache/* | OSM-инфра, трассы, климат, аэропорт |
 | `transform/regional_demand.py` | raw/rosstat_*.csv | prepared/region_metrics.json | Нормирует турпоток |
 | `collect/prices/run_parsers.py` | prices_*.json + парсеры | prepared/prices.json | Цены ски-пассов |
@@ -125,11 +124,8 @@
 ### RAW (`data/raw/`) — неизменяемые входы
 | Файл | Что это |
 |---|---|
-| resort_seed.csv | Список курортов (name_ru, region, settlement, опц. lat/lon) — задан заказчиком |
+| resorts_manual.json | Единый источник правды: курорты + цены + ссылки (правится вручную) |
 | resorts.json | Эталонный справочник курортов заказчика |
-| resorts_manual.json | Ручные курорты (дополняют seed) |
-| prices_manual.json | Ручные цены (приоритет) |
-| prices_monthly.json | Мануальная матрица цен по месяцам |
 | rosstat_tourist_trips.csv / nights.csv | Турпоток Росстат/ЕМИСС |
 
 ### Collected (`data/collected/`) — снимки API

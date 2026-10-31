@@ -34,9 +34,14 @@ def coordinate_validation_status(status: str | None) -> str:
 
 
 def _excel_serial_to_iso(value: object) -> str | None:
-    """Excel-серийная дата (например, 46279) → ISO-дата 'YYYY-MM-DD'."""
+    """Excel-серийная дата (46279) или ISO 'YYYY-MM-DD' → 'YYYY-MM-DD'."""
+    if value in (None, ""):
+        return None
+    text = str(value).strip()
+    if len(text) == 10 and text[4] == "-" and text[7] == "-":
+        return text  # уже ISO-дата
     try:
-        serial = float(value)
+        serial = float(text)
         return (datetime(1899, 12, 30) + timedelta(days=serial)).date().isoformat()
     except (TypeError, ValueError):
         return None

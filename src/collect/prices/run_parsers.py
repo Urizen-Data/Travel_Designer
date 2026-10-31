@@ -1,13 +1,12 @@
+#!/usr/bin/env python3
 """Сбор цен на ски-пассы: ручные + парсеры -> сводная матрица.
 
 Объединяет (по убыванию приоритета):
-  * ручные цены data/raw/prices_manual.json (проверены вручную, приоритет);
-  * мануальную матрицу data/raw/prices_monthly.json (по месяцам);
+  * ручные цены из data/raw/resorts_manual.json (source_quality="manual");
+  * месячную матрицу из того же файла (source_quality="secondary"/"official");
   * живые скраперы parsers/parse_*.py (Шерегеш, Кукисвумчорр, Гора Белая).
 
-Результат: data/prepared/prices.json — та же матрица «курорт × месяц», что и
-prices_monthly.json, дополненная строками ручных цен и скраперов (month=None,
-source_quality="manual"/"scraper", tariff_product="Ски-пасс на 1 день").
+Результат: data/prepared/prices.json — матрица «курорт × месяц».
 """
 from __future__ import annotations
 
@@ -25,9 +24,8 @@ from src.collect.prices.parsers import (
     parse_sheregesh,
 )  # noqa: E402
 from src.collect.prices.parsers.base import clean, fetch  # noqa: E402
-from src.collect.manual_inputs import load_prices_manual  # noqa: E402
+from src.collect.manual_inputs import load_manual_prices  # noqa: E402
 
-RAW = PROJECT_ROOT / "data" / "raw"
 PREPARED = PROJECT_ROOT / "data" / "prepared"
 OUT = PREPARED / "prices.json"
 
@@ -39,11 +37,6 @@ HEADER = [
 ]
 
 PARSERS = [parse_sheregesh, parse_kukisvumchorr, parse_gora_belaya]
-
-
-def load_matrix(path: Path) -> list[dict]:
-    m = json.loads(Path(path).read_text(encoding="utf-8"))
-    return [dict(zip(m[0], r)) for r in m[1:]]
 
 
 def run_parsers() -> dict[str, dict]:
@@ -68,85 +61,36 @@ def run_parsers() -> dict[str, dict]:
     return result
 
 
-def load_manual() -> list[dict]:
-    return load_matrix(RAW / "prices_monthly.json")
-
-
-def load_manual_config() -> list[dict]:
-    """Ручные цены из data/raw/prices_manual.json, привязанные к resort_id по name_ru.
-
-    Возвращает строки в том же формате, что и prices_monthly.json. Записи, для
-    которых не удалось определить resort_id (курорт не найден в resorts.json),
-    пропускаются с предупреждением.
-    """
-    entries = load_prices_manual()
-    if not entries:
-        return []
-
-    name_to_id: dict[str, str] = {}
-    resorts_path = PREPARED / "resorts.json"
-    if resorts_path.exists():
-        try:
-            for r in json.loads(resorts_path.read_text(encoding="utf-8")):
-                name = (r.get("name_ru") or "").strip().lower()
-                rid = r.get("resort_id")
-                if name and rid:
-                    name_to_id[name] = str(rid)
-        except (json.JSONDecodeError, OSError):
-            pass
-
-    rows: list[dict] = []
-    for entry in entries:
-        name = (entry.get("resort_name") or "").strip()
-        rid = entry.get("resort_id") or name_to_id.get(name.lower())
-        if not rid:
-            print(
-                f"[prices_manual] курорт не найден в resorts.json: '{name}' — пропущено",
-                flush=True,
-            )
-            continue
-        rows.append({
-            "resort_id": str(rid),
-            "resort_name": name or str(rid),
-            "month": entry.get("month"),
-            "adult_price_min_rub": entry.get("adult_price_min_rub"),
-            "adult_price_max_rub": entry.get("adult_price_max_rub"),
-            "child_price_min_rub": entry.get("child_price_min_rub"),
-            "child_price_max_rub": entry.get("child_price_max_rub"),
-            "tariff_product": entry.get("tariff_product") or "Ски-пасс на 1 день",
-            "coverage": entry.get("coverage"),
-            "source_quality": entry.get("source_quality") or "manual",
-            "source_url": entry.get("source_url"),
-            "checked_at": (
-                entry.get("checked_at")
-                if entry.get("checked_at") is not None
-                else today_serial()
-            ),
-        })
-    return rows
-
-
-def today_serial() -> int:
-    """Сегодняшняя дата в Excel-сериале (как checked_at в мануальном файле)."""
-    return (date.today() - date(1899, 12, 30)).days
+def today_iso() -> str:
+    """Сегодняшняя дата в ISO ('YYYY-MM-DD') для checked_at скраперов."""
+    return date.today().isoformat()
 
 
 def build_rows() -> list[dict]:
-    # Приоритет: prices_manual.json (ручные, проверенные) > prices_monthly.json > парсеры.
-    rows = list(load_manual_config())
-    manual_config_ids = {str(r["resort_id"]) for r in rows}
+    # Приоритет: manual (source_quality="manual") > месячная матрица
+    # (secondary/official) > живые парсеры.
+    prices = load_manual_prices()
+    manual: dict[str, dict] = {}
+    monthly: list[dict] = []
+    for p in prices:
+        if p.get("source_quality") == "manual":
+            manual.setdefault(str(p["resort_id"]), p)
+        else:
+            monthly.append(p)
 
-    for r in load_manual():  # prices_monthly.json (матрица)
-        if str(r["resort_id"]) in manual_config_ids:
-            continue  # ручная цена из prices_manual.json приоритетнее
-        rows.append(r)
+    rows = list(manual.values())
+    manual_ids = set(manual)
+    for p in monthly:
+        if str(p["resort_id"]) in manual_ids:
+            continue
+        rows.append(p)
 
     covered = {str(r["resort_id"]) for r in rows}
-    checked = today_serial()
+    checked = today_iso()
 
     for rid, info in run_parsers().items():
         if rid in covered or info["min"] is None:
-            continue  # уже есть цена (ручная/месячная) или скрапер без цены
+            continue
         rows.append({
             "resort_id": rid,
             "resort_name": info["name_ru"],
@@ -178,7 +122,6 @@ def main() -> None:
     matrix = [HEADER] + [[r.get(c) for c in HEADER] for r in rows]
     OUT.write_text(json.dumps(matrix, ensure_ascii=False, indent=1), encoding="utf-8")
 
-    # сводка: один курорт = одна строка (мин/макс по всем месяцам)
     by: dict[str, dict] = {}
     for r in rows:
         e = by.setdefault(str(r["resort_id"]), {

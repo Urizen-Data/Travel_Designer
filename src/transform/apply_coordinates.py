@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
-"""Собрать справочник курортов из seed (название + регион) с координатами.
+"""Собрать справочник курортов из resorts_manual.json (название + регион) с координатами.
 
-Читает seed data/raw/resort_seed.csv (name_ru, region), присваивает resort_id,
-берёт проверенные координаты из data/collected/coordinates_verified.json и
-валидирует регион координаты обратным геокодингом Nominatim против региона
-курорта из seed.
+Читает data/raw/resorts_manual.json (name_ru, region, resort_id), берёт проверенные
+координаты из data/collected/coordinates_verified.json и валидирует регион координаты
+обратным геокодингом Nominatim против региона курорта.
 
 Правила:
   * регион совпал          -> применяем координаты, статус "updated";
@@ -17,7 +16,6 @@
 """
 from __future__ import annotations
 
-import csv
 import json
 import sys
 import time
@@ -29,10 +27,9 @@ from typing import Any
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(PROJECT_ROOT))
 
+from src.collect.manual_inputs import load_resorts_manual  # noqa: E402
 from src.transform.regions import region_key  # noqa: E402
 
-RAW_DIR = PROJECT_ROOT / "data" / "raw"
-SEED_CSV = RAW_DIR / "resort_seed.csv"
 PREPARED_DIR = PROJECT_ROOT / "data" / "prepared"
 COLLECTED_DIR = PROJECT_ROOT / "data" / "collected"
 
@@ -41,22 +38,25 @@ USER_AGENT = "TravelDesignerStudentWorkshop/1.0 open-data-research"
 
 
 def load_resorts() -> list[dict[str, Any]]:
-    """Справочник курортов из seed (name_ru + region + нас.пункт + опц. lat/lon).
+    """Справочник курортов из resorts_manual.json (единый источник правды).
 
-    resort_id присваивается по порядку строк. lat/lon из seed используются как
-    точные координаты (fallback), если в coordinates_verified.json нет записи.
+    resort_id берётся из JSON (стабильный); если его нет — присваивается по
+    порядку. lat/lon из JSON используются как точные координаты (fallback),
+    если в coordinates_verified.json нет записи.
     """
     resorts: list[dict[str, Any]] = []
-    with open(SEED_CSV, encoding="utf-8-sig", newline="") as file:
-        for index, row in enumerate(csv.DictReader(file), start=1):
-            resorts.append({
-                "resort_id": f"R{index:03d}",
-                "name_ru": row["name_ru"].strip(),
-                "region": row["region"].strip(),
-                "settlement": (row.get("settlement") or "").strip(),
-                "lat": (row.get("lat") or "").strip(),
-                "lon": (row.get("lon") or "").strip(),
-            })
+    for index, r in enumerate(load_resorts_manual(), start=1):
+        resorts.append({
+            "resort_id": r.get("resort_id") or f"R{index:03d}",
+            "name_ru": (r.get("name_ru") or "").strip(),
+            "region": (r.get("region") or "").strip(),
+            "settlement": (r.get("settlement") or "").strip(),
+            "lat": r.get("lat"),
+            "lon": r.get("lon"),
+            "official_website_url": r.get("official_website_url"),
+            "details_url": r.get("details_url"),
+            "skimap_url": r.get("skimap_url"),
+        })
     return resorts
 
 
@@ -93,6 +93,11 @@ CARRY_FIELDS = [
     "piste_type_other", "piste_difficulty_coverage",
     "data_recomputed_at", "osm_data_timestamp", "piste_data_timestamp",
 ]
+
+# Ручные поля из resorts_manual.json (источник правды): перезаписываем каждый
+# прогон, а не переносим из прошлого prepared (чтобы ручное удаление значения
+# тоже подхватывалось).
+MANUAL_FIELDS = ["official_website_url", "details_url", "skimap_url"]
 
 
 def load_previous_prepared() -> dict[str, dict[str, Any]]:
@@ -145,6 +150,9 @@ def main() -> None:
         # прогона, чтобы при недоступном Overpass они не обнулялись.
         for field in CARRY_FIELDS:
             row[field] = prev.get(field)
+        # Ручные поля (сайт/ссылки) всегда берём из resorts_manual.json.
+        for field in MANUAL_FIELDS:
+            row[field] = resort.get(field)
 
         if chosen is None:
             # Fallback: точные координаты из seed (ручное добавление через

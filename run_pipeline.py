@@ -7,17 +7,16 @@
 Режимы (--mode):
   full    — всё с нуля: координаты, пересбор OSM/климата (--force), рейтинг,
             прогноз погоды и загрузка всех витрин в Supabase;
-  static  — статичная ветка «рейтинг»: вливает ручные курорты из
-            data/raw/resorts_manual.json в seed, пересобирает справочник курортов,
-            инкрементально обновляет OSM/климат, считает рейтинг и загружает
-            результат в Supabase (погода не трогается);
+  static  — статичная ветка «рейтинг»: пересобирает справочник курортов из
+            data/raw/resorts_manual.json, инкрементально обновляет OSM/климат,
+            считает рейтинг и загружает результат в Supabase (погода не трогается);
   weather — только динамичная ветка «погода»: прогноз + разворот + загрузка;
   climate — только климат: 30-летняя норма (recompute --only-climate) +
             пересборка витрин рейтинга + загрузка;
-  add     — интерактивно добавить курорт (название + регион) в seed и прогнать
-            всю цепочку «рейтинг» для обновлённого списка;
-  remove  — интерактивно удалить курорт из seed и кэша и пересобрать витрины
-            рейтинга без него (с загрузкой в Supabase);
+  add     — интерактивно добавить курорт (название + регион) в resorts_manual.json
+            и прогнать всю цепочку «рейтинг» для обновлённого списка;
+  remove  — интерактивно удалить курорт из resorts_manual.json и пересобрать
+            витрины рейтинга без него (с загрузкой в Supabase);
   rescore — локальный пересчёт рейтинга и пресетов из готовых данных (без
             сетевых запросов) и загрузка результата в Supabase.
 
@@ -32,7 +31,6 @@
 from __future__ import annotations
 
 import argparse
-import csv
 import json
 import os
 import ssl
@@ -50,6 +48,12 @@ PYTHON = sys.executable
 sys.path.insert(0, str(PROJECT_ROOT))
 
 from src.collect.geocode_resorts import OVERPASS_ENDPOINTS, USER_AGENT, assess_resort  # noqa: E402
+from src.collect.manual_inputs import (  # noqa: E402
+    append_resort,
+    load_resorts_manual,
+    remove_resort,
+    update_resort,
+)
 
 # Шаги ветки «рейтинг» после сборки справочника курортов (apply_coordinates):
 # инкрементальный пересчёт OSM/климата → обработка → скоринг → аналитика.
@@ -66,13 +70,8 @@ RATING_TAIL = [
     ("src/analytics/build_atlas_catalog.py",),
 ]
 
-# Слияние ручных курортов (resorts_manual.json → resort_seed.csv) перед сборкой
-# справочника: новые курорты из JSON подхватываются всеми ветками «рейтинг».
-MERGE_RESORTS = ("src/collect/merge_resorts.py",)
-
 # Шаги ветки «рейтинг», полный пересбор (координаты собираются заново).
 RATING_FULL = [
-    MERGE_RESORTS,
     ("src/collect/geocode_resorts.py",),
     ("src/transform/apply_coordinates.py",),
     *RATING_TAIL,
@@ -82,7 +81,6 @@ RATING_FULL = [
 # seed (после вливания ручных курортов), чтобы новые курорты из resorts_manual.json
 # появлялись в витринах; OSM/трассы не пересобираются.
 RATING_STATIC = [
-    MERGE_RESORTS,
     ("src/transform/apply_coordinates.py",),
     *RATING_TAIL,
 ]
@@ -90,7 +88,6 @@ RATING_STATIC = [
 # Шаги ветки «погода».
 # Шаги режима «add»: как full, но OSM/трассы не пересобираются (инкрементально).
 RATING_ADD = [
-    MERGE_RESORTS,
     ("src/collect/geocode_resorts.py",),
     ("src/transform/apply_coordinates.py",),
     *RATING_TAIL,
@@ -115,7 +112,6 @@ CLIMATE = [
 # Шаги режима «remove»: пересобрать справочник из seed (без удалённого курорта),
 # затем пересчитать витрины рейтинга (как static) и загрузить.
 REMOVE = [
-    MERGE_RESORTS,
     ("src/transform/apply_coordinates.py",),
     *RATING_TAIL,
 ]
@@ -204,159 +200,30 @@ def _assert_no_network_steps(steps: list[tuple]) -> None:
 
 def append_resort_to_seed(
     name: str, region: str, settlement: str = "", lat: str = "", lon: str = ""
-) -> None:
-    """Дописать курорт (название + регион + нас.пункт + опц. координаты) в конец seed."""
-    seed = PROJECT_ROOT / "data" / "raw" / "resort_seed.csv"
-    with open(seed, "a", encoding="utf-8", newline="") as file:
-        csv.writer(file).writerow([name, region, settlement, lat, lon])
+) -> str:
+    """Добавить курорт в resorts_manual.json (единый источник правды)."""
+    resort: dict = {"name_ru": name, "region": region, "settlement": settlement}
+    if lat and lon:
+        resort["lat"] = float(lat)
+        resort["lon"] = float(lon)
+    return append_resort(resort)
 
 
 def set_resort_anchor(name: str, lat: str, lon: str) -> bool:
-    """Обновить lat/lon (seed-якорь) у существующего курорта (по имени, без регистра).
-
-    Возвращает True, если курорт найден и обновлён; иначе False.
-    """
-    seed = PROJECT_ROOT / "data" / "raw" / "resort_seed.csv"
-    target = name.strip().lower()
-    rows: list[dict[str, str]] = []
-    found = False
-    with open(seed, encoding="utf-8-sig", newline="") as f:
-        reader = csv.DictReader(f)
-        fieldnames = reader.fieldnames
-        for row in reader:
-            if (row.get("name_ru") or "").strip().lower() == target:
-                row["lat"] = lat
-                row["lon"] = lon
-                found = True
-            rows.append(row)
-    if found:
-        with open(seed, "w", encoding="utf-8-sig", newline="") as f:
-            writer = csv.DictWriter(f, fieldnames=fieldnames)
-            writer.writeheader()
-            writer.writerows(rows)
-    return found
+    """Обновить lat/lon (якорь) у существующего курорта (по имени, без регистра)."""
+    return update_resort(name, {"lat": float(lat), "lon": float(lon)})
 
 
-def _load_seed() -> tuple[list[str], list[dict[str, str]]]:
-    """(header, rows) из data/raw/resort_seed.csv."""
-    seed = PROJECT_ROOT / "data" / "raw" / "resort_seed.csv"
-    with open(seed, encoding="utf-8-sig", newline="") as f:
-        reader = csv.DictReader(f)
-        return reader.fieldnames or [], [dict(row) for row in reader]
-
-
-def _write_seed(header: list[str], rows: list[dict[str, str]]) -> None:
-    seed = PROJECT_ROOT / "data" / "raw" / "resort_seed.csv"
-    with open(seed, "w", encoding="utf-8-sig", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=header)
-        writer.writeheader()
-        writer.writerows(rows)
-
-
-def _find_resort(rows: list[dict[str, str]], query: str) -> tuple[int, dict[str, str]] | None:
-    """Найти курорт в seed по name_ru или resort_id (R###/###/число)."""
-    q = query.strip().lstrip("\ufeff").lower()
-    for index, row in enumerate(rows):
-        rid = f"R{index + 1:03d}"
-        if (
-            rid.lower() == q
-            or rid[-3:] == q
-            or str(index + 1) == q
-            or (row.get("name_ru") or "").strip().lower() == q
-        ):
-            return index, row
+def _find_manual_resort(query: str) -> dict | None:
+    """Найти курорт в resorts_manual.json по name_ru или resort_id (R###/###)."""
+    q = query.strip().lower()
+    for r in load_resorts_manual():
+        rid = str(r.get("resort_id") or "").lower()
+        name = (r.get("name_ru") or "").strip().lower()
+        rid_digits = rid[1:] if rid.startswith("r") else ""
+        if rid == q or name == q or rid_digits == q:
+            return r
     return None
-
-
-def _shift_resort_id(rid: str, removed_n: int) -> str | None:
-    """Новый resort_id после удаления resort #removed_n (None = удалить запись)."""
-    s = str(rid).strip()
-    if len(s) >= 2 and s[0].upper() == "R" and s[1:].isdigit():
-        n = int(s[1:])
-        if n == removed_n:
-            return None
-        if n > removed_n:
-            return f"R{n - 1:03d}"
-    return s
-
-
-def _compact_order_based_data(removed_n: int) -> None:
-    """Удалить resort и сдвинуть последующие resort_id на -1 в order-based файлах.
-
-    resort_id присваивается по порядку строк seed (apply_coordinates), поэтому после
-    удаления строки из середины все последующие id сдвигаются. Синхронно обновляем
-    файлы, закешированные по resort_id, чтобы не было рассинхрона.
-    """
-    def shift(rid: str) -> str | None:
-        return _shift_resort_id(rid, removed_n)
-
-    # data/cache/climate_daily.json: {resort_id: [дневные строки]}
-    cache = PROJECT_ROOT / "data" / "cache" / "climate_daily.json"
-    if cache.exists():
-        payload = json.loads(cache.read_text(encoding="utf-8"))
-        shifted: dict[str, list] = {}
-        for rid, rows in payload.items():
-            new_rid = shift(rid)
-            if new_rid is not None:
-                shifted[new_rid] = rows
-        cache.write_text(json.dumps(shifted, ensure_ascii=False), encoding="utf-8")
-
-    # data/collected/coordinates_verified.json: {"resorts": [{resort_id, ...}]}
-    verified = PROJECT_ROOT / "data" / "collected" / "coordinates_verified.json"
-    if verified.exists():
-        payload = json.loads(verified.read_text(encoding="utf-8"))
-        kept = []
-        for r in payload.get("resorts", []):
-            new_rid = shift(r.get("resort_id", ""))
-            if new_rid is None:
-                continue
-            if new_rid != r.get("resort_id"):
-                r = dict(r)
-                r["resort_id"] = new_rid
-            kept.append(r)
-        payload["resorts"] = kept
-        verified.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
-
-    # data/prepared/resorts.json: [{resort_id, ...}] (базовая линия для carry-over)
-    prepared = PROJECT_ROOT / "data" / "prepared" / "resorts.json"
-    if prepared.exists():
-        resorts = json.loads(prepared.read_text(encoding="utf-8"))
-        kept = []
-        for r in resorts:
-            new_rid = shift(r.get("resort_id", ""))
-            if new_rid is None:
-                continue
-            if new_rid != r.get("resort_id"):
-                r = dict(r)
-                r["resort_id"] = new_rid
-            kept.append(r)
-        prepared.write_text(json.dumps(kept, ensure_ascii=False, indent=2), encoding="utf-8")
-
-    # data/raw/prices_monthly.json: [header, [resort_id, ...], ...]
-    prices = PROJECT_ROOT / "data" / "raw" / "prices_monthly.json"
-    if prices.exists():
-        matrix = json.loads(prices.read_text(encoding="utf-8"))
-        header = matrix[0]
-        col = header.index("resort_id") if "resort_id" in header else 0
-        kept = []
-        for row in matrix[1:]:
-            new_rid = shift(str(row[col]))
-            if new_rid is None:
-                continue
-            if new_rid != str(row[col]):
-                row = list(row)
-                row[col] = new_rid
-            kept.append(row)
-        prices.write_text(json.dumps([header] + kept, ensure_ascii=False, indent=2), encoding="utf-8")
-
-
-def _remove_resort(header: list[str], rows: list[dict[str, str]], index: int) -> tuple[str, str]:
-    """Удалить курорт из seed и order-based файлов; вернуть (resort_id, name_ru)."""
-    rid = f"R{index + 1:03d}"
-    name = (rows[index].get("name_ru") or "").strip()
-    _write_seed(header, [r for i, r in enumerate(rows) if i != index])
-    _compact_order_based_data(index + 1)
-    return rid, name
 
 
 def print_assessment(result: dict) -> None:
@@ -501,10 +368,10 @@ def main() -> None:
             raise SystemExit("Отменено — ничего не добавлено")
 
         if lat_s and set_resort_anchor(name, lat_s, lon_s):
-            print(f"Обновлён seed-якорь (lat/lon) курорта: {name}", flush=True)
+            print(f"Обновлён якорь (lat/lon) курорта: {name}", flush=True)
         else:
-            append_resort_to_seed(name, region, settlement, lat_s, lon_s)
-            print(f"Добавлен в seed: {name} ({region})", flush=True)
+            rid = append_resort_to_seed(name, region, settlement, lat_s, lon_s)
+            print(f"Добавлен в resorts_manual.json: {name} ({region}) → {rid}", flush=True)
 
     if args.mode == "remove":
         if not (PROJECT_ROOT / "data" / "collected" / "coordinates_verified.json").exists():
@@ -520,21 +387,18 @@ def main() -> None:
                 query = ""
         if not query:
             raise SystemExit("Не указан курорт для удаления")
-        header, rows = _load_seed()
-        found = _find_resort(rows, query)
+        found = _find_manual_resort(query)
         if found is None:
-            raise SystemExit(f"Курорт не найден в data/raw/resort_seed.csv: {query}")
-        index, row = found
-        rid = f"R{index + 1:03d}"
-        print(f"Найден курорт: {row.get('name_ru')} ({row.get('region')}) — resort_id {rid}", flush=True)
+            raise SystemExit(f"Курорт не найден в data/raw/resorts_manual.json: {query}")
+        print(f"Найден курорт: {found.get('name_ru')} ({found.get('region')}) — resort_id {found.get('resort_id')}", flush=True)
         try:
             answer = input("Вы уверены, что хотите удалить этот курорт? [y/N]: ").strip().lower()
         except EOFError:
             answer = ""
         if answer != "y":
             raise SystemExit("Отменено — курорт не удалён")
-        removed_rid, removed_name = _remove_resort(header, rows, index)
-        print(f"Удалён из seed и кэша: {removed_name} ({removed_rid})", flush=True)
+        removed = remove_resort(query)
+        print(f"Удалён из resorts_manual.json: {removed['name_ru']} ({removed['resort_id']})", flush=True)
 
     if args.mode in NEEDS_PREPARED and not (PROJECT_ROOT / "data" / "prepared" / "resorts.json").exists():
         raise SystemExit(

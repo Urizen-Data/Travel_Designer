@@ -202,7 +202,8 @@ def collect_openskimap(resorts: list[dict[str, Any]], force: bool = False) -> No
         resort.update(OpenSkiMapClient.map_statistics(area))
         resort["openskimap_id"] = props.get("id")
         resort["openskimap_name"] = props.get("name")
-        resort["official_website_url"] = "; ".join(props.get("websites") or []) or None
+        if not resort.get("official_website_url"):
+            resort["official_website_url"] = "; ".join(props.get("websites") or []) or None
         resort["openskimap_sources"] = "; ".join(
             f"{s.get('type')}:{s.get('id')}" for s in (props.get("sources") or [])
         ) or None

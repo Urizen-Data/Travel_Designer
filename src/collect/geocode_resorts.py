@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """Геокодинг курортов по названию (цепочка: OpenSkiMap → Wikidata → Overpass).
 
-Читает seed data/raw/resort_seed.csv (name_ru + region + settlement) и собирает
+Читает data/raw/resorts_manual.json (name_ru + region + settlement) и собирает
 координаты: основной источник — OpenSkiMap (готовые координаты skiArea), затем
 Wikidata (P625 по Q-id из поиска по имени), затем центроид OSM-объектов катания
 (Overpass) вокруг ориентира заказчика.
 
-Результат: data/collected/coordinates_verified.json (seed не изменяется).
+Результат: data/collected/coordinates_verified.json (resorts_manual.json не изменяется).
 
 Запуск:
-    python src/collect/geocode_resorts.py            # все курорты из seed
+    python src/collect/geocode_resorts.py            # все курорты из resorts_manual.json
     python src/collect/geocode_resorts.py --limit 5  # первые 5 (проверка)
     python src/collect/geocode_resorts.py --resort R001,R032
 """
@@ -36,9 +36,9 @@ sys.path.insert(0, str(PROJECT_ROOT))
 
 from src.transform.regions import region_key  # noqa: E402
 from src.collect.openskimap_client import OpenSkiMapClient, OpenSkiMapError  # noqa: E402
+from src.collect.manual_inputs import load_resorts_manual  # noqa: E402
 
 RAW_DIR = PROJECT_ROOT / "data" / "raw"
-SEED_CSV = RAW_DIR / "resort_seed.csv"
 OUTPUT_DIR = PROJECT_ROOT / "data" / "collected"
 DEFAULT_OUTPUT = OUTPUT_DIR / "coordinates_verified.json"
 
@@ -78,20 +78,17 @@ def parse_args() -> argparse.Namespace:
 
 
 def load_resorts() -> list[dict[str, Any]]:
-    """Справочник курортов из seed (name_ru + region + нас.пункт + опц. координаты)."""
+    """Справочник курортов из resorts_manual.json (name_ru + region + settlement + координаты)."""
     resorts: list[dict[str, Any]] = []
-    with open(SEED_CSV, encoding="utf-8-sig", newline="") as file:
-        for index, row in enumerate(csv.DictReader(file), start=1):
-            lat = (row.get("lat") or "").strip()
-            lon = (row.get("lon") or "").strip()
-            resorts.append({
-                "resort_id": f"R{index:03d}",
-                "name_ru": row["name_ru"].strip(),
-                "region": row["region"].strip(),
-                "settlement": (row.get("settlement") or "").strip(),
-                "latitude": float(lat) if lat else None,
-                "longitude": float(lon) if lon else None,
-            })
+    for index, r in enumerate(load_resorts_manual(), start=1):
+        resorts.append({
+            "resort_id": r.get("resort_id") or f"R{index:03d}",
+            "name_ru": (r.get("name_ru") or "").strip(),
+            "region": (r.get("region") or "").strip(),
+            "settlement": (r.get("settlement") or "").strip(),
+            "latitude": r.get("lat"),
+            "longitude": r.get("lon"),
+        })
     return resorts
 
 

@@ -1,4 +1,4 @@
-"""Проверки ручных конфигов (resorts_manual.json / prices_manual.json)."""
+"""Проверки единого ручного конфига resorts_manual.json."""
 import json
 import sys
 import tempfile
@@ -9,9 +9,12 @@ from unittest import mock
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from src.collect.manual_inputs import (  # noqa: E402
-    load_prices_manual,
+    append_resort,
+    load_manual_prices,
     load_resorts_manual,
-    merge_resorts_into_seed,
+    next_resort_id,
+    remove_resort,
+    update_resort,
 )
 from src.collect.prices import run_parsers as rp  # noqa: E402
 from src.transform import apply_coordinates as ac  # noqa: E402
@@ -20,6 +23,18 @@ from src.transform import apply_coordinates as ac  # noqa: E402
 def _write_json(path: Path, payload: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
+
+
+def _resort(name: str, rid: str | None = None, **kw) -> dict:
+    r = {
+        "name_ru": name, "region": "Регион", "settlement": "", "lat": None,
+        "lon": None, "official_website_url": None, "details_url": None,
+        "skimap_url": None, "prices": [],
+    }
+    if rid:
+        r["resort_id"] = rid
+    r.update(kw)
+    return r
 
 
 class TestLoadResortsManual(unittest.TestCase):
@@ -36,188 +51,142 @@ class TestLoadResortsManual(unittest.TestCase):
     def test_valid_resorts_loaded(self):
         with tempfile.TemporaryDirectory() as d:
             p = Path(d) / "resorts_manual.json"
-            entry = {"name_ru": "Тест", "region": "Регион", "lat": 55.0, "lon": 37.0}
-            _write_json(p, {"resorts": [entry]})
-            self.assertEqual(load_resorts_manual(p), [entry])
+            _write_json(p, {"resorts": [_resort("Тест", "R001")]})
+            loaded = load_resorts_manual(p)
+            self.assertEqual(len(loaded), 1)
+            self.assertEqual(loaded[0]["resort_id"], "R001")
 
 
-class TestMergeResortsIntoSeed(unittest.TestCase):
-    HEADER = "name_ru,region,settlement,lat,lon\n"
-
-    def test_adds_new_resort(self):
+class TestLoadManualPrices(unittest.TestCase):
+    def test_flattens_prices(self):
         with tempfile.TemporaryDirectory() as d:
-            seed = Path(d) / "resort_seed.csv"
-            seed.write_text(self.HEADER + "Существующий,Регион1,,,\n", encoding="utf-8-sig")
-            resorts = Path(d) / "resorts_manual.json"
-            _write_json(resorts, {
-                "resorts": [{"name_ru": "Новый", "region": "Регион2", "lat": 55.0, "lon": 37.0}],
-            })
-            added = merge_resorts_into_seed(resorts, seed)
-            self.assertEqual(added, 1)
-            lines = seed.read_text(encoding="utf-8-sig").strip().splitlines()
-            self.assertEqual(len(lines), 3)  # header + 2 курорта
+            p = Path(d) / "resorts_manual.json"
+            _write_json(p, {"resorts": [
+                _resort("А", "R001", prices=[{"month": None, "adult_price_min_rub": 100, "source_quality": "manual"}]),
+                _resort("Б", "R002", prices=[{"month": "2026-01", "adult_price_min_rub": 200, "source_quality": "secondary"}]),
+            ]})
+            rows = load_manual_prices(p)
+        self.assertEqual(len(rows), 2)
+        self.assertEqual(rows[0]["resort_id"], "R001")
+        self.assertEqual(rows[1]["resort_name"], "Б")
 
-    def test_dedups_existing_resort_case_insensitive(self):
+    def test_no_prices_returns_empty(self):
         with tempfile.TemporaryDirectory() as d:
-            seed = Path(d) / "resort_seed.csv"
-            seed.write_text(self.HEADER + "Тест Курорт,Регион1,,,\n", encoding="utf-8-sig")
-            resorts = Path(d) / "resorts_manual.json"
-            _write_json(resorts, {"resorts": [{"name_ru": "тест курорт", "region": "Регион2"}]})
-            added = merge_resorts_into_seed(resorts, seed)
-            self.assertEqual(added, 0)
-            lines = seed.read_text(encoding="utf-8-sig").strip().splitlines()
-            self.assertEqual(len(lines), 2)  # header + 1 курорт
+            p = Path(d) / "resorts_manual.json"
+            _write_json(p, {"resorts": [_resort("А", "R001")]})
+            self.assertEqual(load_manual_prices(p), [])
 
-    def test_empty_config_does_nothing(self):
+
+class TestNextResortId(unittest.TestCase):
+    def test_returns_next(self):
+        self.assertEqual(next_resort_id([_resort("А", "R001"), _resort("Б", "R002")]), "R003")
+        self.assertEqual(next_resort_id([_resort("А", "R032")]), "R033")
+
+    def test_empty_returns_r001(self):
+        self.assertEqual(next_resort_id([]), "R001")
+
+
+class TestAppendResort(unittest.TestCase):
+    def test_appends_with_auto_id(self):
         with tempfile.TemporaryDirectory() as d:
-            seed = Path(d) / "resort_seed.csv"
-            seed.write_text(self.HEADER + "Тест,Регион,,,\n", encoding="utf-8-sig")
-            resorts = Path(d) / "resorts_manual.json"
-            _write_json(resorts, {"resorts": []})
-            added = merge_resorts_into_seed(resorts, seed)
-            self.assertEqual(added, 0)
-            lines = seed.read_text(encoding="utf-8-sig").strip().splitlines()
-            self.assertEqual(len(lines), 2)
+            p = Path(d) / "resorts_manual.json"
+            _write_json(p, {"resorts": [_resort("А", "R001")]})
+            rid = append_resort({"name_ru": "Б", "region": "Регион"}, p)
+            self.assertEqual(rid, "R002")
+            self.assertEqual(len(load_resorts_manual(p)), 2)
 
-    def test_missing_optional_fields_do_not_break(self):
+    def test_dedups_by_name(self):
         with tempfile.TemporaryDirectory() as d:
-            seed = Path(d) / "resort_seed.csv"
-            seed.write_text(self.HEADER, encoding="utf-8-sig")
-            resorts = Path(d) / "resorts_manual.json"
-            _write_json(resorts, {"resorts": [{"name_ru": "Только имя"}]})
-            added = merge_resorts_into_seed(resorts, seed)
-            self.assertEqual(added, 1)
-            self.assertIn("Только имя,,,,", seed.read_text(encoding="utf-8-sig"))
+            p = Path(d) / "resorts_manual.json"
+            _write_json(p, {"resorts": [_resort("Тест", "R001")]})
+            rid = append_resort({"name_ru": "тест", "region": "Р2"}, p)
+            self.assertEqual(rid, "R001")
+            self.assertEqual(len(load_resorts_manual(p)), 1)
 
 
-class TestLoadPricesManual(unittest.TestCase):
-    def test_missing_file_returns_empty(self):
+class TestUpdateRemoveResort(unittest.TestCase):
+    def _file(self, d) -> Path:
+        p = Path(d) / "resorts_manual.json"
+        _write_json(p, {"resorts": [_resort("Тест", "R001", region="Р1")]})
+        return p
+
+    def test_update_by_id(self):
         with tempfile.TemporaryDirectory() as d:
-            self.assertEqual(load_prices_manual(Path(d) / "nope.json"), [])
+            p = self._file(d)
+            self.assertTrue(update_resort("R001", {"official_website_url": "https://x.ru"}, p))
+            self.assertEqual(load_resorts_manual(p)[0]["official_website_url"], "https://x.ru")
 
-    def test_empty_prices_returns_empty(self):
+    def test_update_by_name(self):
         with tempfile.TemporaryDirectory() as d:
-            p = Path(d) / "prices_manual.json"
-            _write_json(p, {"prices": []})
-            self.assertEqual(load_prices_manual(p), [])
+            p = self._file(d)
+            self.assertTrue(update_resort("тест", {"lat": 55.0, "lon": 37.0}, p))
+            self.assertEqual(load_resorts_manual(p)[0]["lat"], 55.0)
 
-
-class TestLoadManualConfig(unittest.TestCase):
-    def test_resolves_resort_name_to_id(self):
+    def test_update_unknown_returns_false(self):
         with tempfile.TemporaryDirectory() as d:
-            d = Path(d)
-            (d / "resorts.json").write_text(
-                json.dumps([
-                    {"resort_id": "R001", "name_ru": "Роза Хутор"},
-                    {"resort_id": "R002", "name_ru": "Новый Курорт"},
-                ], ensure_ascii=False),
-                encoding="utf-8",
-            )
-            entries = [{
-                "resort_name": "Новый Курорт",
-                "adult_price_min_rub": 3000,
-                "adult_price_max_rub": 4500,
-            }]
-            with mock.patch.object(rp, "PREPARED", d), \
-                 mock.patch.object(rp, "load_prices_manual", return_value=entries):
-                rows = rp.load_manual_config()
-            self.assertEqual(len(rows), 1)
-            self.assertEqual(rows[0]["resort_id"], "R002")
-            self.assertEqual(rows[0]["adult_price_min_rub"], 3000)
-            self.assertEqual(rows[0]["source_quality"], "manual")
+            p = self._file(d)
+            self.assertFalse(update_resort("нет такого", {"lat": 1}, p))
 
-    def test_skips_unknown_resort(self):
+    def test_remove_by_id(self):
         with tempfile.TemporaryDirectory() as d:
-            d = Path(d)
-            (d / "resorts.json").write_text(json.dumps([]), encoding="utf-8")
-            entries = [{"resort_name": "Неизвестный", "adult_price_min_rub": 3000}]
-            with mock.patch.object(rp, "PREPARED", d), \
-                 mock.patch.object(rp, "load_prices_manual", return_value=entries):
-                rows = rp.load_manual_config()
-            self.assertEqual(rows, [])
+            p = self._file(d)
+            removed = remove_resort("r001", p)
+            self.assertEqual(removed["name_ru"], "Тест")
+            self.assertEqual(load_resorts_manual(p), [])
+
+    def test_remove_unknown_returns_none(self):
+        with tempfile.TemporaryDirectory() as d:
+            p = self._file(d)
+            self.assertIsNone(remove_resort("нет такого", p))
 
 
-class TestBuildRowsFallback(unittest.TestCase):
-    def test_manual_config_used_when_parser_returns_nothing(self):
-        manual_row = {
-            "resort_id": "R999", "resort_name": "Тест", "month": None,
-            "adult_price_min_rub": 3000, "adult_price_max_rub": 4500,
-            "child_price_min_rub": None, "child_price_max_rub": None,
-            "tariff_product": "Ски-пасс на 1 день", "coverage": None,
-            "source_quality": "manual", "source_url": None, "checked_at": 1,
-        }
-        with mock.patch.object(rp, "run_parsers", return_value={}), \
-             mock.patch.object(rp, "load_manual", return_value=[]), \
-             mock.patch.object(rp, "load_manual_config", return_value=[manual_row]):
+class TestRunParsersBuildRows(unittest.TestCase):
+    def _monthly(self):
+        return {"resort_id": "R001", "resort_name": "Роза", "month": "2026-01",
+                "adult_price_min_rub": 5000, "adult_price_max_rub": 6000,
+                "child_price_min_rub": None, "child_price_max_rub": None,
+                "tariff_product": "Ски-пасс", "coverage": None,
+                "source_quality": "secondary", "source_url": None, "checked_at": "2026-09-14"}
+
+    def _manual(self):
+        return {"resort_id": "R001", "resort_name": "Роза", "month": None,
+                "adult_price_min_rub": 4200, "adult_price_max_rub": 4200,
+                "child_price_min_rub": None, "child_price_max_rub": None,
+                "tariff_product": "Ски-пасс на 1 день", "coverage": None,
+                "source_quality": "manual", "source_url": "x", "checked_at": None}
+
+    def test_manual_overrides_monthly(self):
+        with mock.patch.object(rp, "load_manual_prices", return_value=[self._monthly(), self._manual()]), \
+             mock.patch.object(rp, "run_parsers", return_value={}):
             rows = rp.build_rows()
-        self.assertEqual(len(rows), 1)
-        self.assertEqual(rows[0]["resort_id"], "R999")
-        self.assertEqual(rows[0]["adult_price_min_rub"], 3000)
-
-    def test_manual_config_overrides_monthly(self):
-        monthly_row = {
-            "resort_id": "R001", "resort_name": "Роза", "month": "2026-01",
-            "adult_price_min_rub": 5000, "adult_price_max_rub": 6000,
-            "child_price_min_rub": None, "child_price_max_rub": None,
-            "tariff_product": "Ски-пасс", "coverage": None,
-            "source_quality": "secondary", "source_url": None, "checked_at": 1,
-        }
-        manual_row = {
-            "resort_id": "R001", "resort_name": "Роза", "month": None,
-            "adult_price_min_rub": 4200, "adult_price_max_rub": 4200,
-            "child_price_min_rub": None, "child_price_max_rub": None,
-            "tariff_product": "Ски-пасс на 1 день", "coverage": None,
-            "source_quality": "manual", "source_url": "x", "checked_at": 1,
-        }
-        with mock.patch.object(rp, "run_parsers", return_value={}), \
-             mock.patch.object(rp, "load_manual", return_value=[monthly_row]), \
-             mock.patch.object(rp, "load_manual_config", return_value=[manual_row]):
-            rows = rp.build_rows()
-        # ручная цена перекрывает месячную матрицу (одна строка на курорт)
         self.assertEqual(len(rows), 1)
         self.assertEqual(rows[0]["adult_price_min_rub"], 4200)
         self.assertEqual(rows[0]["source_quality"], "manual")
 
+    def test_monthly_used_when_no_manual(self):
+        with mock.patch.object(rp, "load_manual_prices", return_value=[self._monthly()]), \
+             mock.patch.object(rp, "run_parsers", return_value={}):
+            rows = rp.build_rows()
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(rows[0]["adult_price_min_rub"], 5000)
 
-class TestApplyCoordinatesSeedFallback(unittest.TestCase):
+
+class TestApplyCoordinates(unittest.TestCase):
     def test_to_float(self):
         self.assertIsNone(ac._to_float(""))
         self.assertIsNone(ac._to_float(None))
         self.assertEqual(ac._to_float("55.5"), 55.5)
 
-    def test_load_resorts_reads_lat_lon(self):
-        with tempfile.TemporaryDirectory() as d:
-            seed = Path(d) / "seed.csv"
-            seed.write_text(
-                "name_ru,region,settlement,lat,lon\nТест,Регион,Нас,55.5,37.7\n",
-                encoding="utf-8-sig",
-            )
-            with mock.patch.object(ac, "SEED_CSV", seed):
-                resorts = ac.load_resorts()
+    def test_load_resorts_reads_manual(self):
+        resort = _resort("Тест", "R001", region="Регион", settlement="Нас", lat=55.5, lon=37.7)
+        with mock.patch.object(ac, "load_resorts_manual", return_value=[resort]):
+            resorts = ac.load_resorts()
         self.assertEqual(resorts[0]["resort_id"], "R001")
         self.assertEqual(resorts[0]["settlement"], "Нас")
-        self.assertEqual(resorts[0]["lat"], "55.5")
-        self.assertEqual(resorts[0]["lon"], "37.7")
-
-    def test_main_uses_seed_coordinates_as_fallback(self):
-        with tempfile.TemporaryDirectory() as d:
-            d = Path(d)
-            seed = d / "seed.csv"
-            seed.write_text(
-                "name_ru,region,settlement,lat,lon\nТест,Регион,Нас,55.5,37.7\n",
-                encoding="utf-8-sig",
-            )
-            with mock.patch.object(ac, "SEED_CSV", seed), \
-                 mock.patch.object(ac, "PREPARED_DIR", d / "prepared"), \
-                 mock.patch.object(ac, "COLLECTED_DIR", d / "collected"), \
-                 mock.patch.object(ac, "load_verified", return_value={}), \
-                 mock.patch.object(ac, "load_previous_prepared", return_value={}):
-                ac.main()
-            resorts = json.loads((d / "prepared" / "resorts.json").read_text(encoding="utf-8"))
-        self.assertEqual(resorts[0]["coordinate_status"], "updated")
-        self.assertEqual(resorts[0]["latitude"], 55.5)
-        self.assertEqual(resorts[0]["longitude"], 37.7)
+        self.assertEqual(resorts[0]["lat"], 55.5)
+        self.assertEqual(resorts[0]["lon"], 37.7)
 
 
 if __name__ == "__main__":
     unittest.main()
+
