@@ -194,7 +194,7 @@ Travel_Designer/
 │   ├── load/                   # загрузка: load_supabase
 │   └── common/                 # утилиты: mart_io (чтение/запись витрин)
 ├── data/
-│   ├── raw/                    # неизменяемые входы (seed, цены, Росстат) — от заказчика
+│   ├── raw/                    # Исходные данные от заказчика + файл ручных вводов (resorts_manual.json)
 │   ├── collected/              # сбор (координаты, прогноз) — генерируется
 │   ├── prepared/               # объединённые (resorts.json, region_metrics, prices) — генерируется
 │   ├── cache/                  # кэши (climate_daily, airports) — генерируется
