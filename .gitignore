@@ -24,6 +24,7 @@ data/cache/
 data/raw/resort_seed.backup*.csv
 data/raw/prices_manual.backup*.json
 data/raw/prices_monthly.backup*.json
+data/raw/resorts_manual_backup*.json
 data/raw/resort_open_data.json
 data/raw/climate_monthly.json
 

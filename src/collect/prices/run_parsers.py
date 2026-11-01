@@ -3,10 +3,10 @@
 
 Объединяет (по убыванию приоритета):
   * ручные цены из data/raw/resorts_manual.json (source_quality="manual");
-  * месячную матрицу из того же файла (source_quality="secondary"/"official");
+  * сезонную матрицу из того же файла (source_quality="secondary"/"official");
   * живые скраперы parsers/parse_*.py (Шерегеш, Кукисвумчорр, Гора Белая).
 
-Результат: data/prepared/prices.json — матрица «курорт × месяц».
+Результат: data/prepared/prices.json — матрица «курорт × сезон».
 """
 from __future__ import annotations
 
@@ -30,7 +30,7 @@ PREPARED = PROJECT_ROOT / "data" / "prepared"
 OUT = PREPARED / "prices.json"
 
 HEADER = [
-    "resort_id", "resort_name", "month",
+    "resort_id", "resort_name", "season",
     "adult_price_min_rub", "adult_price_max_rub",
     "child_price_min_rub", "child_price_max_rub",
     "tariff_product", "coverage", "source_quality", "source_url", "checked_at",
@@ -67,20 +67,20 @@ def today_iso() -> str:
 
 
 def build_rows() -> list[dict]:
-    # Приоритет: manual (source_quality="manual") > месячная матрица
+    # Приоритет: manual (source_quality="manual") > сезонная матрица
     # (secondary/official) > живые парсеры.
     prices = load_manual_prices()
     manual: dict[str, dict] = {}
-    monthly: list[dict] = []
+    seasonal: list[dict] = []
     for p in prices:
         if p.get("source_quality") == "manual":
             manual.setdefault(str(p["resort_id"]), p)
         else:
-            monthly.append(p)
+            seasonal.append(p)
 
     rows = list(manual.values())
     manual_ids = set(manual)
-    for p in monthly:
+    for p in seasonal:
         if str(p["resort_id"]) in manual_ids:
             continue
         rows.append(p)
@@ -94,7 +94,7 @@ def build_rows() -> list[dict]:
         rows.append({
             "resort_id": rid,
             "resort_name": info["name_ru"],
-            "month": None,
+            "season": None,
             "adult_price_min_rub": info["min"],
             "adult_price_max_rub": info["max"],
             "child_price_min_rub": None,
@@ -126,10 +126,10 @@ def main() -> None:
     for r in rows:
         e = by.setdefault(str(r["resort_id"]), {
             "name": r["resort_name"], "min": None, "max": None,
-            "months": set(), "quality": set(),
+            "seasons": set(), "quality": set(),
         })
-        if r["month"]:
-            e["months"].add(r["month"])
+        if r["season"]:
+            e["seasons"].add(r["season"])
         if r["adult_price_min_rub"] is not None:
             e["min"] = r["adult_price_min_rub"] if e["min"] is None else min(e["min"], r["adult_price_min_rub"])
         if r["adult_price_max_rub"] is not None:
@@ -137,13 +137,13 @@ def main() -> None:
         if r["source_quality"]:
             e["quality"].add(r["source_quality"])
 
-    print(f"{'id':<6}{'курорт':<20}{'мин':>8}{'макс':>8}  {'мес':>3}  качество")
+    print(f"{'id':<6}{'курорт':<20}{'мин':>8}{'макс':>8}  {'сез':>3}  качество")
     for rid in sorted(by):
         e = by[rid]
         mn = f"{int(e['min'])}" if e["min"] is not None else "—"
         mx = f"{int(e['max'])}" if e["max"] is not None else "—"
         q = "+".join(sorted(e["quality"])) or "—"
-        print(f"{rid:<6}{e['name']:<20}{mn:>8}{mx:>8}  {len(e['months']):>3}  {q}")
+        print(f"{rid:<6}{e['name']:<20}{mn:>8}{mx:>8}  {len(e['seasons']):>3}  {q}")
 
     with_price = sum(1 for e in by.values() if e["min"] is not None)
     print(f"\nС ценой: {with_price} курортов. Сохранено: {OUT}")

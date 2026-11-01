@@ -62,8 +62,8 @@ class TestLoadManualPrices(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             p = Path(d) / "resorts_manual.json"
             _write_json(p, {"resorts": [
-                _resort("А", "R001", prices=[{"month": None, "adult_price_min_rub": 100, "source_quality": "manual"}]),
-                _resort("Б", "R002", prices=[{"month": "2026-01", "adult_price_min_rub": 200, "source_quality": "secondary"}]),
+                _resort("А", "R001", prices=[{"season": None, "adult_price_min_rub": 100, "source_quality": "manual"}]),
+                _resort("Б", "R002", prices=[{"season": "2025-26", "adult_price_min_rub": 200, "source_quality": "secondary"}]),
             ]})
             rows = load_manual_prices(p)
         self.assertEqual(len(rows), 2)
@@ -141,30 +141,30 @@ class TestUpdateRemoveResort(unittest.TestCase):
 
 
 class TestRunParsersBuildRows(unittest.TestCase):
-    def _monthly(self):
-        return {"resort_id": "R001", "resort_name": "Роза", "month": "2026-01",
+    def _seasonal(self):
+        return {"resort_id": "R001", "resort_name": "Роза", "season": "2025-26",
                 "adult_price_min_rub": 5000, "adult_price_max_rub": 6000,
                 "child_price_min_rub": None, "child_price_max_rub": None,
                 "tariff_product": "Ски-пасс", "coverage": None,
                 "source_quality": "secondary", "source_url": None, "checked_at": "2026-09-14"}
 
     def _manual(self):
-        return {"resort_id": "R001", "resort_name": "Роза", "month": None,
+        return {"resort_id": "R001", "resort_name": "Роза", "season": None,
                 "adult_price_min_rub": 4200, "adult_price_max_rub": 4200,
                 "child_price_min_rub": None, "child_price_max_rub": None,
                 "tariff_product": "Ски-пасс на 1 день", "coverage": None,
                 "source_quality": "manual", "source_url": "x", "checked_at": None}
 
-    def test_manual_overrides_monthly(self):
-        with mock.patch.object(rp, "load_manual_prices", return_value=[self._monthly(), self._manual()]), \
+    def test_manual_overrides_seasonal(self):
+        with mock.patch.object(rp, "load_manual_prices", return_value=[self._seasonal(), self._manual()]), \
              mock.patch.object(rp, "run_parsers", return_value={}):
             rows = rp.build_rows()
         self.assertEqual(len(rows), 1)
         self.assertEqual(rows[0]["adult_price_min_rub"], 4200)
         self.assertEqual(rows[0]["source_quality"], "manual")
 
-    def test_monthly_used_when_no_manual(self):
-        with mock.patch.object(rp, "load_manual_prices", return_value=[self._monthly()]), \
+    def test_seasonal_used_when_no_manual(self):
+        with mock.patch.object(rp, "load_manual_prices", return_value=[self._seasonal()]), \
              mock.patch.object(rp, "run_parsers", return_value={}):
             rows = rp.build_rows()
         self.assertEqual(len(rows), 1)

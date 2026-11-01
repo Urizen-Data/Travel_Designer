@@ -47,11 +47,6 @@ def _excel_serial_to_iso(value: object) -> str | None:
         return None
 
 
-def _season_of_month(month: str) -> str:
-    """Месяц 'YYYY-MM' → зимний сезон 'YYYY/YY' (ноябрь–декабрь открывают сезон)."""
-    year, m = int(month[:4]), int(month[5:7])
-    return f"{year}/{str(year + 1)[2:]}" if m >= 11 else f"{year - 1}/{str(year)[2:]}"
-
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(PROJECT_ROOT))
 
@@ -99,30 +94,78 @@ def load_region_metrics() -> dict[str, dict[str, Any]]:
     return {r["region_key"]: r for r in payload["regions"]}
 
 
+def _price_rank(source_quality: object) -> int:
+    """Приоритет источника цены: manual > secondary/official > scraper > прочее (0)."""
+    return {"manual": 3, "secondary": 2, "official": 2, "scraper": 1}.get(
+        str(source_quality or "").strip().lower(), 0
+    )
+
+
+def _select_current_price_row(rows: list[dict[str, Any]]) -> dict[str, Any] | None:
+    """Самая актуальная запись цены: выше приоритет качества, затем свежий сезон.
+
+    Если у лучших записей нет сезона — берётся последняя в списке.
+    """
+    if not rows:
+        return None
+    best_rank = max(_price_rank(r.get("source_quality")) for r in rows)
+    candidates = [r for r in rows if _price_rank(r.get("source_quality")) == best_rank]
+    with_season = [
+        (r, str(r.get("season") or "").strip())
+        for r in candidates
+        if (r.get("season") or "").strip()
+    ]
+    if with_season:
+        return max(with_season, key=lambda item: item[1])[0]
+    return candidates[-1]
+
+
+def _to_number(value: object) -> float | None:
+    try:
+        return float(value) if value not in (None, "") else None
+    except (TypeError, ValueError):
+        return None
+
+
+def _avg_price(row: dict[str, Any] | None) -> float | None:
+    """Среднее (min + max) / 2 из выбранной записи (None, если цены нет)."""
+    if row is None:
+        return None
+    mn = _to_number(row.get("adult_price_min_rub"))
+    mx = _to_number(row.get("adult_price_max_rub"))
+    if mn is None and mx is None:
+        return None
+    if mn is None:
+        return mx
+    if mx is None:
+        return mn
+    return (mn + mx) / 2
+
+
 def aggregate_prices() -> dict[str, dict[str, Any]]:
-    """adult_skipass_avg_rub = среднее всех min/max + метаданные цены.
+    """adult_skipass_avg_rub = среднее (min+max)/2 самой актуальной цены + метаданные.
+
+    Самую актуальную запись выбираем по приоритету source_quality
+    (manual > secondary/official > scraper) и по самому свежему сезону.
 
     Метаданные нужны для честной подписи цены (ТЗ дашборда §3.1): сезон,
-    тарифный продукт, покрытие месяцев, источник и дата проверки.
+    тарифный продукт, покрытие сезонов, источник и дата проверки.
     """
     matrix = json.loads((PREPARED / "prices.json").read_text(encoding="utf-8"))
     rows = [dict(zip(matrix[0], r)) for r in matrix[1:]]
 
-    values: dict[str, list[float]] = defaultdict(list)
-    months: dict[str, set[str]] = defaultdict(set)
+    seasons: dict[str, set[str]] = defaultdict(set)
     products: dict[str, set[str]] = defaultdict(set)
     sources: dict[str, set[str]] = defaultdict(set)
     qualities: dict[str, set[str]] = defaultdict(set)
     checked: dict[str, set[object]] = defaultdict(set)
+    by_resort: dict[str, list[dict[str, Any]]] = defaultdict(list)
 
     for row in rows:
         rid = str(row["resort_id"])
-        if row["adult_price_min_rub"] not in (None, ""):
-            values[rid].append(float(row["adult_price_min_rub"]))
-        if row["adult_price_max_rub"] not in (None, ""):
-            values[rid].append(float(row["adult_price_max_rub"]))
-        if row["month"] not in (None, ""):
-            months[rid].add(row["month"])
+        by_resort[rid].append(row)
+        if row["season"] not in (None, ""):
+            seasons[rid].add(row["season"])
         if row["tariff_product"] not in (None, ""):
             products[rid].add(row["tariff_product"])
         if row["source_url"] not in (None, ""):
@@ -133,16 +176,15 @@ def aggregate_prices() -> dict[str, dict[str, Any]]:
             checked[rid].add(row["checked_at"])
 
     result: dict[str, dict[str, Any]] = {}
-    for rid, vals in values.items():
-        m = sorted(months.get(rid, set()))
-        seasons = {_season_of_month(x) for x in m}
+    for rid in by_resort:
+        s = sorted(seasons.get(rid, set()))
         iso_checked = [c for c in (_excel_serial_to_iso(x) for x in checked.get(rid, set())) if c]
         result[rid] = {
-            "adult_skipass_avg_rub": sum(vals) / len(vals) if vals else None,
-            "price_months_count": len(m),
-            "price_months_min": m[0] if m else None,
-            "price_months_max": m[-1] if m else None,
-            "price_season": "; ".join(sorted(seasons)) or None,
+            "adult_skipass_avg_rub": _avg_price(_select_current_price_row(by_resort[rid])),
+            "price_months_count": len(s),
+            "price_months_min": s[0] if s else None,
+            "price_months_max": s[-1] if s else None,
+            "price_season": "; ".join(s) or None,
             "price_product": "; ".join(sorted(products.get(rid, set()))) or None,
             "price_source_quality": "; ".join(sorted(qualities.get(rid, set()))) or None,
             "price_source_url": "; ".join(sorted(sources.get(rid, set()))) or None,

@@ -1,5 +1,5 @@
 {
-  "_comment": "Единый источник правды по курортам. resort_id стабилен (R001..). Пустые поля заполняются фолбэками пайплайна: lat/lon — геокодинг, official_website_url — OpenSkiMap, details_url/skimap_url — fetch_skimap_ids, prices (если пусто) — живые парсеры. checked_at — 'YYYY-MM-DD' или null.",
+  "_comment": "Единый источник правды по курортам. Цены переведены на сезонный формат '2025-26'. Значения из ручного сбора.",
   "resorts": [
     {
       "resort_id": "R001",
@@ -13,52 +13,16 @@
       "skimap_url": null,
       "prices": [
         {
-          "month": "2026-01",
-          "adult_price_min_rub": 5550,
-          "adult_price_max_rub": 6350,
-          "child_price_min_rub": 2800,
-          "child_price_max_rub": 3200,
-          "tariff_product": "Ски-пасс на 1 день",
-          "coverage": "05–31.01.2026; тариф менялся внутри месяца",
-          "source_quality": "secondary",
-          "source_url": "https://skipasskp.ru/skipass-ceny-kp",
-          "checked_at": "2026-09-14"
-        },
-        {
-          "month": "2026-02",
-          "adult_price_min_rub": 6800,
-          "adult_price_max_rub": 6800,
-          "child_price_min_rub": 3400,
-          "child_price_max_rub": 3400,
-          "tariff_product": "Ски-пасс на 1 день",
-          "coverage": "01–28.02.2026",
-          "source_quality": "secondary",
-          "source_url": "https://skipasskp.ru/skipass-ceny-kp",
-          "checked_at": "2026-09-14"
-        },
-        {
-          "month": "2026-03",
-          "adult_price_min_rub": 5550,
-          "adult_price_max_rub": 6800,
-          "child_price_min_rub": 2800,
-          "child_price_max_rub": 3400,
-          "tariff_product": "Ски-пасс на 1 день",
-          "coverage": "01–31.03.2026; изменение тарифа 10.03",
-          "source_quality": "secondary",
-          "source_url": "https://skipasskp.ru/skipass-ceny-kp",
-          "checked_at": "2026-09-14"
-        },
-        {
-          "month": "2026-04",
+          "season": "2025-26",
           "adult_price_min_rub": 5190,
-          "adult_price_max_rub": 5190,
-          "child_price_min_rub": 2600,
-          "child_price_max_rub": 2600,
+          "adult_price_max_rub": 6800,
+          "child_price_min_rub": null,
+          "child_price_max_rub": null,
           "tariff_product": "Ски-пасс на 1 день",
-          "coverage": "01–12.04.2026",
-          "source_quality": "secondary",
-          "source_url": "https://skipasskp.ru/skipass-ceny-kp",
-          "checked_at": "2026-09-14"
+          "coverage": null,
+          "source_quality": "manual",
+          "source_url": "https://allslopes.ru/rosa-khutor/skipass",
+          "checked_at": "2026-11-01"
         }
       ]
     },
@@ -74,76 +38,16 @@
       "skimap_url": null,
       "prices": [
         {
-          "month": "2025-12",
+          "season": "2025-26",
           "adult_price_min_rub": 3900,
           "adult_price_max_rub": 5250,
-          "child_price_min_rub": 2300,
-          "child_price_max_rub": 3050,
+          "child_price_min_rub": null,
+          "child_price_max_rub": null,
           "tariff_product": "Ски-пасс на 1 день",
-          "coverage": "26–31.12.2025",
-          "source_quality": "secondary",
-          "source_url": "https://skipasskp.ru/skipass-ceny-kp",
-          "checked_at": "2026-09-14"
-        },
-        {
-          "month": "2026-01",
-          "adult_price_min_rub": 4100,
-          "adult_price_max_rub": 5250,
-          "child_price_min_rub": 2500,
-          "child_price_max_rub": 3050,
-          "tariff_product": "Ски-пасс на 1 день",
-          "coverage": "01–31.01.2026",
-          "source_quality": "secondary",
-          "source_url": "https://skipasskp.ru/skipass-ceny-kp",
-          "checked_at": "2026-09-14"
-        },
-        {
-          "month": "2026-02",
-          "adult_price_min_rub": 5200,
-          "adult_price_max_rub": 5200,
-          "child_price_min_rub": 2750,
-          "child_price_max_rub": 2750,
-          "tariff_product": "Ски-пасс на 1 день",
-          "coverage": "01–28.02.2026",
-          "source_quality": "secondary",
-          "source_url": "https://skipasskp.ru/skipass-ceny-kp",
-          "checked_at": "2026-09-14"
-        },
-        {
-          "month": "2026-03",
-          "adult_price_min_rub": 4100,
-          "adult_price_max_rub": 5200,
-          "child_price_min_rub": 2500,
-          "child_price_max_rub": 2750,
-          "tariff_product": "Ски-пасс на 1 день",
-          "coverage": "01–31.03.2026; изменение тарифа 10.03",
-          "source_quality": "secondary",
-          "source_url": "https://skipasskp.ru/skipass-ceny-kp",
-          "checked_at": "2026-09-14"
-        },
-        {
-          "month": "2026-04",
-          "adult_price_min_rub": 3900,
-          "adult_price_max_rub": 3900,
-          "child_price_min_rub": 2300,
-          "child_price_max_rub": 2300,
-          "tariff_product": "Ски-пасс на 1 день",
-          "coverage": "01–30.04.2026",
-          "source_quality": "secondary",
-          "source_url": "https://skipasskp.ru/skipass-ceny-kp",
-          "checked_at": "2026-09-14"
-        },
-        {
-          "month": "2026-05",
-          "adult_price_min_rub": 3900,
-          "adult_price_max_rub": 3900,
-          "child_price_min_rub": 2300,
-          "child_price_max_rub": 2300,
-          "tariff_product": "Ски-пасс на 1 день",
-          "coverage": "01–11.05.2026",
-          "source_quality": "secondary",
-          "source_url": "https://skipasskp.ru/skipass-ceny-kp",
-          "checked_at": "2026-09-14"
+          "coverage": null,
+          "source_quality": "manual",
+          "source_url": "https://allslopes.ru/krasnaya-polyana/skipass",
+          "checked_at": "2026-11-01"
         }
       ]
     },
@@ -159,16 +63,16 @@
       "skimap_url": null,
       "prices": [
         {
-          "month": "2026-01",
-          "adult_price_min_rub": 4100,
-          "adult_price_max_rub": 4100,
-          "child_price_min_rub": 2550,
-          "child_price_max_rub": 2550,
-          "tariff_product": "Ски-пасс на 1 день, Лаура + Альпика",
-          "coverage": "12–31.01.2026",
-          "source_quality": "secondary",
-          "source_url": "https://www.ski.ru/az/resort/512/article/28246",
-          "checked_at": "2026-09-14"
+          "season": "2025-26",
+          "adult_price_min_rub": 4000,
+          "adult_price_max_rub": 5100,
+          "child_price_min_rub": null,
+          "child_price_max_rub": null,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": null,
+          "source_quality": "manual",
+          "source_url": "https://allslopes.ru/gazprom/skipass",
+          "checked_at": "2026-11-01"
         }
       ]
     },
@@ -184,7 +88,7 @@
       "skimap_url": null,
       "prices": [
         {
-          "month": null,
+          "season": "2025-26",
           "adult_price_min_rub": 4250,
           "adult_price_max_rub": 4250,
           "child_price_min_rub": null,
@@ -192,8 +96,8 @@
           "tariff_product": "Ски-пасс на 1 день",
           "coverage": null,
           "source_quality": "manual",
-          "source_url": "https://kaskad-gesh.ru",
-          "checked_at": null
+          "source_url": "https://allslopes.ru/sheregesh/skipass",
+          "checked_at": "2026-11-01"
         }
       ]
     },
@@ -209,64 +113,16 @@
       "skimap_url": null,
       "prices": [
         {
-          "month": null,
+          "season": "2025-26",
           "adult_price_min_rub": 2910,
-          "adult_price_max_rub": 2910,
+          "adult_price_max_rub": 4850,
           "child_price_min_rub": null,
           "child_price_max_rub": null,
           "tariff_product": "Ски-пасс на 1 день",
           "coverage": null,
           "source_quality": "manual",
-          "source_url": "https://allslopes.ru",
-          "checked_at": null
-        },
-        {
-          "month": "2025-12",
-          "adult_price_min_rub": 2550,
-          "adult_price_max_rub": 4350,
-          "child_price_min_rub": 1700,
-          "child_price_max_rub": 2600,
-          "tariff_product": "Ски-пасс на 1 день",
-          "coverage": "06–31.12.2025",
-          "source_quality": "secondary",
-          "source_url": "https://volodimire.pro/czeny-na-skipassy-na-kurorte-arhyz-v-sezone-2025-2026/",
-          "checked_at": "2026-09-14"
-        },
-        {
-          "month": "2026-01",
-          "adult_price_min_rub": 3500,
-          "adult_price_max_rub": 4350,
-          "child_price_min_rub": 2100,
-          "child_price_max_rub": 2600,
-          "tariff_product": "Ски-пасс на 1 день",
-          "coverage": "01–31.01.2026",
-          "source_quality": "secondary",
-          "source_url": "https://volodimire.pro/czeny-na-skipassy-na-kurorte-arhyz-v-sezone-2025-2026/",
-          "checked_at": "2026-09-14"
-        },
-        {
-          "month": "2026-02",
-          "adult_price_min_rub": 4350,
-          "adult_price_max_rub": 4350,
-          "child_price_min_rub": 2600,
-          "child_price_max_rub": 2600,
-          "tariff_product": "Ски-пасс на 1 день",
-          "coverage": "01–28.02.2026",
-          "source_quality": "secondary",
-          "source_url": "https://volodimire.pro/czeny-na-skipassy-na-kurorte-arhyz-v-sezone-2025-2026/",
-          "checked_at": "2026-09-14"
-        },
-        {
-          "month": "2026-03",
-          "adult_price_min_rub": 3550,
-          "adult_price_max_rub": 4350,
-          "child_price_min_rub": 2150,
-          "child_price_max_rub": 2600,
-          "tariff_product": "Ски-пасс на 1 день",
-          "coverage": "01–31.03.2026",
-          "source_quality": "secondary",
-          "source_url": "https://volodimire.pro/czeny-na-skipassy-na-kurorte-arhyz-v-sezone-2025-2026/",
-          "checked_at": "2026-09-14"
+          "source_url": "https://allslopes.ru/arkhyz/skipass",
+          "checked_at": "2026-11-01"
         }
       ]
     },
@@ -282,16 +138,16 @@
       "skimap_url": null,
       "prices": [
         {
-          "month": null,
-          "adult_price_min_rub": 2900,
-          "adult_price_max_rub": 2900,
+          "season": "2025-26",
+          "adult_price_min_rub": 3600,
+          "adult_price_max_rub": 4400,
           "child_price_min_rub": null,
           "child_price_max_rub": null,
           "tariff_product": "Ски-пасс на 1 день",
           "coverage": null,
           "source_quality": "manual",
-          "source_url": "https://dombai-kd.ru",
-          "checked_at": null
+          "source_url": "https://allslopes.ru/dombay/skipass",
+          "checked_at": "2026-11-01"
         }
       ]
     },
@@ -307,88 +163,16 @@
       "skimap_url": null,
       "prices": [
         {
-          "month": null,
-          "adult_price_min_rub": 3240,
-          "adult_price_max_rub": 3240,
+          "season": "2025-26",
+          "adult_price_min_rub": 2900,
+          "adult_price_max_rub": 3400,
           "child_price_min_rub": null,
           "child_price_max_rub": null,
           "tariff_product": "Ски-пасс на 1 день",
           "coverage": null,
           "source_quality": "manual",
-          "source_url": "https://www.rg.ru",
-          "checked_at": null
-        },
-        {
-          "month": "2025-12",
-          "adult_price_min_rub": 3780,
-          "adult_price_max_rub": 3780,
-          "child_price_min_rub": 2250,
-          "child_price_max_rub": 2250,
-          "tariff_product": "Онлайн-ски-пасс на 1 день",
-          "coverage": "26–31.12.2025",
-          "source_quality": "secondary",
           "source_url": "https://allslopes.ru/elbrus/skipass",
-          "checked_at": "2026-09-14"
-        },
-        {
-          "month": "2026-01",
-          "adult_price_min_rub": 3240,
-          "adult_price_max_rub": 3780,
-          "child_price_min_rub": 1980,
-          "child_price_max_rub": 2250,
-          "tariff_product": "Онлайн-ски-пасс на 1 день",
-          "coverage": "01–31.01.2026; сезонные тарифы",
-          "source_quality": "secondary",
-          "source_url": "https://allslopes.ru/elbrus/skipass",
-          "checked_at": "2026-09-14"
-        },
-        {
-          "month": "2026-02",
-          "adult_price_min_rub": 3240,
-          "adult_price_max_rub": 3780,
-          "child_price_min_rub": 1980,
-          "child_price_max_rub": 2250,
-          "tariff_product": "Онлайн-ски-пасс на 1 день",
-          "coverage": "01–28.02.2026; сезонные тарифы",
-          "source_quality": "secondary",
-          "source_url": "https://allslopes.ru/elbrus/skipass",
-          "checked_at": "2026-09-14"
-        },
-        {
-          "month": "2026-03",
-          "adult_price_min_rub": 3240,
-          "adult_price_max_rub": 3780,
-          "child_price_min_rub": 1980,
-          "child_price_max_rub": 2250,
-          "tariff_product": "Онлайн-ски-пасс на 1 день",
-          "coverage": "01–31.03.2026; сезонные тарифы",
-          "source_quality": "secondary",
-          "source_url": "https://allslopes.ru/elbrus/skipass",
-          "checked_at": "2026-09-14"
-        },
-        {
-          "month": "2026-04",
-          "adult_price_min_rub": 3240,
-          "adult_price_max_rub": 3240,
-          "child_price_min_rub": 1980,
-          "child_price_max_rub": 1980,
-          "tariff_product": "Онлайн-ски-пасс на 1 день",
-          "coverage": "01–30.04.2026",
-          "source_quality": "secondary",
-          "source_url": "https://allslopes.ru/elbrus/skipass",
-          "checked_at": "2026-09-14"
-        },
-        {
-          "month": "2026-05",
-          "adult_price_min_rub": 3240,
-          "adult_price_max_rub": 3240,
-          "child_price_min_rub": 1980,
-          "child_price_max_rub": 1980,
-          "tariff_product": "Онлайн-ски-пасс на 1 день",
-          "coverage": "До фактического окончания горнолыжного сезона",
-          "source_quality": "secondary",
-          "source_url": "https://allslopes.ru/elbrus/skipass",
-          "checked_at": "2026-09-14"
+          "checked_at": "2026-11-01"
         }
       ]
     },
@@ -404,16 +188,16 @@
       "skimap_url": null,
       "prices": [
         {
-          "month": null,
-          "adult_price_min_rub": 2500,
+          "season": "2025-26",
+          "adult_price_min_rub": 1700,
           "adult_price_max_rub": 2500,
           "child_price_min_rub": null,
           "child_price_max_rub": null,
           "tariff_product": "Ски-пасс на 1 день",
           "coverage": null,
           "source_quality": "manual",
-          "source_url": "https://www.snow-online.de",
-          "checked_at": null
+          "source_url": "https://www.ski.ru/az/resort/5125/article/98725",
+          "checked_at": "2026-11-01"
         }
       ]
     },
@@ -429,64 +213,16 @@
       "skimap_url": null,
       "prices": [
         {
-          "month": null,
-          "adult_price_min_rub": 2970,
+          "season": "2025-26",
+          "adult_price_min_rub": 2430,
           "adult_price_max_rub": 2970,
           "child_price_min_rub": null,
           "child_price_max_rub": null,
           "tariff_product": "Ски-пасс на 1 день",
           "coverage": null,
           "source_quality": "manual",
-          "source_url": "https://profilerussia.com",
-          "checked_at": null
-        },
-        {
-          "month": "2025-12",
-          "adult_price_min_rub": 2430,
-          "adult_price_max_rub": 2970,
-          "child_price_min_rub": 1440,
-          "child_price_max_rub": 1800,
-          "tariff_product": "Ски-пасс на 1 день",
-          "coverage": "01–31.12.2025; сезонные тарифы",
-          "source_quality": "secondary",
-          "source_url": "https://www.championat.com/lifestyle/article-6279226-gornolyzhnyj-kurort-mamison-2025-2026-ceny-na-ski-passy-trassy-so-shemoj-prozhivanie-foto-kak-dobratsya-chto-posmotret.html",
-          "checked_at": "2026-09-14"
-        },
-        {
-          "month": "2026-01",
-          "adult_price_min_rub": 1400,
-          "adult_price_max_rub": 2970,
-          "child_price_min_rub": 800,
-          "child_price_max_rub": 1800,
-          "tariff_product": "Ски-пасс на 1 день",
-          "coverage": "Промо с 26.01.2026 и основной тариф",
-          "source_quality": "secondary",
-          "source_url": "https://www.ski.ru/az/blogs/post/mamison-snizhaet-ceny-na-ski-passy-otkryvaet-otel-i-kafe/",
-          "checked_at": "2026-09-14"
-        },
-        {
-          "month": "2026-02",
-          "adult_price_min_rub": 1400,
-          "adult_price_max_rub": 2970,
-          "child_price_min_rub": 800,
-          "child_price_max_rub": 1800,
-          "tariff_product": "Ски-пасс на 1 день",
-          "coverage": "Промо до 08.02.2026; высокий сезон с 09.02",
-          "source_quality": "secondary",
-          "source_url": "https://www.ski.ru/az/blogs/post/mamison-snizhaet-ceny-na-ski-passy-otkryvaet-otel-i-kafe/",
-          "checked_at": "2026-09-14"
-        },
-        {
-          "month": "2026-03",
-          "adult_price_min_rub": 1400,
-          "adult_price_max_rub": 2970,
-          "child_price_min_rub": 1440,
-          "child_price_max_rub": 1800,
-          "tariff_product": "Ски-пасс на 1 день",
-          "coverage": "Высокий сезон и весеннее специальное предложение",
-          "source_quality": "secondary",
-          "source_url": "https://www.championat.com/lifestyle/article-6279226-gornolyzhnyj-kurort-mamison-2025-2026-ceny-na-ski-passy-trassy-so-shemoj-prozhivanie-foto-kak-dobratsya-chto-posmotret.html",
-          "checked_at": "2026-09-14"
+          "source_url": "https://profilerussia.com/2025/12/13/gornolyjnyi-kyrort-mamison-2025-2026-ceny-na-ski-passy-trassy-so-shemoi-projivanie-foto-kak-dobratsia-chto-posmotret/",
+          "checked_at": "2026-11-01"
         }
       ]
     },
@@ -502,7 +238,7 @@
       "skimap_url": null,
       "prices": [
         {
-          "month": null,
+          "season": "2025-26",
           "adult_price_min_rub": 1350,
           "adult_price_max_rub": 1350,
           "child_price_min_rub": null,
@@ -510,8 +246,8 @@
           "tariff_product": "Ски-пасс на 1 день",
           "coverage": null,
           "source_quality": "manual",
-          "source_url": "https://www.ski.ru",
-          "checked_at": null
+          "source_url": "https://travel-kavkaz.ru/ski-passy-vseh-kurortov-kavkaza-sravnenie-czen-na-sezon-202627/",
+          "checked_at": "2026-11-01"
         }
       ]
     },
@@ -527,7 +263,7 @@
       "skimap_url": null,
       "prices": [
         {
-          "month": null,
+          "season": "2025-26",
           "adult_price_min_rub": 2800,
           "adult_price_max_rub": 2800,
           "child_price_min_rub": null,
@@ -535,8 +271,8 @@
           "tariff_product": "Ски-пасс на 1 день",
           "coverage": null,
           "source_quality": "manual",
-          "source_url": "https://xn--80akcrghjp.xn--p1ai",
-          "checked_at": null
+          "source_url": "https://www.championat.com/lifestyle/article-6282896-gornolyzhnyj-kurort-manzherok-2025-2026-ceny-na-ski-passy-trassy-so-shemoj-prozhivanie-foto-kak-dobratsya-chto-posmotret.html",
+          "checked_at": "2026-11-01"
         }
       ]
     },
@@ -552,16 +288,16 @@
       "skimap_url": null,
       "prices": [
         {
-          "month": null,
-          "adult_price_min_rub": 2500,
+          "season": "2025-26",
+          "adult_price_min_rub": 2000,
           "adult_price_max_rub": 2500,
           "child_price_min_rub": null,
           "child_price_max_rub": null,
           "tariff_product": "Ски-пасс на 1 день",
           "coverage": null,
           "source_quality": "manual",
-          "source_url": "https://ok.ru",
-          "checked_at": null
+          "source_url": "https://ok.ru/internetpu/topic/156964100621822",
+          "checked_at": "2026-11-01"
         }
       ]
     },
@@ -572,105 +308,21 @@
       "settlement": "Кировск",
       "lat": null,
       "lon": null,
-      "official_website_url": null,
+      "official_website_url": "https://bigwood.ru/",
       "details_url": null,
       "skimap_url": null,
       "prices": [
         {
-          "month": null,
-          "adult_price_min_rub": 2800,
-          "adult_price_max_rub": 3900,
-          "child_price_min_rub": null,
-          "child_price_max_rub": null,
-          "tariff_product": "Ски-пасс на 1 день",
-          "coverage": null,
-          "source_quality": "manual",
-          "source_url": "https://bigwood.ru/",
-          "checked_at": null
-        },
-        {
-          "month": "2025-12",
-          "adult_price_min_rub": 3420,
-          "adult_price_max_rub": 3420,
-          "child_price_min_rub": null,
-          "child_price_max_rub": null,
-          "tariff_product": "Ски-пасс на 1 день",
-          "coverage": "26–31.12.2025; детский тариф не найден",
-          "source_quality": "secondary",
-          "source_url": "https://www.ski.ru/az/resort/5167/article/98790",
-          "checked_at": "2026-09-14"
-        },
-        {
-          "month": "2026-01",
+          "season": "2025-26",
           "adult_price_min_rub": 2020,
           "adult_price_max_rub": 3420,
           "child_price_min_rub": null,
           "child_price_max_rub": null,
           "tariff_product": "Ски-пасс на 1 день",
-          "coverage": "01–31.01.2026; несколько тарифных периодов",
-          "source_quality": "secondary",
-          "source_url": "https://www.ski.ru/az/resort/5167/article/98790",
-          "checked_at": "2026-09-14"
-        },
-        {
-          "month": "2026-02",
-          "adult_price_min_rub": 2610,
-          "adult_price_max_rub": 2610,
-          "child_price_min_rub": null,
-          "child_price_max_rub": null,
-          "tariff_product": "Ски-пасс на 1 день",
-          "coverage": "01–28.02.2026; детский тариф не найден",
-          "source_quality": "secondary",
-          "source_url": "https://www.ski.ru/az/resort/5167/article/98790",
-          "checked_at": "2026-09-14"
-        },
-        {
-          "month": "2026-03",
-          "adult_price_min_rub": 2610,
-          "adult_price_max_rub": 3420,
-          "child_price_min_rub": null,
-          "child_price_max_rub": null,
-          "tariff_product": "Ски-пасс на 1 день",
-          "coverage": "01–31.03.2026; несколько тарифных периодов",
-          "source_quality": "secondary",
-          "source_url": "https://www.ski.ru/az/resort/5167/article/98790",
-          "checked_at": "2026-09-14"
-        },
-        {
-          "month": "2026-04",
-          "adult_price_min_rub": 3420,
-          "adult_price_max_rub": 3420,
-          "child_price_min_rub": null,
-          "child_price_max_rub": null,
-          "tariff_product": "Ски-пасс на 1 день",
-          "coverage": "01–30.04.2026; детский тариф не найден",
-          "source_quality": "secondary",
-          "source_url": "https://www.ski.ru/az/resort/5167/article/98790",
-          "checked_at": "2026-09-14"
-        },
-        {
-          "month": "2026-05",
-          "adult_price_min_rub": 1100,
-          "adult_price_max_rub": 3420,
-          "child_price_min_rub": null,
-          "child_price_max_rub": null,
-          "tariff_product": "Ски-пасс на 1 день",
-          "coverage": "01–31.05.2026; несколько тарифных периодов",
-          "source_quality": "secondary",
-          "source_url": "https://www.ski.ru/az/resort/5167/article/98790",
-          "checked_at": "2026-09-14"
-        },
-        {
-          "month": "2026-06",
-          "adult_price_min_rub": 1100,
-          "adult_price_max_rub": 1100,
-          "child_price_min_rub": null,
-          "child_price_max_rub": null,
-          "tariff_product": "Ски-пасс на 1 день",
-          "coverage": "01–10.06.2026; детский тариф не найден",
-          "source_quality": "secondary",
-          "source_url": "https://www.ski.ru/az/resort/5167/article/98790",
-          "checked_at": "2026-09-14"
+          "coverage": null,
+          "source_quality": "manual",
+          "source_url": "https://allslopes.ru/bigwood/skipass",
+          "checked_at": "2026-11-01"
         }
       ]
     },
@@ -686,7 +338,7 @@
       "skimap_url": null,
       "prices": [
         {
-          "month": null,
+          "season": "2025-26",
           "adult_price_min_rub": 2000,
           "adult_price_max_rub": 2000,
           "child_price_min_rub": null,
@@ -694,8 +346,8 @@
           "tariff_product": "Ски-пасс на 1 день",
           "coverage": null,
           "source_quality": "manual",
-          "source_url": "https://kukisvumchorr.ru",
-          "checked_at": null
+          "source_url": "https://kukisvumchorr.ru/prices",
+          "checked_at": "2026-11-01"
         }
       ]
     },
@@ -711,7 +363,7 @@
       "skimap_url": null,
       "prices": [
         {
-          "month": null,
+          "season": "2025-26",
           "adult_price_min_rub": 950,
           "adult_price_max_rub": 950,
           "child_price_min_rub": null,
@@ -719,8 +371,8 @@
           "tariff_product": "Ски-пасс на 1 день",
           "coverage": null,
           "source_quality": "manual",
-          "source_url": "https://ski-kolasport.narod.ru/",
-          "checked_at": null
+          "source_url": "https://www.skiresort.com/en/ski-resort/kolasportland/",
+          "checked_at": "2026-11-01"
         }
       ]
     },
@@ -736,7 +388,7 @@
       "skimap_url": null,
       "prices": [
         {
-          "month": null,
+          "season": "2025-26",
           "adult_price_min_rub": 2800,
           "adult_price_max_rub": 2800,
           "child_price_min_rub": null,
@@ -744,8 +396,8 @@
           "tariff_product": "Ски-пасс на 1 день",
           "coverage": null,
           "source_quality": "manual",
-          "source_url": "https://sutochno.ru",
-          "checked_at": null
+          "source_url": "https://gid65.ru/gornyj-vozduh/",
+          "checked_at": "2026-11-01"
         }
       ]
     },
@@ -761,7 +413,7 @@
       "skimap_url": null,
       "prices": [
         {
-          "month": null,
+          "season": "2025-26",
           "adult_price_min_rub": 3650,
           "adult_price_max_rub": 3650,
           "child_price_min_rub": null,
@@ -769,8 +421,8 @@
           "tariff_product": "Ски-пасс на 1 день",
           "coverage": null,
           "source_quality": "manual",
-          "source_url": "https://holdomi.ru",
-          "checked_at": null
+          "source_url": "https://holdomi.ru/glk/ski-pass",
+          "checked_at": "2026-11-01"
         }
       ]
     },
@@ -786,7 +438,7 @@
       "skimap_url": null,
       "prices": [
         {
-          "month": null,
+          "season": "2025-26",
           "adult_price_min_rub": 2000,
           "adult_price_max_rub": 2000,
           "child_price_min_rub": null,
@@ -795,7 +447,7 @@
           "coverage": null,
           "source_quality": "manual",
           "source_url": "https://www.ski.ru",
-          "checked_at": null
+          "checked_at": "2026-11-01"
         }
       ]
     },
@@ -811,16 +463,16 @@
       "skimap_url": null,
       "prices": [
         {
-          "month": null,
-          "adult_price_min_rub": 2400,
-          "adult_price_max_rub": 2400,
+          "season": "2025-26",
+          "adult_price_min_rub": 1600,
+          "adult_price_max_rub": 1600,
           "child_price_min_rub": null,
           "child_price_max_rub": null,
           "tariff_product": "Ски-пасс на 1 день",
           "coverage": null,
           "source_quality": "manual",
-          "source_url": "https://ngs24.ru",
-          "checked_at": null
+          "source_url": "https://www.ski.ru/az/resort/183/main",
+          "checked_at": "2026-11-01"
         }
       ]
     },
@@ -836,16 +488,16 @@
       "skimap_url": null,
       "prices": [
         {
-          "month": null,
-          "adult_price_min_rub": 3400,
-          "adult_price_max_rub": 3400,
+          "season": "2025-26",
+          "adult_price_min_rub": 1400,
+          "adult_price_max_rub": 2950,
           "child_price_min_rub": null,
           "child_price_max_rub": null,
           "tariff_product": "Ски-пасс на 1 день",
           "coverage": null,
           "source_quality": "manual",
-          "source_url": "https://ulan.mk.ru",
-          "checked_at": null
+          "source_url": "https://www.kp.ru/russia/bajkal/kurort-gora-sobolinaya/",
+          "checked_at": "2026-11-01"
         }
       ]
     },
@@ -861,16 +513,16 @@
       "skimap_url": null,
       "prices": [
         {
-          "month": null,
-          "adult_price_min_rub": 2400,
-          "adult_price_max_rub": 2400,
+          "season": "2025-26",
+          "adult_price_min_rub": 2200,
+          "adult_price_max_rub": 2500,
           "child_price_min_rub": null,
           "child_price_max_rub": null,
           "tariff_product": "Ски-пасс на 1 день",
           "coverage": null,
           "source_quality": "manual",
-          "source_url": "https://v-tagile.ru",
-          "checked_at": null
+          "source_url": "https://v-tagile.ru/novosti-nizhnego-tagila/obshchestvo/na-beloj-startoval-gornolyzhnyj-sezon-skolko-stoit-pokatatsya",
+          "checked_at": "2026-11-01"
         }
       ]
     },
@@ -886,52 +538,16 @@
       "skimap_url": null,
       "prices": [
         {
-          "month": null,
+          "season": "2025-26",
           "adult_price_min_rub": 1950,
-          "adult_price_max_rub": null,
+          "adult_price_max_rub": 3550,
           "child_price_min_rub": null,
           "child_price_max_rub": null,
           "tariff_product": "Ски-пасс на 1 день",
           "coverage": null,
           "source_quality": "manual",
-          "source_url": "https://mt.ru",
-          "checked_at": null
-        },
-        {
-          "month": "2026-01",
-          "adult_price_min_rub": 1950,
-          "adult_price_max_rub": 3500,
-          "child_price_min_rub": 1300,
-          "child_price_max_rub": 2450,
-          "tariff_product": "Ски-пасс на полный день",
-          "coverage": "10–31.01.2026; будни и выходные",
-          "source_quality": "official",
           "source_url": "https://euroasia.su/cable-car-fares/",
-          "checked_at": "2026-09-14"
-        },
-        {
-          "month": "2026-02",
-          "adult_price_min_rub": 1950,
-          "adult_price_max_rub": 3500,
-          "child_price_min_rub": 1300,
-          "child_price_max_rub": 2450,
-          "tariff_product": "Ски-пасс на полный день",
-          "coverage": "01–28.02.2026; будни и выходные",
-          "source_quality": "official",
-          "source_url": "https://euroasia.su/cable-car-fares/",
-          "checked_at": "2026-09-14"
-        },
-        {
-          "month": "2026-03",
-          "adult_price_min_rub": 1450,
-          "adult_price_max_rub": 3500,
-          "child_price_min_rub": 900,
-          "child_price_max_rub": 2450,
-          "tariff_product": "Ски-пасс на полный день",
-          "coverage": "01–31.03.2026; зимний/весенний тариф, будни/выходные",
-          "source_quality": "official",
-          "source_url": "https://euroasia.su/cable-car-fares/",
-          "checked_at": "2026-09-14"
+          "checked_at": "2026-11-01"
         }
       ]
     },
@@ -947,16 +563,16 @@
       "skimap_url": null,
       "prices": [
         {
-          "month": null,
-          "adult_price_min_rub": 2500,
-          "adult_price_max_rub": 2500,
+          "season": "2025-26",
+          "adult_price_min_rub": 2800,
+          "adult_price_max_rub": 2800,
           "child_price_min_rub": null,
           "child_price_max_rub": null,
           "tariff_product": "Ски-пасс на 1 день",
           "coverage": null,
           "source_quality": "manual",
-          "source_url": "https://tonkosti.ru",
-          "checked_at": null
+          "source_url": "https://www.skiresort.ch/skigebiet/adzhigardak/",
+          "checked_at": "2026-11-01"
         }
       ]
     },
@@ -972,16 +588,16 @@
       "skimap_url": null,
       "prices": [
         {
-          "month": null,
-          "adult_price_min_rub": 4500,
-          "adult_price_max_rub": 4500,
+          "season": "2025-26",
+          "adult_price_min_rub": 2400,
+          "adult_price_max_rub": 6000,
           "child_price_min_rub": null,
           "child_price_max_rub": null,
           "tariff_product": "Ски-пасс на 1 день",
           "coverage": null,
           "source_quality": "manual",
-          "source_url": "https://ura.news",
-          "checked_at": null
+          "source_url": "https://mamkogdavotpusk.ru/ural/chelyabinsk/solidol/",
+          "checked_at": "2026-11-01"
         }
       ]
     },
@@ -997,16 +613,16 @@
       "skimap_url": null,
       "prices": [
         {
-          "month": null,
-          "adult_price_min_rub": 4000,
-          "adult_price_max_rub": 4000,
+          "season": "2025-26",
+          "adult_price_min_rub": 1750,
+          "adult_price_max_rub": 2600,
           "child_price_min_rub": null,
           "child_price_max_rub": null,
           "tariff_product": "Ски-пасс на 1 день",
           "coverage": null,
           "source_quality": "manual",
-          "source_url": "https://news.mail.ru",
-          "checked_at": null
+          "source_url": "https://ura.news/news/1053024836",
+          "checked_at": "2026-11-01"
         }
       ]
     },
@@ -1022,16 +638,16 @@
       "skimap_url": null,
       "prices": [
         {
-          "month": null,
-          "adult_price_min_rub": 3800,
+          "season": "2025-26",
+          "adult_price_min_rub": 3400,
           "adult_price_max_rub": 3800,
           "child_price_min_rub": null,
           "child_price_max_rub": null,
           "tariff_product": "Ски-пасс на 1 день",
           "coverage": null,
           "source_quality": "manual",
-          "source_url": "https://profilerussia.com",
-          "checked_at": null
+          "source_url": "https://profilerussia.com/2025/12/20/gornolyjnyi-kyrort-abzakovo-2025-2026-ceny-na-ski-passy-trassy-so-shemoi-projivanie-foto-kak-dobratsia/",
+          "checked_at": "2026-11-01"
         }
       ]
     },
@@ -1047,7 +663,7 @@
       "skimap_url": null,
       "prices": [
         {
-          "month": null,
+          "season": "2025-26",
           "adult_price_min_rub": 2100,
           "adult_price_max_rub": 2100,
           "child_price_min_rub": null,
@@ -1055,8 +671,8 @@
           "tariff_product": "Ски-пасс на 1 день",
           "coverage": null,
           "source_quality": "manual",
-          "source_url": "https://www.skiresort.ch",
-          "checked_at": null
+          "source_url": "https://www.skiresort.be/skigebied/mratkino-beloretsk/",
+          "checked_at": "2026-11-01"
         }
       ]
     },
@@ -1072,16 +688,16 @@
       "skimap_url": null,
       "prices": [
         {
-          "month": null,
-          "adult_price_min_rub": 2500,
-          "adult_price_max_rub": 2500,
+          "season": "2025-26",
+          "adult_price_min_rub": 2400,
+          "adult_price_max_rub": 3000,
           "child_price_min_rub": null,
           "child_price_max_rub": null,
           "tariff_product": "Ски-пасс на 1 день",
           "coverage": null,
           "source_quality": "manual",
-          "source_url": "https://travel.rambler.ru",
-          "checked_at": null
+          "source_url": "https://www.volen.ru/blog/novosti/tseny-na-novogodnie-kanikuly-rastut-na-gornolyzhnyh-kurortah-prikamya/",
+          "checked_at": "2026-11-01"
         }
       ]
     },
@@ -1095,7 +711,20 @@
       "official_website_url": null,
       "details_url": null,
       "skimap_url": null,
-      "prices": []
+      "prices": [
+        {
+          "season": "2025-26",
+          "adult_price_min_rub": 3600,
+          "adult_price_max_rub": 4500,
+          "child_price_min_rub": null,
+          "child_price_max_rub": null,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": null,
+          "source_quality": "manual",
+          "source_url": "https://47news.ru/articles:print/279219/",
+          "checked_at": "2026-11-01"
+        }
+      ]
     },
     {
       "resort_id": "R030",
@@ -1107,7 +736,20 @@
       "official_website_url": null,
       "details_url": null,
       "skimap_url": null,
-      "prices": []
+      "prices": [
+        {
+          "season": "2025-26",
+          "adult_price_min_rub": 2800,
+          "adult_price_max_rub": 5300,
+          "child_price_min_rub": null,
+          "child_price_max_rub": null,
+          "tariff_product": "Ски-пасс на 1 день",
+          "coverage": null,
+          "source_quality": "manual",
+          "source_url": "https://www.sorochany.ru/tariffs/view/skipass",
+          "checked_at": "2026-11-01"
+        }
+      ]
     },
     {
       "resort_id": "R031",
@@ -1121,7 +763,7 @@
       "skimap_url": null,
       "prices": [
         {
-          "month": null,
+          "season": "2025-26",
           "adult_price_min_rub": 1900,
           "adult_price_max_rub": 3000,
           "child_price_min_rub": null,
@@ -1129,8 +771,8 @@
           "tariff_product": "Ски-пасс на 1 день",
           "coverage": null,
           "source_quality": "manual",
-          "source_url": "https://glksok.ru",
-          "checked_at": null
+          "source_url": "https://glksok.ru/prices/",
+          "checked_at": "2026-11-01"
         }
       ]
     },
@@ -1146,28 +788,16 @@
       "skimap_url": null,
       "prices": [
         {
-          "month": null,
-          "adult_price_min_rub": 1500,
-          "adult_price_max_rub": 1500,
+          "season": "2025-26",
+          "adult_price_min_rub": 2850,
+          "adult_price_max_rub": 3200,
           "child_price_min_rub": null,
           "child_price_max_rub": null,
           "tariff_product": "Ски-пасс на 1 день",
           "coverage": null,
           "source_quality": "manual",
-          "source_url": "https://shansonline.ru",
-          "checked_at": null
-        },
-        {
-          "month": "2026-04",
-          "adult_price_min_rub": 1990,
-          "adult_price_max_rub": 2850,
-          "child_price_min_rub": null,
-          "child_price_max_rub": null,
-          "tariff_product": "Дневной ски-пасс",
-          "coverage": "09–30.04.2026; специальный и основной тариф",
-          "source_quality": "official",
-          "source_url": "https://ski-gladenkaya.ru/ski/sky_pass",
-          "checked_at": "2026-09-14"
+          "source_url": "https://ski-gladenkaya.ru/ski",
+          "checked_at": "2026-11-01"
         }
       ]
     }

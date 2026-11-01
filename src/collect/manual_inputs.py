@@ -21,7 +21,7 @@
       "details_url": null,
       "skimap_url": null,
       "prices": [
-        {"month": null, "adult_price_min_rub": 5550, "adult_price_max_rub": 6350,
+        {"season": "2025-26", "adult_price_min_rub": 5550, "adult_price_max_rub": 6350,
          "child_price_min_rub": null, "child_price_max_rub": null,
          "tariff_product": "Ски-пасс на 1 день", "coverage": null,
          "source_quality": "manual", "source_url": "...", "checked_at": null}
@@ -61,7 +61,7 @@ def load_manual_prices(path: Path | None = None) -> list[dict[str, Any]]:
     """Плоский список цен из resorts_manual.json.
 
     Каждая строка повторяет прежний формат матрицы цен (resort_id +
-    resort_name + month + ценовые поля).
+    resort_name + season + ценовые поля).
     """
     rows: list[dict[str, Any]] = []
     for r in load_resorts_manual(path):
@@ -71,7 +71,7 @@ def load_manual_prices(path: Path | None = None) -> list[dict[str, Any]]:
             rows.append({
                 "resort_id": rid,
                 "resort_name": name,
-                "month": p.get("month"),
+                "season": p.get("season"),
                 "adult_price_min_rub": p.get("adult_price_min_rub"),
                 "adult_price_max_rub": p.get("adult_price_max_rub"),
                 "child_price_min_rub": p.get("child_price_min_rub"),
